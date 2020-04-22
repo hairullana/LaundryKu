@@ -11,7 +11,7 @@
         <ul>
             <li>Email : <input type="text" id="email"></li>
             <li>Password : <input type="text" id="password"></li>
-            <li><input type="button">Login</input> <a href="/lupa-kata-sandi.php">Lupa Kata Sandi ?</a></li>
+            <li><input type="submit" name="login">Login</input> <a href="/lupa-kata-sandi.php">Lupa Kata Sandi ?</a></li>
         </ul>
     </p>
 </body>

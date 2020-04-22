@@ -81,6 +81,7 @@
             echo "
                 <script>
                     alert('Registrasi Berhasil !!!');
+                    document.location.href = 'login.php';
                 </script>
             ";
         }else {

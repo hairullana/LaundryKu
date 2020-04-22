@@ -9,9 +9,9 @@
     <h3>LOGIN</h3>
     <p>
         <ul>
-            <li><a href="/login-pelanggan.php">Login Pelanggan</a></li>
-            <li><a href="/login-agen.php">Login Agen</a></li>
-            <li><a href="/login-admin.php">Login Admin</a></li>
+            <li><a href="login-pelanggan.php">Login Pelanggan</a></li>
+            <li><a href="login-agen.php">Login Agen</a></li>
+            <li><a href="login-admin.php">Login Admin</a></li>
         </ul>
     </p>
 </body>

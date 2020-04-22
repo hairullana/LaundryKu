@@ -1,11 +1,11 @@
 <?php
 
 $username = "root";
-$password = "";
+$passwordDB = "";
 $server = "localhost";
 $db_name = "laundryku";
 
-$connect = mysqli_connect($server, $username, $password, $db_name);
+$connect = mysqli_connect($server, $username, $passwordDB, $db_name);
 
 
 ?>

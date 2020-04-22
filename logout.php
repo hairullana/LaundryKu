@@ -1,0 +1,5 @@
+<?php
+
+session_destroy();
+
+?>
