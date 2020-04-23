@@ -22,16 +22,16 @@ include 'connect-db.php'
 
                     if ( isset($_SESSION["login-pelanggan"]) && isset($_SESSION["pelanggan"])){
                         // mengambil email dari session
-                        $email = $_SESSION["pelanggan"];
+                        $idPelanggan = $_SESSION["pelanggan"];
                         // cari data di db sesuai $email
-                        $data = mysqli_query($connect, "SELECT * FROM pelanggan WHERE email = '$email'");
+                        $data = mysqli_query($connect, "SELECT * FROM pelanggan WHERE id_pelanggan = '$idPelanggan'");
                         // memasukkan ke array asosiatif
                         $data = mysqli_fetch_assoc($data);
                         // mengambil data nama dari array
                         $nama = $data["nama"];
 
                         echo "
-                            <a href'/profil-pelanggan.php'>$nama</a>
+                            <a href='pelanggan.php'>$nama</a>
                         ";
                     }else if ( isset($_SESSION["login-agen"]) && isset($_SESSION["agen"])){
                         // mengambil email dari session
@@ -44,11 +44,11 @@ include 'connect-db.php'
                         $nama = $data["nama"];
 
                         echo "
-                            <a href'/profil-agen.php'>$nama</a>
+                            <a href'/agen.php'>$nama</a>
                         ";
                     }else if ( isset($_SESSION["login-admin"]) && isset($_SESSION["admin"])){
                         echo "
-                            <a href'/profil-admin.php'>Admin</a>
+                            <a href'/admin.php'>Admin</a>
                         ";
                     }else {
                         echo "
@@ -72,9 +72,47 @@ include 'connect-db.php'
             </li>
         </ul>
         <p>
-            <h1>LaundryKu</h1>
+        <h1>LaundryKu</h1>
             <h3>Solusi Laundry Praktis Tanpa Keluar Rumah</h3>
-            <a href="/registrasi-pelanggan.php"><button type="button">Daftar Sekarang</button></a>
+            <?php if ( isset($_SESSION["login-pelanggan"]) && isset($_SESSION["pelanggan"]) ) : ?>
+                <div>
+                    <form action="" method="post">
+                        <input type="text" name="keyword" placeholder="Kota / Kabupaten" />
+                        <button type="submit" name="cari">CARI</button>
+                    </form>
+                </div>
+                <ul>
+                    <li><button type="button"><a href="pelanggan.php">Profil Saya</a></button></li>
+                    <li><button type="button"><a href="status-cucian.php">Status Cucian</a></button></li>
+                    <li><button type="button"><a href="riwayat-transaksi.php">Riwayat Transaksi</a></button></li>
+                </ul>
+            <?php elseif ( isset($_SESSION["login-agen"]) && isset($_SESSION["agen"]) ) : ?>
+                <div>
+                    <form action="" method="post">
+                        <input type="text" name="keyword" placeholder="Kota / Kabupaten" />
+                        <button type="submit" name="cari">CARI</button>
+                    </form>
+                </div>
+                <ul>
+                    <li><button type="button"><a href="agen.php">Profil Saya</a></button></li>
+                    <li><button type="button"><a href="status-cucian.php">Status Cucian</a></button></li>
+                    <li><button type="button"><a href="riwayat-transaksi.php">Riwayat Transaksi</a></button></li>
+                </ul>
+            <?php elseif ( isset($_SESSION["login-admin"]) && isset($_SESSION["admin"]) ) : ?>
+                <div>
+                    <form action="" method="post">
+                        <input type="text" name="keyword" placeholder="Kota / Kabupaten" />
+                        <button type="submit" name="cari">CARI</button>
+                    </form>
+                </div>
+                <ul>
+                    <li><button type="button"><a href="admin.php">Profil Saya</a></button></li>
+                    <li><button type="button"><a href="status-cucian.php">Status Cucian</a></button></li>
+                    <li><button type="button"><a href="riwayat-transaksi.php">Riwayat Transaksi</a></button></li>
+                </ul>
+            <?php else : ?>
+                <a href='/registrasi-pelanggan.php'><button type='button'>Daftar Sekarang</button></a>
+            <?php endif ?>
         </p>
     </div>
     <div id="body">
