@@ -33,7 +33,7 @@ if ( isset($_POST["login"]) ){
         //cek apakah password sama
         if ( password_verify($password, $data["password"]) ){
             //session login 
-            $_SESSION["pelanggan"] = $email;
+            $_SESSION["pelanggan"] = $data["id_pelanggan"];
             $_SESSION["login-pelanggan"] = true;
 
             // BELAKANGAN AJA DIBUAT HEHE, YANG PENTING JALAN DULU
@@ -56,6 +56,12 @@ if ( isset($_POST["login"]) ){
                 </script>
             ";
         }
+    }else {
+        echo "
+            <script>
+                alert('Email Tidak Ditemukan !');
+            </script>
+        ";
     }
 }
 
@@ -76,7 +82,7 @@ if ( isset($_POST["login"]) ){
     <form action="" method="post">
             <ul>
                 <li>Email : <input type="text" name="email"></li>
-                <li>Password : <input type="text" name="password"></li>
+                <li>Password : <input type="password" name="password"></li>
                 <li><button type="submit" name="login">Login</button> <a href="/lupa-kata-sandi.php">Lupa Kata Sandi ?</a></li>
             </ul>
     </form>
