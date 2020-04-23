@@ -1,9 +1,15 @@
 <?php
 
+// mulai session
+session_start();
+include 'connect-db.php';
+
+
+// kalau sudah login, dialihkan ke index
 if ( isset($_SESSION["login-pelanggan"]) && isset($_SESSION["pelanggan"]) || isset($_SESSION["login-agen"]) && isset($_SESSION["agen"]) || isset($_SESSION["login-admin"]) && isset($_SESSION["admin"]) ) {
     echo "
         <script>
-            alert('Anda Sudah Login !');
+            alert('Anda Sudah Mendaftar !');
             document.location.href = 'index.php';
         </script>
     ";
@@ -12,12 +18,13 @@ if ( isset($_SESSION["login-pelanggan"]) && isset($_SESSION["pelanggan"]) || iss
 
 ?>
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title></title>
+    <title>Registrasi</title>
 </head>
 <body>
     <div id="header">
@@ -27,17 +34,11 @@ if ( isset($_SESSION["login-pelanggan"]) && isset($_SESSION["pelanggan"]) || iss
             <li><a href='login.php'>Login</a></li>
         </ul>
     </div>
-
     <div id="body">
-        <h3>LOGIN</h3>
-        <div>
-            <ul>
-                <li><a href="login-pelanggan.php">Login Pelanggan</a></li>
-                <li><a href="login-agen.php">Login Agen</a></li>
-                <li><a href="login-admin.php">Login Admin</a></li>
-            </ul>
-        </div>
+        <ul>
+            <li><a href="registrasi-pelanggan.php">Registrasi Sebagai Pelanggan</a></li>
+            <li><a href="registrasi-agen.php">Registrasi Sebagai Agen</a></li>
+        </ul>
     </div>
-    
 </body>
 </html>

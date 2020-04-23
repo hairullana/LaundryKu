@@ -15,7 +15,7 @@ include 'connect-db.php'
 <body>
     <div id="header">
         <ul>
-            <li><a href="/">Home</a></li>
+            <li><a href="index.php">Home</a></li>
             <li>
                 <?php
                     global $connect;
@@ -44,15 +44,15 @@ include 'connect-db.php'
                         $nama = $data["nama"];
 
                         echo "
-                            <a href'/agen.php'>$nama</a>
+                            <a href'agen.php'>$nama</a>
                         ";
                     }else if ( isset($_SESSION["login-admin"]) && isset($_SESSION["admin"])){
                         echo "
-                            <a href'/admin.php'>Admin</a>
+                            <a href'admin.php'>Admin</a>
                         ";
                     }else {
                         echo "
-                            <a href='/registrasi.php'>Registrasi</a>
+                            <a href='registrasi.php'>Registrasi</a>
                         ";
                     }
                 ?>
@@ -71,8 +71,10 @@ include 'connect-db.php'
                 ?>
             </li>
         </ul>
-        <p>
-        <h1>LaundryKu</h1>
+    </div>
+    <div id="body">
+        <div class="body">
+            <h1>LaundryKu</h1>
             <h3>Solusi Laundry Praktis Tanpa Keluar Rumah</h3>
             <?php if ( isset($_SESSION["login-pelanggan"]) && isset($_SESSION["pelanggan"]) ) : ?>
                 <div>
@@ -111,12 +113,13 @@ include 'connect-db.php'
                     <li><button type="button"><a href="riwayat-transaksi.php">Riwayat Transaksi</a></button></li>
                 </ul>
             <?php else : ?>
-                <a href='/registrasi-pelanggan.php'><button type='button'>Daftar Sekarang</button></a>
+                <a href='registrasi-pelanggan.php'><button type='button'>Daftar Sekarang</button></a>
             <?php endif ?>
-        </p>
+        </div>
     </div>
     <div id="body">
-        
+    LIST AGEN
+    </div>
     </div>
 </body>
 </html>

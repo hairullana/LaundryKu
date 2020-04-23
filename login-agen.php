@@ -1,3 +1,62 @@
+<?php
+
+// session 
+session_start();
+include 'connect-db.php';
+
+// kalau sudah login
+if ( isset($_SESSION["login-pelanggan"]) && isset($_SESSION["pelanggan"]) || isset($_SESSION["login-agen"]) && isset($_SESSION["agen"]) || isset($_SESSION["login-admin"]) && isset($_SESSION["admin"]) ) {
+    echo "
+        <script>
+            alert('Anda Sudah Login !');
+            document.location.href = 'index.php';
+        </script>
+    ";
+    exit;
+}
+
+if ( isset($_POST["login"]) ){
+    // masukkan ke var
+    $email = $_POST["email"];
+    $password = $_POST["password"];
+
+    // cari data di db
+    $result = mysqli_query($connect, "SELECT * FROM agen WHERE email = '$email'");
+
+    // kalau ada email
+    if(mysqli_num_rows($result) == 1){
+        // masukan ke array assoc
+        $row = mysqli_fetch_assoc($result);
+        // verif password
+        if(password_verify($password, $row["password"])){
+            echo "
+                <script>
+                    alert('Berhasil Login Sebagai Agen !');
+                    document.location.href = 'index.php';
+                </script>
+            ";
+            exit;
+        }else {
+            echo "
+                <script>
+                    alert('Password Salah !');
+                    document.location.href = 'login-agen.php';
+                </script>
+            ";
+        }
+    }else {
+        echo "
+            <script>
+                alert('Email Belum Terdaftar !');
+                document.location.href = 'login-agen.php';
+            </script>
+        ";
+    }
+
+    $error = true;
+}
+    
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -7,44 +66,26 @@
     <title>Login Agen</title>
 </head>
 <body>
-    <h3>Login Agen</h3>
-    <?php if(isset($error)) : ?>
-        <p>email atau password salah</p>
-    <?php endif; ?>
-
-
-    <p>
+    <div id="header">
         <ul>
-            <li>Email : <input type="text" id="email" name="email"></li>
-            <li>Password : <input type="password" id="password" name="password"></li>
-            <li><input type="submit" name="login">Login</input> <a href="/lupa-kata-sandi.php">Lupa Kata Sandi ?</a></li>
+            <li><a href="index.php">Home</a></li>
+            <li><a href='registrasi.php'>Registrasi</a></li>
+            <li><a href='login.php'>Login</a></li>
         </ul>
-    </p>
+    </div>
+    <div id="body">
+        <h3>Login Agen</h3>
+        <form action="" method="post">
+            <ul>
+                <li>Email : <input type="text" id="email" name="email" placeholder="Email"></li>
+                <li>Password : <input type="password" id="password" name="password" placeholder="Password"></li>
+                <li><button type="submit" name="login">Login</button> <a href="lupa-kata-sandi.php">Lupa Kata Sandi ?</a></li>
+            </ul>
+        </form>
+    </div>
 </body>
 </html>
 
-<?php
- 
- session_start();
- include 'connect-db.php'
 
-if ( isset($_POST["login"]) ){
-     $email = $_POST["email"];
-     $password = $_POST["password"];
-
-    $result = mysqli_query($connect, "SELECT * FROM agen WHERE email = '$email'");
-
-    if(mysqli_num_rows($result) == 1){
-        $row = mysqli_fetch_assoc($result);
-        if(password_verify($password, $row["password"])){
-            header("Location: index.php");
-            exit;
-        }
-    }
-
-    $error = true;
- }
-    
-?>
 
 

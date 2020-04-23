@@ -11,7 +11,12 @@ include 'connect-db.php';
 
 //jika sudah login kemudian ke halaman login.php
 if ( isset($_SESSION["login-pelanggan"]) && isset($_SESSION["pelanggan"]) || isset($_SESSION["login-agen"]) && isset($_SESSION["agen"]) || isset($_SESSION["login-admin"]) && isset($_SESSION["admin"]) ) {
-    header("Location : index.php");
+    echo "
+        <script>
+            alert('Anda Sudah Login !');
+            document.location.href = 'index.php';
+        </script>
+    ";
     exit;
 }
 
@@ -78,13 +83,23 @@ if ( isset($_POST["login"]) ){
     <title>Login Pelanggan</title>
 </head>
 <body>
-    <h3>Login Pelanggan</h3>
-    <form action="" method="post">
-            <ul>
-                <li>Email : <input type="text" name="email"></li>
-                <li>Password : <input type="password" name="password"></li>
-                <li><button type="submit" name="login">Login</button> <a href="/lupa-kata-sandi.php">Lupa Kata Sandi ?</a></li>
-            </ul>
-    </form>
+    <div id="header">
+        <ul>
+            <li><a href="index.php">Home</a></li>
+            <li><a href='registrasi.php'>Registrasi</a></li>
+            <li><a href='login.php'>Login</a></li>
+        </ul>
+    </div>
+
+    <div id="body">
+        <h3>Login Pelanggan</h3>
+        <form action="" method="post">
+                <ul>
+                    <li>Email : <input type="text" name="email"></li>
+                    <li>Password : <input type="password" name="password"></li>
+                    <li><button type="submit" name="login">Login</button> <a href="/lupa-kata-sandi.php">Lupa Kata Sandi ?</a></li>
+                </ul>
+        </form>
+    </div>
 </body>
 </html>

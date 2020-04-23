@@ -15,6 +15,7 @@ if ( isset($_SESSION["login-pelanggan"]) && isset($_SESSION["pelanggan"]) || iss
     exit;
 }
 
+// AKSI
 if ( isset($_POST["login"]) ) {
     $email = $_POST["email"];
     $password = $_POST["password"];
@@ -66,6 +67,14 @@ if ( isset($_POST["login"]) ) {
     <title>Login Admin</title>
 </head>
 <body>
+    <div id="header">
+        <ul>
+            <li><a href="index.php">Home</a></li>
+            <li><a href='registrasi.php'>Registrasi</a></li>
+            <li><a href='login.php'>Login</a></li>
+        </ul>
+    </div>
+
     <div id="body">
 
         <h3>Login Admin</h3>    

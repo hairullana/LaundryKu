@@ -1,7 +1,18 @@
 <?php
 
     // koneksi ke db
+    session_start();
     include 'connect-db.php';
+
+    if ( isset($_SESSION["login-pelanggan"]) && isset($_SESSION["pelanggan"]) || isset($_SESSION["login-agen"]) && isset($_SESSION["agen"]) || isset($_SESSION["login-admin"]) && isset($_SESSION["admin"]) ) {
+        echo "
+            <script>
+                alert('Anda Sudah Mendaftar !');
+                document.location.href = 'index.php';
+            </script>
+        ";
+        exit;
+    }
 
     // fungsi registrasi
     function registrasi ($data) {
@@ -100,23 +111,32 @@
     <title>Registrasi Pelanggan</title>
 </head>
 <body>
-    <h3>Registrasi Pelanggan</h3>
-    <form action="" method="POST">
+    <div id="header">
         <ul>
-            <li><input type="text" placeholder="Nama" name="nama"></li>
-            <li><input type="text" placeholder="E-mail" name="email"></li>
-            <li><input type="text" placeholder="No Telp" name="noTelp"></li>
-            <li><input type="text" placeholder="Kota / Kabupaten" name="kota"></li>
-            <li><input type="text" placeholder="Alamat Lengkap" name="alamat"></li>
-            <li><input type="password" placeholder="Password" name="password"></li>
-            <li><input type="password" placeholder="Re-type Password" name="password2"></li>
-            <li><button type="submit" name="registrasi">Daftar</button></li>
+            <li><a href="index.php">Home</a></li>
+            <li><a href='registrasi.php'>Registrasi</a></li>
+            <li><a href='login.php'>Login</a></li>
         </ul>
-    </form>
-    <p>
-        Ingin menjadi bagian dari kami ?<br/>
-        Dafar sebagai agen sekarag !<br/>
-        <button><a href="/registrasi-agen.php">Registrasi Sebagai Agen</a></button>
-    </p>
+    </div>
+    <div id="body">
+        <h3>Registrasi Pelanggan</h3>
+        <form action="" method="POST">
+            <ul>
+                <li><input type="text" placeholder="Nama" name="nama"></li>
+                <li><input type="text" placeholder="E-mail" name="email"></li>
+                <li><input type="text" placeholder="No Telp" name="noTelp"></li>
+                <li><input type="text" placeholder="Kota / Kabupaten" name="kota"></li>
+                <li><input type="text" placeholder="Alamat Lengkap" name="alamat"></li>
+                <li><input type="password" placeholder="Password" name="password"></li>
+                <li><input type="password" placeholder="Re-type Password" name="password2"></li>
+                <li><button type="submit" name="registrasi">Daftar</button></li>
+            </ul>
+        </form>
+        <div>
+            Ingin menjadi bagian dari kami ?<br/>
+            Dafar sebagai agen sekarag !<br/>
+            <button><a href="registrasi-agen.php">Registrasi Sebagai Agen</a></button>
+        </div>
+    </div>
 </body>
 </html>
