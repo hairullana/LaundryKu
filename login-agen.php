@@ -29,6 +29,8 @@ if ( isset($_POST["login"]) ){
         $row = mysqli_fetch_assoc($result);
         // verif password
         if(password_verify($password, $row["password"])){
+            $_SESSION["agen"] = $row["id_agen"];
+            $_SESSION["login-agen"] = true;
             echo "
                 <script>
                     alert('Berhasil Login Sebagai Agen !');

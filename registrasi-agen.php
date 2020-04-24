@@ -99,6 +99,15 @@ function registrasi($agen){
 if (isset($_POST["daftar"])) {
 
     if  ( registrasi($_POST) > 0) {
+        // ambil data agen di db
+        $query  = "SELECT * FROM agen WHERE email = $_POST['email']";
+        $result = ($connect,$query);
+        $agen = mysqli_fetch_assoc($result);
+
+        // buat session
+        $_SESSION["agen"] = $data["id_agen"];
+        $_SESSION["login-agen"] = true;
+        
         echo "
             <script>
                 alert ('Registrasi Sebagai Agen Berhasil !');

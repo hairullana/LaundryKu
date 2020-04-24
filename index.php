@@ -35,16 +35,16 @@ include 'connect-db.php'
                         ";
                     }else if ( isset($_SESSION["login-agen"]) && isset($_SESSION["agen"])){
                         // mengambil email dari session
-                        $email = $_SESSION["agen"];
-                        // cari data di db sesuai $email
-                        $data = mysqli_query($connect, "SELECT * FROM agen WHERE email = '$email'");
+                        $id_agen = $_SESSION["agen"];
+                        // cari data di db sesuai $id_agen
+                        $data = mysqli_query($connect, "SELECT * FROM agen WHERE id_agen = '$id_agen'");
                         // memasukkan ke array asosiatif
                         $data = mysqli_fetch_assoc($data);
                         // mengambil data nama dari array
-                        $nama = $data["nama"];
+                        $nama = $data["nama_laundry"];
 
                         echo "
-                            <a href'agen.php'>$nama</a>
+                            <a href='agen.php'>$nama</a>
                         ";
                     }else if ( isset($_SESSION["login-admin"]) && isset($_SESSION["admin"])){
                         echo "
@@ -116,10 +116,27 @@ include 'connect-db.php'
                 <a href='registrasi-pelanggan.php'><button type='button'>Daftar Sekarang</button></a>
             <?php endif ?>
         </div>
-    </div>
-    <div id="body">
-    LIST AGEN
-    </div>
+        </div>
+        <div class="body">
+            <?php
+                // ambil data di database
+                $agen = mysqli_query($connect, "SELECT * FROM agen");
+
+                // meampilkan agen
+                foreach ( $agen as $dataAgen) :
+            ?>
+            <div style="margin-top:20px" class="agen">
+                <div><img src="files/laundryku.jpg" width=100 height=100 alt="foto"></div>
+                <h3><?= $dataAgen["nama_laundry"] ?></h3>
+                <div>
+                    <ul>
+                        <li>Alamat : <?= $dataAgen["alamat"] ?></li>
+                        <li>No. Telp : <?= $dataAgen["telp"] ?></li>
+                    </ul>
+                </div>
+            </div>
+            <?php endforeach; ?>
+        </div>
     </div>
 </body>
 </html>
