@@ -68,13 +68,7 @@ if ( isset($_POST["login"]) ) {
     <title>Login Admin</title>
 </head>
 <body>
-    <div id="header">
-        <ul>
-            <li><a href="index.php">Home</a></li>
-            <li><a href='registrasi.php'>Registrasi</a></li>
-            <li><a href='login.php'>Login</a></li>
-        </ul>
-    </div>
+    <?php include 'header.php'; ?>
 
     <div id="body">
 

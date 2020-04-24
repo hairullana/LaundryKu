@@ -51,13 +51,7 @@ if ( isset($_POST["simpan"]) ){
     <title>Profil Admin</title>
 </head>
 <body>
-    <div id="header">
-        <ul>
-            <li><a href="index.php">Home</a></li>
-            <li><a href='admin.php'><?= $admin["username"] ?></a></li>
-            <li><a href='logout.php'>Logout</a></li>
-        </ul>
-    </div>
+    <?php include 'header.php'; ?>
     <div id="body">
         <h3>DATA ADMIN</h3>
         <form action="" method="post">

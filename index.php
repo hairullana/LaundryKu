@@ -48,65 +48,7 @@ if ( isset($_POST["cari"])) {
     <title>Laundryku</title>
 </head>
 <body>
-    <div id="header">
-        <ul>
-            <li><a href="index.php">Home</a></li>
-            <li>
-                <?php
-                    global $connect;
-
-                    if ( isset($_SESSION["login-pelanggan"]) && isset($_SESSION["pelanggan"])){
-                        // mengambil email dari session
-                        $idPelanggan = $_SESSION["pelanggan"];
-                        // cari data di db sesuai $email
-                        $data = mysqli_query($connect, "SELECT * FROM pelanggan WHERE id_pelanggan = '$idPelanggan'");
-                        // memasukkan ke array asosiatif
-                        $data = mysqli_fetch_assoc($data);
-                        // mengambil data nama dari array
-                        $nama = $data["nama"];
-
-                        echo "
-                            <a href='pelanggan.php'>$nama</a>
-                        ";
-                    }else if ( isset($_SESSION["login-agen"]) && isset($_SESSION["agen"])){
-                        // mengambil email dari session
-                        $id_agen = $_SESSION["agen"];
-                        // cari data di db sesuai $id_agen
-                        $data = mysqli_query($connect, "SELECT * FROM agen WHERE id_agen = '$id_agen'");
-                        // memasukkan ke array asosiatif
-                        $data = mysqli_fetch_assoc($data);
-                        // mengambil data nama dari array
-                        $nama = $data["nama_laundry"];
-
-                        echo "
-                            <a href='agen.php'>$nama</a>
-                        ";
-                    }else if ( isset($_SESSION["login-admin"]) && isset($_SESSION["admin"])){
-                        echo "
-                            <a href='admin.php'>Admin</a>
-                        ";
-                    }else {
-                        echo "
-                            <a href='registrasi.php'>Registrasi</a>
-                        ";
-                    }
-                ?>
-            </li>
-            <li>
-                <?php
-                    if ( isset($_SESSION["login-pelanggan"]) && isset($_SESSION["pelanggan"]) || isset($_SESSION["login-agen"]) && isset($_SESSION["agen"]) || isset($_SESSION["login-admin"]) && isset($_SESSION["admin"]) ){
-                        echo "
-                            <a href='logout.php'>Logout</a>
-                        ";
-                    }else {
-                        echo "
-                            <a href='login.php'>Login</a>
-                        ";
-                    }
-                ?>
-            </li>
-        </ul>
-    </div>
+    <?php include 'header.php'; ?>
     <div id="body">
         <div class="body">
             <h1>LaundryKu</h1>
@@ -180,7 +122,7 @@ if ( isset($_POST["cari"])) {
                     <h3><?= $dataAgen["nama_laundry"] ?></h3>
                     <div>
                         <ul>
-                            <li>Alamat : <?= $dataAgen["alamat"] ?></li>
+                            <li>Alamat : <?= $dataAgen["alamat"] . ", " . $dataAgen["kota"]  ?></li>
                             <li>No. Telp : <?= $dataAgen["telp"] ?></li>
                         </ul>
                     </div>

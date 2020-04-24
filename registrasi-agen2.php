@@ -83,13 +83,7 @@ if ( isset($_POST["submit"]) ){
     <title>Registrasi Agen Lanjutan</title>
 </head>
 <body>
-    <div id="header">
-        <ul>
-            <li><a href="index.php">Home</a></li>
-            <li><a href='agen.php'><?php echo $agen["nama_laundry"] ?></a></li>
-            <li><a href='logout.php'>Logout</a></li>
-        </ul>
-    </div>
+    <?php include 'header.php'; ?>
     <div id="body">
         <h3>Data Harga</h3>
         <form action="" method="post">

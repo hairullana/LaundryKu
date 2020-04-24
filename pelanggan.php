@@ -104,13 +104,7 @@ if ( isset($_POST["ubah-data"]) ){
     <title>Data Penggunan - <?= $data["nama"] ?></title>
 </head>
 <body>
-    <div id="header">
-        <ul>
-            <li><a href="index.php"><button>Home</button></a></li>
-            <li><a href="pelanggan.php"><?= $data["nama"] ?></a></li>
-            <li><a href="logout.php">Logout</a></li>
-        </ul>
-    </div>
+    <?php include 'header.php'; ?>
     <div id="body">
         <h3>DATA PENGGUNA</h3>
         <form action="" method="post">

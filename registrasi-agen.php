@@ -131,13 +131,7 @@ if (isset($_POST["daftar"])) {
     <title>Registrasi Agen</title>
 </head>
 <body>
-    <div id="header">
-        <ul>
-            <li><a href="index.php">Home</a></li>
-            <li><a href='registrasi.php'>Registrasi</a></li>
-            <li><a href='login.php'>Login</a></li>
-        </ul>
-    </div>
+    <?php include 'header.php'; ?>
     <div id="body">
         <div class="body">
             <div><img src="files/laundryku.jpg" alt="laundryku" width=300 height=auto/></div>
