@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 22, 2020 at 07:00 PM
+-- Generation Time: Apr 24, 2020 at 04:56 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.2
 
@@ -34,6 +34,13 @@ CREATE TABLE `admin` (
   `password` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `admin`
+--
+
+INSERT INTO `admin` (`id_admin`, `email`, `password`) VALUES
+(1, 'admin', 'admin');
+
 -- --------------------------------------------------------
 
 --
@@ -51,6 +58,14 @@ CREATE TABLE `agen` (
   `plat_driver` varchar(12) DEFAULT NULL,
   `password` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `agen`
+--
+
+INSERT INTO `agen` (`id_agen`, `nama_laundry`, `nama_pemilik`, `telp`, `email`, `kota`, `alamat`, `plat_driver`, `password`) VALUES
+(1, 'Nadya Laundry', 'Nadya Eka', '0361222', 'nadya@gmail.com', 'Denpasar', 'Jl. Diponegoro No 55', 'DK 1234 AA', '$2y$10$XaXkN2bt838xX/6tuVmx3Oo93b4mWN/RpfUszm6m2sbDm4U3jV1hC'),
+(3, 'Laundry Wina Gans', 'Wina Artha', '0361222', 'agen1@gmail.com', 'Denpasar', 'Jl. Diponegoro No 55', 'DK 1234 AA', '$2y$10$CVET1Lwokes2LUnvcp71L.B339svy7h62.O8H6TAdT3BEBqQQzKp6');
 
 -- --------------------------------------------------------
 
@@ -75,10 +90,19 @@ CREATE TABLE `cucian` (
 
 CREATE TABLE `harga` (
   `id_harga` int(11) NOT NULL,
-  `jenis` varchar(15) DEFAULT NULL,
-  `id_agen` int(11) DEFAULT NULL,
-  `harga` int(11) DEFAULT NULL
+  `jenis` varchar(30) NOT NULL,
+  `id_agen` int(11) NOT NULL,
+  `harga` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `harga`
+--
+
+INSERT INTO `harga` (`id_harga`, `jenis`, `id_agen`, `harga`) VALUES
+(1, 'cuci', 3, 6000),
+(2, 'setrika', 3, 4000),
+(3, 'komplit', 3, 8000);
 
 -- --------------------------------------------------------
 
@@ -103,7 +127,7 @@ CREATE TABLE `pelanggan` (
 INSERT INTO `pelanggan` (`id_pelanggan`, `nama`, `email`, `telp`, `kota`, `alamat`, `password`) VALUES
 (1, 'Hairul Lana', 'hairullana99@gmail.com', '08312345', 'Badun', 'Badung', '$2y$10$TNuJENSN14J.40gramW7l.C5mKLg5/RIWJMy8rd.Z4IoCvEl7d8L2'),
 (8, 'Pelanggan', 'p@e.com', '09738633', 'Denpasar', 'Jl. Melati No 99', '$2y$10$Q/LTUi2tH9UawYdI5ynTJe5vq.ga.mIKfTmr7ErtprUQgRkK.pmrG'),
-(9, 'Wina', 'w@e.com', '09864736', 'Kuta', 'Jl Kuta', '$2y$10$wvrs6fZ4riwS7j/QoQ1ERunXsVS3a4JBzmaGEMkZEE.2xRGjnVB5G');
+(9, 'Wina Gans', 'wina@gmail.com', '08123456789', 'Badung', 'Jl. Goa Gong, No 99, Kec Kuta Selatan (Rumah warna hitam)', '$2y$10$wvrs6fZ4riwS7j/QoQ1ERunXsVS3a4JBzmaGEMkZEE.2xRGjnVB5G');
 
 -- --------------------------------------------------------
 
@@ -167,13 +191,13 @@ ALTER TABLE `transaksi`
 -- AUTO_INCREMENT for table `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `id_admin` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_admin` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `agen`
 --
 ALTER TABLE `agen`
-  MODIFY `id_agen` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_agen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `cucian`
@@ -185,7 +209,7 @@ ALTER TABLE `cucian`
 -- AUTO_INCREMENT for table `harga`
 --
 ALTER TABLE `harga`
-  MODIFY `id_harga` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_harga` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `pelanggan`
