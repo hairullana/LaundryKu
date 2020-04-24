@@ -100,8 +100,9 @@ if (isset($_POST["daftar"])) {
 
     if  ( registrasi($_POST) > 0) {
         // ambil data agen di db
-        $query  = "SELECT * FROM agen WHERE email = $_POST['email']";
-        $result = ($connect,$query);
+        $email = $_POST['email'];
+        $query  = "SELECT * FROM agen WHERE email = '$email'";
+        $result = mysqli_query($connect,$query);
         $agen = mysqli_fetch_assoc($result);
 
         // buat session
