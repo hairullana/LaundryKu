@@ -106,7 +106,7 @@ if (isset($_POST["daftar"])) {
         $agen = mysqli_fetch_assoc($result);
 
         // buat session
-        $_SESSION["agen"] = $data["id_agen"];
+        $_SESSION["agen"] = $agen["id_agen"];
         $_SESSION["login-agen"] = true;
         
         echo "

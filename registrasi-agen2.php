@@ -15,7 +15,7 @@ if ( isset($_SESSION["login-pelanggan"]) && isset($_SESSION["pelanggan"]) || iss
     exit;
 }
 
-$idAgen = $_SESSION['agen'];
+$idAgen = $_SESSION["agen"];
 
 // ambil data agen
 $query = "SELECT * FROM agen WHERE id_agen = '$idAgen'";
@@ -94,6 +94,7 @@ if ( isset($_POST["submit"]) ){
         <ul>
             <li><a href="index.php">Home</a></li>
 <<<<<<< HEAD
+<<<<<<< HEAD
             <li><a href='registrasi.php'>Registrasi</a></li>
             <li><a href='login.php'>Login</a></li>
         </ul>
@@ -142,6 +143,9 @@ if ( isset($_POST["submit"]) ){
 </html>
 =======
             <li><a href='agen.php'><?= $agen["nama_laundry"] ?></a></li>
+=======
+            <li><a href='agen.php'><?php echo $agen["nama_laundry"] ?></a></li>
+>>>>>>> b476c53a3c8537d8e7534917dd42c0b6b2b4dac9
             <li><a href='logout.php'>Logout</a></li>
         </ul>
     </div>
