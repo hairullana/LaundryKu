@@ -57,7 +57,7 @@ if ( isset($_POST["login"]) ) {
     echo "
         <script>
             alert ('Berhasil Login Sebagai Admin !');
-            document.location.href = 'control-panel.php';
+            document.location.href = 'cpanel.php';
         </script>
         
     ";
