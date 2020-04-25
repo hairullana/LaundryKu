@@ -20,13 +20,7 @@ if ( isset($_SESSION["login-pelanggan"]) && isset($_SESSION["pelanggan"]) || iss
     <title></title>
 </head>
 <body>
-    <div id="header">
-        <ul>
-            <li><a href="index.php">Home</a></li>
-            <li><a href='registrasi.php'>Registrasi</a></li>
-            <li><a href='login.php'>Login</a></li>
-        </ul>
-    </div>
+    <?php include 'header.php'; ?>
 
     <div id="body">
         <h3>LOGIN</h3>

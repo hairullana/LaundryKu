@@ -17,23 +17,24 @@ if ( isset($_SESSION["login-pelanggan"]) && isset($_SESSION["pelanggan"]) || iss
 
 // AKSI
 if ( isset($_POST["login"]) ) {
-    $email = $_POST["email"];
+    $username = $_POST["username"];
     $password = $_POST["password"];
 
     // cek di db
-    $data = mysqli_query($connect, "SELECT * FROM admin WHERE email = '$email'");
+    $data = mysqli_query($connect, "SELECT * FROM admin WHERE username = '$username'");
 
     // jika email ada
     if ( mysqli_num_rows($data) === 1 ){
 
         // jadikan array asosiatif
         $data = mysqli_fetch_assoc($data);
+        $idAdmin = $data["id_admin"];
 
         // jika password benar
         if ( $password === $data["password"])   {
             //session login 
             $_SESSION["login-admin"] = true;
-            $_SESSION["admin"] = $email;
+            $_SESSION["admin"] = $idAdmin;
 
             //jika remember me di checklist (NANTI DULU)
             // if ( isset($_POST["remember"]) ){
@@ -46,7 +47,7 @@ if ( isset($_POST["login"]) ) {
     }else {
         echo "
             <script>
-                alert ('Email Tidak Terdaftar');
+                alert ('Username Tidak Terdaftar');
                 document.location.href = 'login-admin.php';
             </script>
         ";
@@ -67,13 +68,7 @@ if ( isset($_POST["login"]) ) {
     <title>Login Admin</title>
 </head>
 <body>
-    <div id="header">
-        <ul>
-            <li><a href="index.php">Home</a></li>
-            <li><a href='registrasi.php'>Registrasi</a></li>
-            <li><a href='login.php'>Login</a></li>
-        </ul>
-    </div>
+    <?php include 'header.php'; ?>
 
     <div id="body">
 
@@ -81,7 +76,7 @@ if ( isset($_POST["login"]) ) {
 
         <form action="" method="post">
             <ul>
-                <li>Email : <input type="text" name="email"></li>
+                <li>Email : <input type="text" name="username"></li>
                 <li>Password : <input type="text" name="password"></li>
                 <li><button type="submit" name="login">Login</button> <a href="/lupa-kata-sandi.php">Lupa Kata Sandi ?</a></li>
             </ul>

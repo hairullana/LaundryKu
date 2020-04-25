@@ -90,6 +90,7 @@ if ( isset($_POST["submit"]) ){
 >>>>>>> 65102feb9724d1e75d7f10cbabd537d3008f8dc9
 </head>
 <body>
+<<<<<<< HEAD
     <div id="header">
         <ul>
             <li><a href="index.php">Home</a></li>
@@ -149,13 +150,16 @@ if ( isset($_POST["submit"]) ){
             <li><a href='logout.php'>Logout</a></li>
         </ul>
     </div>
+=======
+    <?php include 'header.php'; ?>
+>>>>>>> 1276197095ad108a4842608180f916cab228d8ca
     <div id="body">
         <h3>Data Harga</h3>
         <form action="" method="post">
             <ul>
-                <li>Cuci : <input type="text" name="cuci"> / Kg</li>
-                <li>Setrika : <input type="text" name="setrika"> / Kg</li>
-                <li>Cuci + Setrika : <input type="text" name="komplit"> / Kg</li>
+                <li>Cuci : <input type="text" name="cuci" value="0"> / Kg</li>
+                <li>Setrika : <input type="text" name="setrika" value="0"> / Kg</li>
+                <li>Cuci + Setrika : <input type="text" name="komplit" value="0"> / Kg</li>
                 <li><button type="submit" name="submit">Simpan Harga</button></li>
             </ul>
         </form>
