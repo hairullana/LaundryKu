@@ -118,8 +118,8 @@ if ( isset($_POST["cari"])) {
             </div>
             <?php foreach ( $agen as $dataAgen) : ?>
                 <div style="margin-top:20px" class="agen">
-                    <div><img src="files/laundryku.jpg" width=80 height=80 alt="foto" style="float:left;margin-right:10px"></div>
-                    <h3><?= $dataAgen["nama_laundry"] ?></h3>
+                    <div><a href="detail-agen.php?id=<?= $dataAgen['id_agen'] ?>"><img src="files/laundryku.jpg" width=80 height=80 alt="foto" style="float:left;margin-right:10px"></a></div>
+                    <h3><a href="detail-agen.php?id=<?= $dataAgen['id_agen'] ?>"><?= $dataAgen["nama_laundry"] ?></a></h3>
                     <div>
                         <ul>
                             <li>Alamat : <?= $dataAgen["alamat"] . ", " . $dataAgen["kota"]  ?></li>

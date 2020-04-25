@@ -88,9 +88,9 @@ if ( isset($_POST["submit"]) ){
         <h3>Data Harga</h3>
         <form action="" method="post">
             <ul>
-                <li>Cuci : <input type="text" name="cuci"> / Kg</li>
-                <li>Setrika : <input type="text" name="setrika"> / Kg</li>
-                <li>Cuci + Setrika : <input type="text" name="komplit"> / Kg</li>
+                <li>Cuci : <input type="text" name="cuci" value="0"> / Kg</li>
+                <li>Setrika : <input type="text" name="setrika" value="0"> / Kg</li>
+                <li>Cuci + Setrika : <input type="text" name="komplit" value="0"> / Kg</li>
                 <li><button type="submit" name="submit">Simpan Harga</button></li>
             </ul>
         </form>
