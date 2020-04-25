@@ -89,10 +89,16 @@
     // ketika tombol registrasi di klik
     if ( isset($_POST["registrasi"]) ){
         if ( registrasi($_POST) > 0 ) {
+
+            $email = $_POST["email"];
+            $query = mysqli_query($connect, "SELECT * FROM pelanggan WHERE email = '$email'");
+            $pelanggan = mysqli_fetch_assoc($query);
+            $_SESSION["pelanggan"] = $pelanggan["id_pelanggan"];
+            $_SESSION["login-pelanggan"] = true;
             echo "
                 <script>
                     alert('Registrasi Berhasil !!!');
-                    document.location.href = 'login.php';
+                    document.location.href = 'index.php';
                 </script>
             ";
         }else {

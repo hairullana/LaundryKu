@@ -29,10 +29,12 @@ if ( isset($_SESSION["login-pelanggan"]) && isset($_SESSION["pelanggan"]) || iss
 <body>
     <?php include 'header.php'; ?>
     <div id="body">
-        <ul>
-            <li><a href="registrasi-pelanggan.php">Registrasi Sebagai Pelanggan</a></li>
-            <li><a href="registrasi-agen.php">Registrasi Sebagai Agen</a></li>
-        </ul>
+        <table cellpadding=40 border=1>
+            <tr>
+                <td><a href="registrasi-pelanggan.php">Registrasi Sebagai Pelanggan</a></td>
+                <td><a href="registrasi-agen.php">Registrasi Sebagai Agen</a></td>
+            </tr>
+        </table>
     </div>
 </body>
 </html>

@@ -54,7 +54,13 @@ if ( isset($_POST["login"]) ) {
         exit;
     }
 
-    header("Location: index.php");
+    echo "
+        <script>
+            alert ('Berhasil Login Sebagai Admin !');
+            document.location.href = 'control-panel.php';
+        </script>
+        
+    ";
 
 }
 
