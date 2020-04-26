@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 25, 2020 at 06:08 PM
+-- Generation Time: Apr 26, 2020 at 08:06 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.5
 
@@ -76,12 +76,26 @@ INSERT INTO `agen` (`id_agen`, `nama_laundry`, `nama_pemilik`, `telp`, `email`, 
 
 CREATE TABLE `cucian` (
   `id_cucian` int(11) NOT NULL,
-  `id_user` int(11) DEFAULT NULL,
+  `id_agen` int(11) NOT NULL,
+  `id_pelanggan` int(11) DEFAULT NULL,
+  `tgl_mulai` date NOT NULL,
+  `tgl_selesai` date NOT NULL,
   `jenis` varchar(15) DEFAULT NULL,
   `total_item` int(11) DEFAULT NULL,
   `berat` double DEFAULT NULL,
+  `alamat` varchar(100) NOT NULL,
+  `catatan` text NOT NULL,
   `status_cucian` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `cucian`
+--
+
+INSERT INTO `cucian` (`id_cucian`, `id_agen`, `id_pelanggan`, `tgl_mulai`, `tgl_selesai`, `jenis`, `total_item`, `berat`, `alamat`, `catatan`, `status_cucian`) VALUES
+(1, 1, 11, '2020-04-25', '0000-00-00', 'Setrika', 2, 1, 'Jl. Aceg No 44, Aceh', 'tak ada', 'Selesai'),
+(2, 5, 8, '2020-04-25', '0000-00-00', 'Cuci + Setrika', 6, NULL, 'Jl. Melati No 99, Denpasar', 'yang bersih yaaaa', 'Penjemputan'),
+(3, 1, 11, '2020-04-26', '0000-00-00', 'Cuci', 1, 5, 'Jl. Aceg No 44, Aceh', 'cepet ya', 'Sedang Di Jemur');
 
 -- --------------------------------------------------------
 
@@ -151,11 +165,22 @@ INSERT INTO `pelanggan` (`id_pelanggan`, `nama`, `email`, `telp`, `kota`, `alama
 
 CREATE TABLE `transaksi` (
   `kode_transaksi` int(11) NOT NULL,
-  `tgl_masuk` date DEFAULT NULL,
-  `tgl_ambil` date DEFAULT NULL,
+  `id_cucian` int(11) NOT NULL,
+  `id_agen` int(11) NOT NULL,
+  `id_pelanggan` int(11) NOT NULL,
+  `tgl_mulai` date DEFAULT NULL,
+  `tgl_selesai` date DEFAULT NULL,
   `total_bayar` int(11) DEFAULT NULL,
-  `rating` int(11) DEFAULT NULL
+  `rating` int(11) DEFAULT NULL,
+  `komentar` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `transaksi`
+--
+
+INSERT INTO `transaksi` (`kode_transaksi`, `id_cucian`, `id_agen`, `id_pelanggan`, `tgl_mulai`, `tgl_selesai`, `total_bayar`, `rating`, `komentar`) VALUES
+(6, 1, 1, 11, '2020-04-25', '2020-04-26', 1000, 6, 'Mantap');
 
 --
 -- Indexes for dumped tables
@@ -217,7 +242,7 @@ ALTER TABLE `agen`
 -- AUTO_INCREMENT for table `cucian`
 --
 ALTER TABLE `cucian`
-  MODIFY `id_cucian` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_cucian` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `harga`
@@ -235,7 +260,7 @@ ALTER TABLE `pelanggan`
 -- AUTO_INCREMENT for table `transaksi`
 --
 ALTER TABLE `transaksi`
-  MODIFY `kode_transaksi` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `kode_transaksi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
