@@ -25,11 +25,13 @@ if ( isset($_SESSION["login-pelanggan"]) && isset($_SESSION["pelanggan"]) || iss
     <div id="body">
         <h3>LOGIN</h3>
         <div>
-            <ul>
-                <li><a href="login-pelanggan.php">Login Pelanggan</a></li>
-                <li><a href="login-agen.php">Login Agen</a></li>
-                <li><a href="login-admin.php">Login Admin</a></li>
-            </ul>
+            <table border=1 cellpadding=40>
+                <tr>
+                    <td><a href="login-pelanggan.php">Login Pelanggan</a></td>
+                    <td><a href="login-agen.php">Login Agen</a></td>
+                    <td><a href="login-admin.php">Login Admin</a></td>
+                </tr>
+            </table>
         </div>
     </div>
     

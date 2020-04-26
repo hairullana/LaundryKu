@@ -26,7 +26,7 @@ $agen = mysqli_fetch_assoc($query);
             <div>
                 <div style="float:left;">
                     <img src="files/laundryku.jpg" alt="" height=100 width=100><br/>
-                    <button><a href="pesan-laundry.php">PESAN LAUNDRY</a></button>
+                    <button><a href="pesan-laundry.php?id=<?= $idAgen ?>">PESAN LAUNDRY</a></button>
                 </div>
                 <div>
                     <h3><?= $agen["nama_laundry"] ?></h3>

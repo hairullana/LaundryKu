@@ -62,7 +62,7 @@ if ( isset($_POST["cari"])) {
                 </div>
                 <ul>
                     <li><button type="button"><a href="pelanggan.php">Profil Saya</a></button></li>
-                    <li><button type="button"><a href="status-cucian.php">Status Cucian</a></button></li>
+                    <li><button type="button"><a href="status.php">Status Cucian</a></button></li>
                     <li><button type="button"><a href="riwayat-transaksi.php">Riwayat Transaksi</a></button></li>
                 </ul>
             <?php elseif ( isset($_SESSION["login-agen"]) && isset($_SESSION["agen"]) ) : ?>
@@ -74,7 +74,7 @@ if ( isset($_POST["cari"])) {
                 </div>
                 <ul>
                     <li><button type="button"><a href="agen.php">Profil Saya</a></button></li>
-                    <li><button type="button"><a href="status-cucian.php">Status Cucian</a></button></li>
+                    <li><button type="button"><a href="status.php">Status Cucian</a></button></li>
                     <li><button type="button"><a href="riwayat-transaksi.php">Riwayat Transaksi</a></button></li>
                 </ul>
             <?php elseif ( isset($_SESSION["login-admin"]) && isset($_SESSION["admin"]) ) : ?>
@@ -86,7 +86,7 @@ if ( isset($_POST["cari"])) {
                 </div>
                 <ul>
                     <li><button type="button"><a href="admin.php">Profil Saya</a></button></li>
-                    <li><button type="button"><a href="status-cucian.php">Status Cucian</a></button></li>
+                    <li><button type="button"><a href="status.php">Status Cucian</a></button></li>
                     <li><button type="button"><a href="riwayat-transaksi.php">Riwayat Transaksi</a></button></li>
                 </ul>
             <?php else : ?>
