@@ -34,8 +34,8 @@ if ( !(isset($_SESSION["login-admin"])) ){
                 <td><a href="list-pelanggan.php">List Pelanggan</a></td>
             </tr>
             <tr>
-                <td><a href="riwayat.php">Riwayat Transaksi</a></td>
                 <td><a href="status.php">Status Transaksi</a></td>
+                <td><a href="transaksi.php">Riwayat Transaksi</a></td>
             </tr>
         </table>
     </div>

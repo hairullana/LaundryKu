@@ -1,11 +1,8 @@
-<?php
+<?php 
 
+// session
 session_start();
 include 'connect-db.php';
-
-
-
-
 
 // sesuaikan dengan jenis login
 if(isset($_SESSION["login-admin"]) && isset($_SESSION["admin"])){
@@ -32,119 +29,62 @@ if(isset($_SESSION["login-admin"]) && isset($_SESSION["admin"])){
     ";
 }
 
-
-// STATUS CUCIAN
-if ( isset($_POST["ubah"]) ){
-
-    // ambil data method post
-    $statusCucian = $_POST["status_cucian"];
-    $idCucian = $_POST["id_cucian"];
-
-    // cari data
-    $query = mysqli_query($connect, "SELECT * FROM cucian INNER JOIN harga ON harga.jenis = cucian.jenis WHERE id_cucian = $idCucian");
-    $cucian = mysqli_fetch_assoc($query);
-    $status = "Selesai";
-    // kalau status selesai
-    if ( $statusCucian == $status){
-
-        // isi data di tabel transaksi
-        $tglMulai = $cucian["tgl_mulai"];
-        $tglSelesai = date("Y-m-d H:i:s");
-        $totalBayar = $cucian["berat"] * $cucian["harga"];
-        $idCucian = $cucian["id_cucian"];
-        // masukkan ke tabel transaksi
-        mysqli_query($connect,"INSERT INTO transaksi (id_cucian, tgl_mulai, tgl_selesai, total_bayar) VALUES ($idCucian, '$tglMulai', '$tglSelesai', $totalBayar)");
-        if (mysqli_affected_rows($connect) == 0){
-            echo mysqli_error($connect);
-        }
-    }
-
-    mysqli_query($connect, "UPDATE cucian SET status_cucian = '$statusCucian' WHERE id_cucian = $idCucian");
-    if (mysqli_affected_rows($connect) > 0){
-        echo "
-            <script>
-                alert('Status Berhasil Di Ubah !');
-//                document.location.href = 'status.php';
-            </script>
-        ";
-    }
-
-    
-}
-
-// total berat
-if (isset($_POST["simpan"])){
-
-    $berat = $_POST["berat"];
-    $idCucian = $_POST["id_cucian"];
-
-    mysqli_query($connect, "UPDATE cucian SET berat = $berat WHERE id_cucian = $idCucian");
-
-    if (mysqli_affected_rows($connect) > 0){
-        echo "
-            <script>
-                alert('Berat Berhasil Di Ubah !');
-                document.location.href = 'status.php';
-            </script>
-        ";
-    }
-
-    
-
-}
-
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Status Cucian - <?= $login ?></title>
+    <title>Transasksi - <?= $login ?></title>
 </head>
 <body>
-    <?php include 'header.php'; ?>
+<?php include 'header.php'; ?>
     <div id="body">
-        <h3>STATUS CUCIAN</h3>
-        <?php if ($login == "Admin") : $query = mysqli_query($connect, "SELECT * FROM cucian WHERE status_cucian != 'Selesai'"); ?>
+        <h3>LIST TRANSAKSI</h3>
+        <?php if ($login == "Admin") : $query = mysqli_query($connect, "SELECT * FROM transaksi"); ?>
             <table border=1 cellpadding=10>
                 <tr>
-                    <td>ID Cucian</td>
-                    <td>Nama Agen</td>
+                    <td>Kode Transaksi</td>
+                    <td>Agen</td>
                     <td>Pelanggan</td>
                     <td>Total Item</td>
                     <td>Berat</td>
                     <td>Jenis</td>
-                    <td>Tanggal Dibuat</td>
-                    <td>Status</td>
+                    <td>Tanggal Pesan</td>
+                    <td>Tanggal Selesai</td>
+                    <td>Rating</td>
+                    <td>Komentar</td>
                 </tr>
-                <?php while ($cucian = mysqli_fetch_assoc($query)) : ?>
+                <?php while ($transaksi = mysqli_fetch_assoc($query)) : ?>
                 <tr>
+                    <td><?php echo $kodeTransaksi = $transaksi["kode_transaksi"] ?></td>
                     <td>
                         <?php
-                            echo $idCucian = $cucian['id_cucian'];
+                            // ambil id agen
+                            $cucian = mysqli_query($connect, "SELECT * FROM transaksi INNER JOIN cucian ON transaksi.id_cucian = cucian.id_cucian WHERE transaksi.kode_transaksi = $kodeTransaksi");
+                            $cucian = mysqli_fetch_assoc($cucian);
+                            $idAgen = $cucian["id_agen"];
+                            $idCucian = $cucian["id_cucian"];
+                            $agen = mysqli_query($connect, "SELECT * FROM agen WHERE id_agen = $idAgen");
+                            $agen = mysqli_fetch_assoc($agen);
+                            echo $agen["nama_laundry"];
                         ?>
                     </td>
                     <td>
                         <?php
-                            $data = mysqli_query($connect, "SELECT agen.nama_laundry FROM cucian INNER JOIN agen ON agen.id_agen = cucian.id_agen WHERE id_cucian = $idCucian");
-                            $data = mysqli_fetch_assoc($data);
-                            echo $data["nama_laundry"];
-                        ?>
-                    </td>
-                    <td>
-                        <?php
-                            $data = mysqli_query($connect, "SELECT pelanggan.nama FROM cucian INNER JOIN pelanggan ON pelanggan.id_pelanggan = cucian.id_pelanggan WHERE id_cucian = $idCucian");
-                            $data = mysqli_fetch_assoc($data);
-                            echo $data["nama"];
+                            $pelanggan = mysqli_query($connect, "SELECT * FROM cucian INNER JOIN pelanggan ON pelanggan.id_pelanggan = cucian.id_pelanggan WHERE id_cucian = $idCucian");
+                            $pelanggan = mysqli_fetch_assoc($pelanggan);
+                            echo $pelanggan["nama"];
                         ?>
                     </td>
                     <td><?= $cucian["total_item"] ?></td>
                     <td><?= $cucian["berat"] ?></td>
                     <td><?= $cucian["jenis"] ?></td>
                     <td><?= $cucian["tgl_mulai"] ?></td>
-                    <td><?= $cucian["status_cucian"] ?></td>
+                    <td><?= $cucian["tgl_selesai"] ?></td>
+                    <td><?= $cucian["rating"] . "/5" ?></td>
+                    <td><?= $cucian["komentar"] ?></td>
                 </tr>
                 <?php endwhile; ?>
             </table>

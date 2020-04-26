@@ -99,7 +99,7 @@ if ( isset($_POST["simpan"]) ){
                 <li><input type="text" name="platDriver" value="<?= $agen['plat_driver']?>"></li>
                 <li><input type="text" name="kota" value="<?= $agen['kota']?>"></li>
                 <li><textarea name="alamat"><?= $agen['alamat']?></textarea></li>
-                <li><button type="submit" name="simpan">Simpan Data</button>   <a href="">Lupa Kata Sandi ?</a></li>
+                <li><button type="submit" name="simpan">Simpan Data</button>   <a href="lupa-kata-sandi.php">Lupa Kata Sandi ?</a></li>
 
                 
                 <p><a href="edit-harga.php">Ubah Data Harga</a></p>
