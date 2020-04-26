@@ -60,7 +60,7 @@ if ( isset($_POST["simpan"]) ){
                 <li><button type="submit" name="simpan">Simpan Data</button></li>
             </ul>
         </form>
-        <button type="buttom"><a href="/ubah-kata-sandi.php">Ubah Kata Sandi</a></button>
+        <button type="buttom"><a href="ubah-kata-sandi.php">Ubah Kata Sandi</a></button>
     </div>
 </body>
 </html>

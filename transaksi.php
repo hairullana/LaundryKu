@@ -7,8 +7,8 @@ include 'connect-db.php';
 // sesuaikan dengan jenis login
 if(isset($_SESSION["login-admin"]) && isset($_SESSION["admin"])){
 
-    $login = "Admin";
     $idAdmin = $_SESSION["admin"];
+    $login = "Admin";
 
 }else if(isset($_SESSION["login-agen"]) && isset($_SESSION["agen"])){
 
@@ -29,6 +29,33 @@ if(isset($_SESSION["login-admin"]) && isset($_SESSION["admin"])){
     ";
 }
 
+// jika pelanggan rating
+if ( isset($_POST["simpanRating"]) ){
+
+    $rating = $_POST["rating"];
+    $kodeTransaksiRating = $_POST["kodeTransaksi"];
+
+    mysqli_query($connect, "UPDATE transaksi SET rating = $rating WHERE kode_transaksi = $kodeTransaksiRating");
+    echo "
+        <script>
+        document.location.href = 'transaksi.php';
+        </script>
+    ";
+}
+
+if ( isset($_POST["kirimKomentar"])){
+
+    $komentar = $_POST["komentar"];
+    $kodeTransaksiRating = $_POST["kodeTransaksi"];
+
+    mysqli_query($connect, "UPDATE transaksi SET komentar = '$komentar' WHERE kode_transaksi = $kodeTransaksiRating");
+    echo "
+        <script>
+        document.location.href = 'transaksi.php';
+        </script>
+    ";
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -37,6 +64,8 @@ if(isset($_SESSION["login-admin"]) && isset($_SESSION["admin"])){
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Transasksi - <?= $login ?></title>
+    <link rel="stylesheet" type="text/css" href="css/rating.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
 <?php include 'header.php'; ?>
@@ -61,121 +90,162 @@ if(isset($_SESSION["login-admin"]) && isset($_SESSION["admin"])){
                     <td><?php echo $kodeTransaksi = $transaksi["kode_transaksi"] ?></td>
                     <td>
                         <?php
-                            // ambil id agen
-                            $cucian = mysqli_query($connect, "SELECT * FROM transaksi INNER JOIN cucian ON transaksi.id_cucian = cucian.id_cucian WHERE transaksi.kode_transaksi = $kodeTransaksi");
-                            $cucian = mysqli_fetch_assoc($cucian);
-                            $idAgen = $cucian["id_agen"];
-                            $idCucian = $cucian["id_cucian"];
-                            $agen = mysqli_query($connect, "SELECT * FROM agen WHERE id_agen = $idAgen");
+                            $temp = $transaksi["id_agen"];
+                            $agen = mysqli_query($connect, "SELECT * FROM agen WHERE id_agen = '$temp'");
                             $agen = mysqli_fetch_assoc($agen);
                             echo $agen["nama_laundry"];
                         ?>
                     </td>
                     <td>
                         <?php
-                            $pelanggan = mysqli_query($connect, "SELECT * FROM cucian INNER JOIN pelanggan ON pelanggan.id_pelanggan = cucian.id_pelanggan WHERE id_cucian = $idCucian");
+                            $temp = $transaksi["id_pelanggan"];
+                            $pelanggan = mysqli_query($connect,"SELECT * FROM pelanggan WHERE id_pelanggan = '$temp'");
                             $pelanggan = mysqli_fetch_assoc($pelanggan);
                             echo $pelanggan["nama"];
                         ?>
                     </td>
-                    <td><?= $cucian["total_item"] ?></td>
+                    <td>
+                        <?php
+                            $idCucian = $transaksi["id_cucian"];
+                            $cucian = mysqli_query($connect, "SELECT * FROM cucian WHERE id_cucian = $idCucian");
+                            $cucian = mysqli_fetch_assoc($cucian);
+                            echo $cucian["total_item"];
+                        ?>
+                    </td>
                     <td><?= $cucian["berat"] ?></td>
                     <td><?= $cucian["jenis"] ?></td>
-                    <td><?= $cucian["tgl_mulai"] ?></td>
-                    <td><?= $cucian["tgl_selesai"] ?></td>
-                    <td><?= $cucian["rating"] . "/5" ?></td>
-                    <td><?= $cucian["komentar"] ?></td>
+                    <td><?= $transaksi["tgl_mulai"] ?></td>
+                    <td><?= $transaksi["tgl_selesai"] ?></td>
+                    <td>
+                        <?php
+                            $star = mysqli_query($connect,"SELECT * FROM transaksi WHERE kode_transaksi = $kodeTransaksi");
+                            $star = mysqli_fetch_assoc($star);
+                            $star = ceil($star["rating"]);
+                        ?>
+                        <fieldset class="bintang"><span class="starImg star-<?= $star ?>"></span></fieldset>
+                    </td>
+                    <td><?= $transaksi["komentar"] ?></td>
                 </tr>
                 <?php endwhile; ?>
             </table>
-        <?php elseif ($login == "Agen") : $query = mysqli_query($connect, "SELECT * FROM cucian WHERE id_agen = $idAgen AND status_cucian != 'Selesai'"); ?>
-            <table border=1 cellpadding=10>
+        <?php elseif ($login == "Agen") : $query = mysqli_query($connect, "SELECT * FROM transaksi WHERE id_agen = '$idAgen'"); ?>
+        <table border=1 cellpadding=10>
                 <tr>
-                    <td>ID Cucian</td>
+                    <td>Kode Transaksi</td>
                     <td>Pelanggan</td>
                     <td>Total Item</td>
                     <td>Berat</td>
                     <td>Jenis</td>
-                    <td>Tanggal Dibuat</td>
-                    <td>Status</td>
-                    <td>Aksi</td>
+                    <td>Tanggal Pesan</td>
+                    <td>Tanggal Selesai</td>
+                    <td>Rating</td>
+                    <td>Komentar</td>
                 </tr>
-                <?php while ($cucian = mysqli_fetch_assoc($query)) : ?>
+                <?php while ($transaksi = mysqli_fetch_assoc($query)) : ?>
                 <tr>
+                    <td><?php echo $kodeTransaksi = $transaksi["kode_transaksi"] ?></td>
                     <td>
                         <?php
-                            echo $idCucian = $cucian['id_cucian'];
+                            $temp = $transaksi["id_pelanggan"];
+                            $pelanggan = mysqli_query($connect,"SELECT * FROM pelanggan WHERE id_pelanggan = '$temp'");
+                            $pelanggan = mysqli_fetch_assoc($pelanggan);
+                            echo $pelanggan["nama"];
                         ?>
                     </td>
                     <td>
                         <?php
-                            $data = mysqli_query($connect, "SELECT pelanggan.nama FROM cucian INNER JOIN pelanggan ON pelanggan.id_pelanggan = cucian.id_pelanggan WHERE id_cucian = $idCucian");
-                            $data = mysqli_fetch_assoc($data);
-                            echo $data["nama"];
+                            $idCucian = $transaksi["id_cucian"];
+                            $cucian = mysqli_query($connect, "SELECT * FROM cucian WHERE id_cucian = $idCucian");
+                            $cucian = mysqli_fetch_assoc($cucian);
+                            echo $cucian["total_item"];
                         ?>
                     </td>
-                    <td><?= $cucian["total_item"] ?></td>
-                    <td>
-                        <?php if ($cucian["berat"] == NULL) : ?>
-                            <form action="" method="post">
-                                <input type="hidden" name="id_cucian" value="<?= $idCucian ?>">
-                                <input type="text" name="berat"> Kg
-                                <button type="submit" name="simpan">&raquo;</button>
-                            </form>
-                        <?php else : echo $cucian["berat"]; endif;?>
-                    </td>
+                    <td><?= $cucian["berat"] ?></td>
                     <td><?= $cucian["jenis"] ?></td>
-                    <td><?= $cucian["tgl_mulai"] ?></td>
-                    <td><?= $cucian["status_cucian"] ?></td>
+                    <td><?= $transaksi["tgl_mulai"] ?></td>
+                    <td><?= $transaksi["tgl_selesai"] ?></td>
                     <td>
-                        <form action="" method="post">
-                            <input type="hidden" name="id_cucian" value="<?= $idCucian ?>">
-                            <select name="status_cucian" id="status_cucian">
-                                <option disabled selected>Status :</option>
-                                <option value="Penjemputan">Penjemputan</option>
-                                <option value="Sedang di Cuci">Sedang di Cuci</option>
-                                <option value="Sedang Di Jemur">Sedang Di Jemur</option>
-                                <option value="Sedang di Setrika">Sedang di Setrika</option>
-                                <option value="Pengantaran">Pengantaran</option>
-                                <option value="Selesai">Selesai</option>
-                            </select>
-                            <button type="submit" name="ubah">&raquo;</button>
-                        </form>
+                        <?php
+                            $star = mysqli_query($connect,"SELECT * FROM transaksi WHERE kode_transaksi = $kodeTransaksi");
+                            $star = mysqli_fetch_assoc($star);
+                            $star = ceil($star["rating"]);
+                        ?>
+                        <fieldset class="bintang"><span class="starImg star-<?= $star ?>"></span></fieldset>
                     </td>
+                    <td><?= $transaksi["komentar"] ?></td>
                 </tr>
                 <?php endwhile; ?>
             </table>
-        <?php elseif ($login == "Pelanggan") : $query = mysqli_query($connect, "SELECT * FROM cucian WHERE id_pelanggan = $idPelanggan AND status_cucian != 'Selesai'"); ?>
-            <table border=1 cellpadding=10>
+        <?php elseif ($login == "Pelanggan") : $query = mysqli_query($connect, "SELECT * FROM transaksi WHERE id_pelanggan = $idPelanggan"); ?>
+        <table border=1 cellpadding=10>
                 <tr>
-                    <td>ID Cucian</td>
+                    <td>Kode Transaksi</td>
                     <td>Agen</td>
                     <td>Total Item</td>
                     <td>Berat</td>
                     <td>Jenis</td>
-                    <td>Tanggal Dibuat</td>
-                    <td>Status</td>
+                    <td>Tanggal Pesan</td>
+                    <td>Tanggal Selesai</td>
+                    <td>Rating</td>
+                    <td>Komentar</td>
                 </tr>
-                <?php while ($cucian = mysqli_fetch_assoc($query)) : ?>
+                <?php while ($transaksi = mysqli_fetch_assoc($query)) : ?>
                 <tr>
+                    <td><?php echo $kodeTransaksi = $transaksi["kode_transaksi"] ?></td>
                     <td>
                         <?php
-                            echo $idCucian = $cucian['id_cucian'];
+                            $temp = $transaksi["id_agen"];
+                            $agen = mysqli_query($connect, "SELECT * FROM agen WHERE id_agen = '$temp'");
+                            $agen = mysqli_fetch_assoc($agen);
+                            echo $agen["nama_laundry"];
                         ?>
                     </td>
                     <td>
                         <?php
-                            $data = mysqli_query($connect, "SELECT agen.nama_laundry FROM cucian INNER JOIN agen ON agen.id_agen = cucian.id_agen WHERE id_cucian = $idCucian");
-                            $data = mysqli_fetch_assoc($data);
-                            echo $data["nama_laundry"];
+                            $idCucian = $transaksi["id_cucian"];
+                            $cucian = mysqli_query($connect, "SELECT * FROM cucian WHERE id_cucian = $idCucian");
+                            $cucian = mysqli_fetch_assoc($cucian);
+                            echo $cucian["total_item"];
                         ?>
                     </td>
-                    <td><?= $cucian["total_item"] ?></td>
                     <td><?= $cucian["berat"] ?></td>
                     <td><?= $cucian["jenis"] ?></td>
-                    <td><?= $cucian["tgl_mulai"] ?></td>
-                    <td><?= $cucian["status_cucian"] ?></td>
-                    
+                    <td><?= $transaksi["tgl_mulai"] ?></td>
+                    <td><?= $transaksi["tgl_selesai"] ?></td>
+                    <td>
+                        <?php if ( $transaksi["rating"] == 0 ) : ?>
+                            <form action="" method="post">
+                                <input type="hidden" value="<?= $kodeTransaksi ?>" name="kodeTransaksi">
+                                <select name="rating" id="">
+                                    <option disabled>Rating</option>
+                                    <option value="2">1</option>
+                                    <option value="4">2</option>
+                                    <option value="6">3</option>
+                                    <option value="8">4</option>
+                                    <option value="10">5</option>
+                                </select>
+                                <button type="submit" name="simpanRating">&raquo;</button>
+                            </form>
+                        <?php else : ?>
+                            <?php
+                                $star = mysqli_query($connect,"SELECT * FROM transaksi WHERE kode_transaksi = $kodeTransaksi");
+                                $star = mysqli_fetch_assoc($star);
+                                $star = ceil($star["rating"]);
+                            ?>
+                            <fieldset class="bintang"><span class="starImg star-<?= $star ?>"></span></fieldset>
+                        <?php endif; ?>
+                    </td>
+                    <td>
+                        <?php if ( $transaksi["komentar"] == "" ) : ?>
+                            <form action="" method="post">
+                                <input type="hidden" value="<?= $kodeTransaksi ?>" name="kodeTransaksi">
+                                <textarea name="komentar" id="" cols="30" rows="10" placeholder="Masukkan Komentar"></textarea>
+                                <button type="submit" name="kirimKomentar">Kirim</button>
+                            </form>
+                        <?php else : ?>
+                        <?= $transaksi["komentar"] ?>
+                        <?php endif; ?>
+                    </td>
                 </tr>
                 <?php endwhile; ?>
             </table>

@@ -17,6 +17,8 @@ $agen = mysqli_fetch_assoc($query);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="css/rating.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title><?= $agen["nama_laundry"] ?></title>
 </head>
 <body>
@@ -87,6 +89,32 @@ $agen = mysqli_fetch_assoc($query);
                     </div>
                 </td>
             </table>
+        </div>
+        <div id="komentar">
+            <?php
+                $temp = mysqli_query($connect, "SELECT * FROM transaksi WHERE id_agen = $idAgen");
+                
+
+                while ( $transaksi = mysqli_fetch_assoc($temp) ) :
+            ?>
+            
+            <div style="margin-top:20px" class="agen">
+                <div><img src="files/laundryku.jpg" width=120 height=120 alt="foto" style="float:left;margin-right:10px"></div>
+                <h3>
+                    <?php
+                        $idPelanggan = $transaksi["id_pelanggan"];
+                        $temp = mysqli_query($connect, "SELECT * FROM pelanggan WHERE id_pelanggan = $idPelanggan");
+                        $pelanggan = mysqli_fetch_assoc($temp);
+                        echo $pelanggan["nama"]
+                    ?>
+                </h3>
+                <ul>
+                    <li><fieldset class="bintang"><span class="starImg star-<?= $$transaksi['rating'] ?>"></span></fieldset></li>
+                    <li><?= $transaksi["komentar"]; ?></li>
+                </ul>
+            </div>
+
+            <?php endwhile; ?>
         </div>
     </div>
 </body>

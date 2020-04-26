@@ -45,6 +45,8 @@ if ( isset($_POST["cari"])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="css/rating.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Laundryku</title>
 </head>
 <body>
@@ -63,7 +65,7 @@ if ( isset($_POST["cari"])) {
                 <ul>
                     <li><button type="button"><a href="pelanggan.php">Profil Saya</a></button></li>
                     <li><button type="button"><a href="status.php">Status Cucian</a></button></li>
-                    <li><button type="button"><a href="riwayat-transaksi.php">Riwayat Transaksi</a></button></li>
+                    <li><button type="button"><a href="transaksi.php">Riwayat Transaksi</a></button></li>
                 </ul>
             <?php elseif ( isset($_SESSION["login-agen"]) && isset($_SESSION["agen"]) ) : ?>
                 <div>
@@ -75,7 +77,7 @@ if ( isset($_POST["cari"])) {
                 <ul>
                     <li><button type="button"><a href="agen.php">Profil Saya</a></button></li>
                     <li><button type="button"><a href="status.php">Status Cucian</a></button></li>
-                    <li><button type="button"><a href="riwayat-transaksi.php">Riwayat Transaksi</a></button></li>
+                    <li><button type="button"><a href="transaksi.php">Riwayat Transaksi</a></button></li>
                 </ul>
             <?php elseif ( isset($_SESSION["login-admin"]) && isset($_SESSION["admin"]) ) : ?>
                 <div>
@@ -87,7 +89,7 @@ if ( isset($_POST["cari"])) {
                 <ul>
                     <li><button type="button"><a href="admin.php">Profil Saya</a></button></li>
                     <li><button type="button"><a href="status.php">Status Cucian</a></button></li>
-                    <li><button type="button"><a href="riwayat-transaksi.php">Riwayat Transaksi</a></button></li>
+                    <li><button type="button"><a href="transaksi.php">Riwayat Transaksi</a></button></li>
                 </ul>
             <?php else : ?>
                 <a href='registrasi-pelanggan.php'><button type='button'>Daftar Sekarang</button></a>
@@ -118,8 +120,26 @@ if ( isset($_POST["cari"])) {
             </div>
             <?php foreach ( $agen as $dataAgen) : ?>
                 <div style="margin-top:20px" class="agen">
-                    <div><a href="detail-agen.php?id=<?= $dataAgen['id_agen'] ?>"><img src="files/laundryku.jpg" width=80 height=80 alt="foto" style="float:left;margin-right:10px"></a></div>
+                    <div><a href="detail-agen.php?id=<?= $dataAgen['id_agen'] ?>"><img src="files/laundryku.jpg" width=120 height=120 alt="foto" style="float:left;margin-right:10px"></a></div>
                     <h3><a href="detail-agen.php?id=<?= $dataAgen['id_agen'] ?>"><?= $dataAgen["nama_laundry"] ?></a></h3>
+                    <?php
+                        $temp = $dataAgen["id_agen"];
+                        $queryStar = mysqli_query($connect,"SELECT * FROM transaksi WHERE id_agen = '$temp'");
+                        $totalStar = 0;
+                        $i = 0;
+                        while ($star = mysqli_fetch_assoc($queryStar)){
+                            $totalStar += $star["rating"];
+                            $i++;
+                            $fixStar = ceil($totalStar / $i);
+                        }
+                        
+
+                        if ( $totalStar == 0 ) {
+                    ?>
+                        <fieldset class="bintang"><span class="starImg star-0"></span></fieldset>
+                        <?php }else { ?>
+                        <fieldset class="bintang"><span class="starImg star-<?= $fixStar ?>"></span></fieldset>
+                        <?php } ?>
                     <div>
                         <ul>
                             <li>Alamat : <?= $dataAgen["alamat"] . ", " . $dataAgen["kota"]  ?></li>

@@ -1,6 +1,6 @@
 <?php
    // session 
-     session_start();
+    session_start();
     include 'connect-db.php';
     if (isset($_POST['btnReset'])) 
     {

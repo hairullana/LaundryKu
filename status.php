@@ -34,7 +34,7 @@ if(isset($_SESSION["login-admin"]) && isset($_SESSION["admin"])){
 
 
 // STATUS CUCIAN
-if ( isset($_POST["ubah"]) ){
+if ( isset($_POST["simpanStatus"]) ){
 
     // ambil data method post
     $statusCucian = $_POST["status_cucian"];
@@ -52,20 +52,21 @@ if ( isset($_POST["ubah"]) ){
         $tglSelesai = date("Y-m-d H:i:s");
         $totalBayar = $cucian["berat"] * $cucian["harga"];
         $idCucian = $cucian["id_cucian"];
+        $idPelanggan = $cucian["id_pelanggan"];
         // masukkan ke tabel transaksi
-        mysqli_query($connect,"INSERT INTO transaksi (id_cucian, tgl_mulai, tgl_selesai, total_bayar) VALUES ($idCucian, '$tglMulai', '$tglSelesai', $totalBayar)");
+        mysqli_query($connect,"INSERT INTO transaksi (id_cucian, id_agen, id_pelanggan, tgl_mulai, tgl_selesai, total_bayar, rating) VALUES ($idCucian, $idAgen, $idPelanggan, '$tglMulai', '$tglSelesai', $totalBayar, 0)");
         if (mysqli_affected_rows($connect) == 0){
             echo mysqli_error($connect);
         }
     }
 
-    mysqli_query($connect, "UPDATE cucian SET status_cucian = '$statusCucian' WHERE id_cucian = $idCucian");
+    mysqli_query($connect, "UPDATE cucian SET status_cucian = '$statusCucian' WHERE id_cucian = '$idCucian'");
     if (mysqli_affected_rows($connect) > 0){
         echo "
             <script>
                 alert('Status Berhasil Di Ubah !');
-//                document.location.href = 'status.php';
-            </script>
+                document.location.href = 'status.php';
+            </script>   
         ";
     }
 
@@ -73,7 +74,7 @@ if ( isset($_POST["ubah"]) ){
 }
 
 // total berat
-if (isset($_POST["simpan"])){
+if (isset($_POST["simpanBerat"])){
 
     $berat = $_POST["berat"];
     $idCucian = $_POST["id_cucian"];
@@ -180,7 +181,7 @@ if (isset($_POST["simpan"])){
                             <form action="" method="post">
                                 <input type="hidden" name="id_cucian" value="<?= $idCucian ?>">
                                 <input type="text" name="berat"> Kg
-                                <button type="submit" name="simpan">&raquo;</button>
+                                <button type="submit" name="simpanBerat">&raquo;</button>
                             </form>
                         <?php else : echo $cucian["berat"]; endif;?>
                     </td>
@@ -199,7 +200,7 @@ if (isset($_POST["simpan"])){
                                 <option value="Pengantaran">Pengantaran</option>
                                 <option value="Selesai">Selesai</option>
                             </select>
-                            <button type="submit" name="ubah">&raquo;</button>
+                            <button type="submit" name="simpanStatus">&raquo;</button>
                         </form>
                     </td>
                 </tr>

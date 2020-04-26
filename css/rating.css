@@ -1,0 +1,134 @@
+fieldset,
+label {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    margin: 20px;
+}
+
+h1 {
+    font-size: 1.5em;
+    margin: 10px;
+}
+
+/****** Style untuk rating star *****/
+
+.rating {
+    border: none;
+    float: left;
+}
+
+.rating>input {
+    display: none;
+}
+
+.rating>label:before {
+    margin: 5px;
+    font-size: 1.25em;
+    font-family: FontAwesome;
+    display: inline-block;
+    content: "\f005";
+}
+
+.rating>.half:before {
+    content: "\f089";
+    position: absolute;
+}
+
+.rating>label {
+    color: #ddd;
+    float: right;
+}
+
+/***** CSS untuk hover nya *****/
+
+.rating>input:checked~label,
+/* memperlihatkan warna emas pada saat di klik */
+.rating:not(:checked)>label:hover,
+/* hover untuk star berikutnya */
+.rating:not(:checked)>label:hover~label {
+    color: #FFD700;
+}
+
+/* hover untuk star sebelumnya  */
+
+.rating>input:checked+label:hover,
+/* hover ketika mengganti rating */
+.rating>input:checked~label:hover,
+.rating>label:hover~input:checked~label,
+/* seleksi hover */
+.rating>input:checked~label:hover~label {
+    color: #FFED85;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/* OUTPUT */
+.bintang {
+    width: 100px;
+    border: none;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.starImg {
+    width: 100px;
+    height: 21px;
+    display: block;
+    background: url(http://1.bp.blogspot.com/-Sp-iHFztZdc/UVD89O9oM1I/AAAAAAAAEU0/Xh-FBDaWyJY/s1600/star.png) 0 0 no-repeat;
+}
+
+.star-0 {
+    background-position: -100px -0;
+}
+
+.star-1 {
+    background-position: -81px -21px;
+}
+
+.star-2 {
+    background-position: -81px 0;
+}
+
+.star-3 {
+    background-position: -61px -21px;
+}
+
+.star-4 {
+    background-position: -60px 0;
+}
+
+.star-5 {
+    background-position: -40px -21px;
+}
+
+.star-6 {
+    background-position: -40px 0;
+}
+
+.star-7 {
+    background-position: -21px -21px;
+}
+
+.star-8 {
+    background-position: -21px 0;
+}
+
+.star-9 {
+    background-position: 0 -21px;
+}
+
+.star-10 {
+    background-position: 0 0;
+}
