@@ -57,7 +57,7 @@ if (isset($_POST["gantiPassword"])){
             ";
         }
 
-        $query = mysqli_query($connect, "UPDATE admin SET password = '$password'");
+        $query = mysqli_query($connect, "UPDATE admin SET password = '$password' WHERE id_admin = $idAdmin");
         
         if (mysqli_affected_rows($connect) > 0) {
             echo "
@@ -68,6 +68,79 @@ if (isset($_POST["gantiPassword"])){
         }
 
 
+    }else if ($login == "Agen"){
+        $idAgen = $_SESSION["agen"];
+        $data = mysqli_query($connect, "SELECT * FROM agen WHERE id_agen = $idAgen");
+        $data = mysqli_fetch_assoc($data);
+
+        if (password_verify($passwordLama, $data["password"])) {
+            echo "
+                <script>   
+                    alert('Password Lama Salah !');
+                    document.location.href = 'ubah-kata-sandi.php';
+                </script>
+            ";
+        }
+
+        if ($password != $repassword) {
+            echo "
+                <script>   
+                    alert('Password Baru Tidak Sama !');
+                    document.location.href = 'ubah-kata-sandi.php';
+                </script>
+            ";
+        }
+
+        //hash
+        $password = password_hash($password, PASSWORD_DEFAULT);
+
+        $query = mysqli_query($connect, "UPDATE agen SET password = '$password' WHERE id_agen = $idAgen");
+        
+        if (mysqli_affected_rows($connect) > 0) {
+            echo "
+                <script>   
+                    alert('Password Berhasil Diganti !');
+                </script>
+            ";
+        }
+    }else if ($login = "Pelanggan"){
+        $idPelanggan = $_SESSION["pelanggan"];
+        $data = mysqli_query($connect, "SELECT * FROM pelanggan WHERE id_pelanggan = $idPelanggan");
+        $data = mysqli_fetch_assoc($data);
+
+        // hash
+        $passwordLama = password_hash($passwordLama, PASSWORD_DEFAULT);
+
+        if (password_verify($passwordLama, $data["password"])) {
+            echo "
+                <script>   
+                    alert('Password Lama Salah !');
+                    document.location.href = 'ubah-kata-sandi.php';
+                </script>
+            ";
+        }
+
+        if ($password != $repassword) {
+            echo "
+                <script>   
+                    alert('Password Baru Tidak Sama !');
+                    document.location.href = 'ubah-kata-sandi.php';
+                </script>
+            ";
+        }
+
+        // hash
+        $password = password_hash($password, PASSWORD_DEFAULT);
+
+        $query = mysqli_query($connect, "UPDATE pelanggan SET password = '$password' WHERE id_pelanggan = $idPelanggan");
+        
+        if (mysqli_affected_rows($connect) > 0) {
+            echo "
+                <script>   
+                    alert('Password Berhasil Diganti !');
+                </script>
+            ";
+        }
     }
 }
 
@@ -91,14 +164,13 @@ if (isset($_POST["gantiPassword"])){
                 </div>
                 <div class="inputan"> 
                     <label>Password Baru :</label> 
-                    <input type="password" name="password" placeholder=""> 
+                    <input type="password" name="password" placeholder="Password Baru"> 
                 </div> 
                 <div class="inputan"> 
                     <label>Konfirmasi Password Baru :</label> 
-                    <input type="password" name="repassword" placeholder=""> 
+                    <input type="password" name="repassword" placeholder="Konfirmasi Password Baru"> 
                 </div> 
-               
-                 <li><button type="submit" name="gantiPassword">Ganti Password</button></li>
+                <li><button type="submit" name="gantiPassword">Ganti Password</button></li>
             </form> 
         </div> 
     </body> 

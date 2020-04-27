@@ -36,7 +36,7 @@ function registrasi($agen){
 
     //cek username apakah ada yg sama
     
-    $result = mysqli_query($connect, "SELECT email FROM pelanggan WHERE email = '$email'");
+    $result = mysqli_query($connect, "SELECT email FROM agen WHERE email = '$email'");
     if ( mysqli_fetch_assoc($result) ){ //jika ada ada
         echo "
             <script>
