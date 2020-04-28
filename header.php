@@ -8,16 +8,13 @@
                             <!-- Logo -->
                             <div class="col-xl-1 col-lg-1 col-md-1 col-sm-3">
                                 <div class="logo">
-                                  <a href="index.html"><img src="assets/img/logo/logo.png" alt=""></a>
+                                    <a href="index.php"><img src="img/logo.png" class="pb-2" width="80%" alt=""></a>
                                 </div>
                             </div>
                             <div class="col-xl-6 col-lg-8 col-md-7 col-sm-5">
                                 <!-- Main-menu -->
                                 <div class="main-menu f-left d-none d-lg-block">
-                                    <nav>                                                
-                                        <ul id="navigation">                                                                                                                                     
-                                            <li><a href="index.php">Home</a></li>
-                                        </ul>
+                                    <nav>
                                     </nav>
                                 </div>
                             </div> 
@@ -61,7 +58,7 @@
                                                 $nama = $data["nama"];
 
                                                 echo "
-                                                    <a href='pelanggan.php' class='btn header-btn'><b>$nama</b></a> (Pelanggan)
+                                                    <a href='pelanggan.php' class='btn header-btn'><b>$nama</b> (Pelanggan)</a>
                                                 ";
                                             }else if ( isset($_SESSION["login-agen"]) && isset($_SESSION["agen"])){
                                                 // mengambil email dari session
@@ -74,11 +71,11 @@
                                                 $nama = $data["nama_laundry"];
 
                                                 echo "
-                                                    <a href='agen.php'><b>$nama</b></a> (Agen)
+                                                    <a href='agen.php'><b>$nama</b> (Agen)</a>
                                                 ";
                                             }else if ( isset($_SESSION["login-admin"]) && isset($_SESSION["admin"])){
                                                 echo "
-                                                    <a href='admin.php' class='btn header-btn'><b>ADMIN</b></a> (Admin)
+                                                    <a href='admin.php' class='btn header-btn'><b>Admin</b> (Admin)</a>
                                                 ";
                                             }else {
                                                 echo "

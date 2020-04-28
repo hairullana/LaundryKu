@@ -75,6 +75,7 @@ if ( isset($_POST["cari"])) {
     <div class="slider-area ">
         <!-- Mobile Menu -->
         <div class="slider-active">
+        <div class="single-slider slider-height" data-background="assets/img/hero/h1_hero.jpg">
             <div class="container">
                 <div class="row d-flex align-items-center justify-content-between">
                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 d-none d-md-block">
@@ -87,148 +88,174 @@ if ( isset($_POST["cari"])) {
                             <span data-animation="fadeInRight" data-delay=".4s">Daftarkan Diri Anda</span>
                             <h1 data-animation="fadeInRight" data-delay=".6s">LAUNDRY <br> KU</h1>
                             <p data-animation="fadeInRight" data-delay=".8s">Solusi Laundry Praktis Tanpa Keluar Rumah</p>
-                            <!-- Hero-btn -->
-                            <div class="hero__btn" data-animation="fadeInRight" data-delay="1s">
-                                <a href="regirtrasi-pelanggan.php" class="btn hero-btn">DAFTAR</a>
+                            <!-- menu kalo login -->
+                            <div id="body">
+                                <div class="body">
+                                    <?php if ( isset($_SESSION["login-pelanggan"]) && isset($_SESSION["pelanggan"]) ) : ?>
+                                        <div class="row">
+                                            <div class="class="col-xl-4 col-lg-6">
+                                                <button type="button" class="btn black-btn"><a href="pelanggan.php">Profil Saya</a></button>
+                                            </div>
+                                            <div class="class="col-xl-4 col-lg-6">
+                                                <button type="button" class="btn black-btn"><a href="status.php">Status Cucian</a></button>
+                                            </div>
+                                            <div class="class="col-xl-4 col-lg-6">    
+                                                <button type="button" class="btn black-btn"><a href="transaksi.php">Riwayat Transaksi</a></button>
+                                            </div>
+                                        </div>
+                                    <?php elseif ( isset($_SESSION["login-agen"]) && isset($_SESSION["agen"]) ) : ?>
+                                        <div class="row">
+                                            <div class="class="col-xl-4 col-lg-6">
+                                                <button type="button" class="btn black-btn"><a href="agen.php">Profil Saya</a></button>
+                                            </div>
+                                            <div class="class="col-xl-4 col-lg-6">
+                                                <button type="button" class="btn black-btn"><a href="status.php">Status Cucian</a></button>
+                                            </div>
+                                            <div class="class="col-xl-4 col-lg-6">
+                                                <button type="button" class="btn black-btn"><a href="transaksi.php">Riwayat Transaksi</a></button></li>
+                                            </div>
+                                        </div>
+                                    <?php elseif ( isset($_SESSION["login-admin"]) && isset($_SESSION["admin"]) ) : ?>
+                                        <div class="row">
+                                            <div class="class="col-xl-4 col-lg-6">
+                                                <button type="button" class="btn black-btn"><a href="admin.php">Profil Saya</a></button>
+                                            </div>
+                                            <div class="class="col-xl-4 col-lg-6">
+                                                <button type="button" class="btn black-btn"><a href="status.php">Status Cucian</a></button>
+                                            </div>
+                                            <div class="class="col-xl-4 col-lg-6">
+                                                <button type="button" class="btn black-btn"><a href="transaksi.php">Riwayat Transaksi</a></button>
+                                            </div>
+                                        </div>
+                                    <?php else : ?>
+                                        <!-- Hero-btn -->
+                                        <div class="hero__btn" data-animation="fadeInRight" data-delay="1s">
+                                            <a href="registrasi-pelanggan.php" class="btn black-btn">DAFTAR</a>
+                                        </div>
+                                    <?php endif ?>
+                                </div>
                             </div>
+                            <!-- menu akhir kalo login -->
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        </div>
     </div>
     <!-- slider Area End-->
 
     <!-- Category Area Start-->
-    <section class="category-area section-padding30">
+    <section class="category-area section-padding">
         <div class="container-fluid">
             <!-- Section Tittle -->
             <div class="row">
                 <div class="col-lg-12">
                     <div class="section-tittle text-center mb-85">
                         <h2>Daftar Laundry</h2>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xl-4 col-lg-6">
-                    <div class="single-category mb-30">
-                        <div class="category-img">
-                            <img src="assets/img/categori/cat1.jpg" alt="">
-                            <div class="category-caption">
-                                <h2>Nadya Laundry</h2>
-                                <p>Alamat : Jl. Diponegoro <br>No 55, Denpasar<br>No. Telp : 0361222</p>
-                                    <span class="best"><a href="#">LIHAT SELENGKAPNYA</a></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                     <div class="col-xl-4 col-lg-6">
-                        <div class="single-category mb-30">
-                            <div class="category-img text-center">
-                                <img src="assets/img/categori/cat2.jpg" alt="">
-                                <div class="category-caption">
-                                    <h2>Laundry 2</h2>
-                                    <p>Alamat : Jl. Surabaya <br>No 12, Surabaya<br>No. Telp : 3875120</p>
-                                    <span class="best"><a href="#">LIHAT SELENGKAPNYA</a></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-lg-6">
-                        <div class="single-category mb-30">
-                            <div class="category-img text-right">
-                                <img src="assets/img/categori/cat3.jpg" alt="">
-                                <div class="category-caption">
-                                    <h2>Laundry<br>Wina Gans</h2>
-                                    <p>Alamat : Kuta No 22, Badung<br>No. Telp : 57109</p>
-                                    <span class="best"><a href="#">LIHAT SELENGKAPNYA</a></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- Category Area End-->
-
-    <!-- menu kalo login -->
-    <div id="body" class>
-        <div class="body">
-            <?php if ( isset($_SESSION["login-pelanggan"]) && isset($_SESSION["pelanggan"]) ) : ?>
-                <ul>
-                    <li><button type="button"><a href="pelanggan.php">Profil Saya</a></button></li>
-                    <li><button type="button"><a href="status.php">Status Cucian</a></button></li>
-                    <li><button type="button"><a href="transaksi.php">Riwayat Transaksi</a></button></li>
-                </ul>
-            <?php elseif ( isset($_SESSION["login-agen"]) && isset($_SESSION["agen"]) ) : ?>
-                <ul>
-                    <li><button type="button"><a href="agen.php">Profil Saya</a></button></li>
-                    <li><button type="button"><a href="status.php">Status Cucian</a></button></li>
-                    <li><button type="button"><a href="transaksi.php">Riwayat Transaksi</a></button></li>
-                </ul>
-            <?php elseif ( isset($_SESSION["login-admin"]) && isset($_SESSION["admin"]) ) : ?>
-                <ul>
-                    <li><button type="button"><a href="admin.php">Profil Saya</a></button></li>
-                    <li><button type="button"><a href="status.php">Status Cucian</a></button></li>
-                    <li><button type="button"><a href="transaksi.php">Riwayat Transaksi</a></button></li>
-                </ul>
-            <?php else : ?>
-                <a href='registrasi-pelanggan.php'><button type='button' class="btn black-btn">Daftar Sekarang</button></a>
-            <?php endif ?>
-        </div>
-    </div>
-    <!-- menu akhir kalo login -->
-
-    <!-- daftar laundry dari database -->
-    <div class="body">      
-        <?php foreach ( $agen as $dataAgen) : ?>
-            <div style="margin-top:20px" class="agen">
-                <div><a href="detail-agen.php?id=<?= $dataAgen['id_agen'] ?>"><img src="files/laundryku.jpg" width=120 height=120 alt="foto" style="float:left;margin-right:10px"></a></div>
-                <h3><a href="detail-agen.php?id=<?= $dataAgen['id_agen'] ?>"><?= $dataAgen["nama_laundry"] ?></a></h3>
-                <?php
-                    $temp = $dataAgen["id_agen"];
-                    $queryStar = mysqli_query($connect,"SELECT * FROM transaksi WHERE id_agen = '$temp'");
-                    $totalStar = 0;
-                    $i = 0;
-                    while ($star = mysqli_fetch_assoc($queryStar)){
-                        $totalStar += $star["rating"];
-                        $i++;
-                        $fixStar = ceil($totalStar / $i);
-                    }
-                        
-                    if ( $totalStar == 0 ) {
-                    ?>
-                        <fieldset class="bintang"><span class="starImg star-0"></span></fieldset>
-                        <?php }else { ?>
-                        <fieldset class="bintang"><span class="starImg star-<?= $fixStar ?>"></span></fieldset>
-                        <?php } ?>
-                    <div>
-                        <ul>
-                            <li>Alamat : <?= $dataAgen["alamat"] . ", " . $dataAgen["kota"]  ?></li>
-                            <li>No. Telp : <?= $dataAgen["telp"] ?></li>
+                        <!-- jumlah halaman database -->
+                        <nav aria-label="...">
+                        <ul class="pagination">
+                        <?php if( $halamanAktif > 1 ) : ?>
+                            <li class="page-item disabled">
+                                <a class="page-link" href="?page=<?= $halamanAktif - 1; ?>" tabindex="-1" aria-disabled="true">Previous</a>
+                            </li>
+                        <?php endif; ?>
+                        <?php for( $i = 1; $i <= $jumlahHalaman; $i++ ) : ?>
+                            <?php if( $i == $halamanAktif ) : ?>
+                            <li class="page-item active" aria-current="page">
+                                <a class="page-link" href="?page=<?= $i; ?>"><?= $i ?></a>
+                            </li>
+                            <?php else : ?>
+                            <li class="page-item"><a class="page-link" href="?page=<?= $i; ?>"><?= $i ?></a></li>
+                            <?php endif; ?>
+                        <?php endfor; ?>
+                        <?php if( $halamanAktif < $jumlahHalaman ) : ?>
+                            <li class="page-item">
+                                <a class="page-link" href="?page=<?= $halamanAktif + 1; ?>">Next</a>
+                            </li>
+                        <?php endif; ?>
                         </ul>
+                        </nav>
+                        <!--- jumlah halaman db akhir -->
                     </div>
                 </div>
-        <?php endforeach; ?>
-        <br>
-        <div id="halaman">
-            <?php if( $halamanAktif > 1 ) : ?>
-                <a href="?page=<?= $halamanAktif - 1; ?>">&laquo;</a>
-            <?php endif; ?>
-
-            <?php for( $i = 1; $i <= $jumlahHalaman; $i++ ) : ?>
-                <?php if( $i == $halamanAktif ) : ?>
-                    <a href="?page=<?= $i; ?>" style="font-weight: bold; color: red;"><?= $i; ?></a>
-                <?php else : ?>
-                    <a href="?page=<?= $i; ?>"><?= $i; ?></a>
-                <?php endif; ?>
-            <?php endfor; ?>
-
-            <?php if( $halamanAktif < $jumlahHalaman ) : ?>
-                <a href="?page=<?= $halamanAktif + 1; ?>">&raquo;</a>
-            <?php endif; ?>
+            </div>
+        <?php foreach ( $agen as $dataAgen) : ?>
+        <div class="row">
+            <div class="col-xl-4 col-lg-9">
+                <div class="single-category mb-30">
+                    <a href="detail-agen.php?id=<?= $dataAgen['id_agen'] ?>">
+                        <div class="category-img text-right">
+                            <img src="assets/img/categori/cat2.jpg" alt="">
+                            <div class="category-caption">
+                                <h2>
+                                    <a href="detail-agen.php?id=<?= $dataAgen['id_agen'] ?>">
+                                        <?= $dataAgen["nama_laundry"] ?>
+                                    </a>
+                                </h2>
+                                <p>Alamat : <?= $dataAgen["alamat"] . ", " . $dataAgen["kota"]  ?>
+                                <br>Telp : <?= $dataAgen["telp"] ?></p>
+                                <br>
+                                <div class="category-caption text-right">
+                                <?php
+                                    $temp = $dataAgen["id_agen"];
+                                    $queryStar = mysqli_query($connect,"SELECT * FROM transaksi WHERE id_agen = '$temp'");
+                                    $totalStar = 0;
+                                    $i = 0;
+                                    while ($star = mysqli_fetch_assoc($queryStar)){
+                                        $totalStar += $star["rating"];
+                                        $i++;
+                                        $fixStar = ceil($totalStar / $i);
+                                    }
+                                        
+                                    if ( $totalStar == 0 ) {
+                                    ?>
+                                    <br><br><br><br><br>
+                                        <fieldset class="bintang"><span class="starImg star-0"></span></fieldset>
+                                        <?php }else { ?>
+                                            <br><br><br><br><br>
+                                        <fieldset class="bintang"><span class="starImg star-<?= $fixStar ?>"></span></fieldset>
+                                        <?php } ?>
+                                </div> 
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>     
         </div>
-    </div>            
+        <?php endforeach; ?> 
+        </div>
+    </section>
+   <!-- daftar laundry End-->
+   
+    	<!-- JS here -->
+		<!-- All JS Custom Plugins Link Here here -->
+        <script src="./assets/js/vendor/modernizr-3.5.0.min.js"></script>
+		<!-- Jquery, Popper, Bootstrap -->
+		<script src="./assets/js/vendor/jquery-1.12.4.min.js"></script>
+        <script src="./assets/js/popper.min.js"></script>
+        <script src="./assets/js/bootstrap.min.js"></script>
+	    <!-- Jquery Mobile Menu -->
+        <script src="./assets/js/jquery.slicknav.min.js"></script>
+
+		<!-- Jquery Slick , Owl-Carousel Plugins -->
+        <script src="./assets/js/owl.carousel.min.js"></script>
+        <script src="./assets/js/slick.min.js"></script>
+
+		<!-- One Page, Animated-HeadLin -->
+        <script src="./assets/js/wow.min.js"></script>
+		<script src="./assets/js/animated.headline.js"></script>
+        <script src="./assets/js/jquery.magnific-popup.js"></script>
+
+		<!-- Scrollup, nice-select, sticky -->
+        <script src="./assets/js/jquery.scrollUp.min.js"></script>
+        <script src="./assets/js/jquery.nice-select.min.js"></script>
+		<script src="./assets/js/jquery.sticky.js"></script>
+
+		<!-- Jquery Plugins, main Jquery -->	
+        <script src="./assets/js/plugins.js"></script>
+        <script src="./assets/js/main.js"></script>
+    
 </body>
 </html>
