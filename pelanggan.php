@@ -3,7 +3,7 @@
 // mulai session
 session_start();
 include 'connect-db.php';
-include 'functions/function.php';
+include 'functions/functions.php';
 
 if ( !isset($_SESSION["pelanggan"]) && !isset($_SESSION["login-pelanggan"]) ){
     echo "
