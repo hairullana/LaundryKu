@@ -2,7 +2,10 @@
 
 session_start();
 include 'connect-db.php';
+include 'functions/functions.php';
 
+
+// harus agen yg kesini
 if ( isset($_SESSION["login-pelanggan"]) && isset($_SESSION["pelanggan"]) || isset($_SESSION["login-admin"]) && isset($_SESSION["admin"]) ) {
     echo "
         <script>
@@ -21,31 +24,22 @@ $result = mysqli_query($connect, $query);
 $agen = mysqli_fetch_assoc($result);
 $idAgen = $agen["id_agen"];
 
+// klo ubah data agen
 if ( isset($_POST["simpan"]) ){
     //ambil data
-    $namaLaundry = $_POST["namaLaundry"];
-    $namaPemilik = $_POST["namaPemilik"];
-    $email = $_POST["email"];
-    $telp = $_POST["telp"];
-    $platDriver = $_POST["platDriver"];
-    $kota = $_POST["kota"];
-    $alamat = $_POST["alamat"];
+    $namaLaundry = htmlspecialchars($_POST["namaLaundry"]);
+    $namaPemilik = htmlspecialchars($_POST["namaPemilik"]);
+    $email = htmlspecialchars($_POST["email"]);
+    $telp = htmlspecialchars($_POST["telp"]);
+    $platDriver = htmlspecialchars($_POST["platDriver"]);
+    $kota = htmlspecialchars($_POST["kota"]);
+    $alamat = htmlspecialchars($_POST["alamat"]);
 
-    // memastikan no hp angka saja
-    // memecah no telp
-    $telp = str_split($telp);
-    $total = count($telp);
-
-    // cek no hp
-    for ($i=0 ; $i<$total ; $i++){
-        // mengecek no telp harus angka
-        if ($telp[$i] != "1" && $telp[$i] != "2" && $telp[$i] != "3" && $telp[$i] != "4" && $telp[$i] != "5" && $telp[$i] != "6" && $telp[$i] != "7" && $telp[$i] != "8" && $telp[$i] != "9" && $telp[$i] != "0"){
-            $telp[$i] = "";
-        }
-    }
-
-    // menggabungkan string
-    $telp = implode($telp);
+    // validasi
+    validasiNama($namaPemilik);
+    validasiEmail($email);
+    validasiTelp($telp);
+    validasiNama($kota);
 
     
     $query = "UPDATE agen SET
@@ -88,25 +82,61 @@ if ( isset($_POST["simpan"]) ){
     <title>Profil Agen</title>
 </head>
 <body>
+
+    <!-- header -->
     <?php include 'header.php'; ?>
-    <div id="body">
-        <h3>Data Agen</h3>
-        <form action="" method="post">
-            <ul>
-                <li><input type="text" name="namaLaundry" value="<?= $agen['nama_laundry']?>"></li>
-                <li><input type="text" name="namaPemilik" value="<?= $agen['nama_pemilik']?>"></li>
-                <li><input type="text" name="email" value="<?= $agen['email']?>"></li>
-                <li><input type="text" name="telp" value="<?= $agen['telp']?>"></li>
-                <li><input type="text" name="platDriver" value="<?= $agen['plat_driver']?>"></li>
-                <li><input type="text" name="kota" value="<?= $agen['kota']?>"></li>
-                <li><textarea name="alamat"><?= $agen['alamat']?></textarea></li>
-                <li><button type="submit" name="simpan">Simpan Data</button>   <a href="ubah-kata-sandi.php">Ubah Kata Sandi ?</a></li>
+    <!-- end header -->
 
-                
-                <p><a href="edit-harga.php">Ubah Data Harga</a></p>
+    <!-- data agen -->
+    <div class="row">
+        <div class="col s6 offset-s3">
+            <h3 class="header light center">Data Agen</h3>
+            <form action="" method="post">
+                <div class="input-field">
+                    <label for="namaLaundry">Nama Laundry</label>
+                    <input type="text" id="namaLaundry" name="namaLaundry" value="<?= $agen['nama_laundry']?>">
+                </div>
+                <div class="input-field">
+                    <label for="namaPemilik">Nama Pemilik</label>
+                    <input type="text" id="namaPemilik" name="namaPemilik" value="<?= $agen['nama_pemilik']?>">
+                </div>
+                <div class="input-field">
+                    <label for="email">Email</label>
+                    <input type="text" id="email" name="email" value="<?= $agen['email']?>">
+                </div>
+                <div class="input-field">
+                    <label for="telp">No Telp</label>
+                    <input type="text" id="telp" name="telp" value="<?= $agen['telp']?>">
+                </div>
+                <div class="input-field">
+                    <label for="plat">Plat Driver</label>
+                    <input type="text" id="plat" name="platDriver" value="<?= $agen['plat_driver']?>">
+                </div>
+                <div class="input-field">
+                    <label for="kota">Kota / Kabupaten</label>
+                    <input type="text" name="kota" value="<?= $agen['kota']?>">
+                </div>
+                <div class="input-field">
+                    <label for="alamat">Alamat</label>
+                    <textarea class="materialize-textarea" name="alamat"><?= $agen['alamat']?></textarea>
+                </div>
+                <div class="input-field center">
+                    <button class="btn-large blue darken-2" type="submit" name="simpan">Simpan Data</button>
+                </div>
 
-            </ul>
-        </form>
+                <div class="center">
+                    <a class="btn red darken-2" href="ganti-kata-sandi.php">Ganti Kata Sandi</a>
+                    <a class="btn red darken-2" href="edit-harga.php">Ganti Data Harga</a>
+                </div>
+
+                </div>
+            </form>
+        </div>
     </div>
+    <!-- end data agen -->
+
+    <!-- footer -->
+    <?php include "footer.php"; ?>
+    <!-- end footer -->
 </body>
 </html>

@@ -3,6 +3,7 @@
 // mulai session
 session_start();
 include 'connect-db.php';
+include 'functions/functions.php';
 
 // kalau sudah login
 if ( isset($_SESSION["login-pelanggan"]) && isset($_SESSION["pelanggan"]) || isset($_SESSION["login-agen"]) && isset($_SESSION["agen"]) || isset($_SESSION["login-admin"]) && isset($_SESSION["admin"]) ) {
@@ -20,15 +21,15 @@ function registrasi($agen){
     global $connect;
 
     // ambil data agen
-    $namaLaundry = $agen["namaLaundry"];
-    $namaPemilik = $agen["namaPemilik"];
-    $email = $agen["email"];
-    $telp = $agen["telp"];
-    $kota = $agen["kota"];
-    $alamat = $agen["alamat"];
-    $platDriver = $agen["platDriver"];
-    $password = $agen["password"];
-    $password2 = $agen["password2"];
+    $namaLaundry = htmlspecialchars($agen["namaLaundry"]);
+    $namaPemilik = htmlspecialchars($agen["namaPemilik"]);
+    $email = htmlspecialchars($agen["email"]);
+    $telp = htmlspecialchars($agen["telp"]);
+    $kota = htmlspecialchars($agen["kota"]);
+    $alamat = htmlspecialchars($agen["alamat"]);
+    $platDriver = htmlspecialchars($agen["platDriver"]);
+    $password = htmlspecialchars($agen["password"]);
+    $password2 = htmlspecialchars($agen["password2"]);
 
     // enskripsi password
     $password = mysqli_real_escape_string($connect , $agen["password"]);
@@ -128,37 +129,62 @@ if (isset($_POST["daftar"])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <?php include "headtags.html" ?>
     <title>Registrasi Agen</title>
 </head>
 <body>
+
+    <!-- header -->
     <?php include 'header.php'; ?>
-    <div id="body">
-        <div class="body">
-            <div><img src="files/laundryku.jpg" alt="laundryku" width=300 height=auto/></div>
-            <div><b>Syarat dan Ketentuan :</b></div>
-            <div>1. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Non, accusamus? Excepturi officia inventore dolor, quisquam facere ipsum quis perspiciatis. Consequuntur rem molestiae sint, commodi atque magnam. Unde blanditiis quam quo.</div>
-            <div>2. Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic natus aut rerum similique ad, voluptatibus magnam tenetur velit sapiente dicta sunt molestiae culpa deleniti, corrupti dolor unde, beatae ea eos.</div>
-            <div>3. Lorem ipsum, dolor sit amet consectetur adipisicing elit. Deserunt hic laboriosam beatae explicabo, et consequatur? Omnis error sapiente accusamus soluta cum minus libero quasi ab ut, quo rerum hic aspernatur?</div>
-            <div>4. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sapiente iusto eligendi ex odio quia reiciendis in expedita eveniet dicta tempore, maxime, laboriosam hic nostrum inventore assumenda accusantium perferendis illo voluptate!</div>
-            <div>5. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Error, eveniet suscipit repellendus non dolore repellat! At, reprehenderit tempora! Accusamus ut itaque veritatis doloremque delectus dolorem architecto quo perspiciatis reiciendis unde?</div>
+    <!-- end header -->
+
+    <div class="row">
+
+        <!-- term -->
+        <div class="col s4 offset-s1">
+            <div class="card">
+                <div class="col center" style="margin:20px">
+                    <img src="img/banner.png" alt="laundryku" width=100%/><br><br>
+                    <span class="card-title black-text">Syarat dan Ketentuan :</span>
+                </div>
+            <div class="card-content">
+                <p>1. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Non, accusamus? Excepturi officia inventore dolor, quisquam facere ipsum quis perspiciatis. Consequuntur rem molestiae sint, commodi atque magnam. Unde blanditiis quam quo.</p>
+                <p>2. Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic natus aut rerum similique ad, voluptatibus magnam tenetur velit sapiente dicta sunt molestiae culpa deleniti, corrupti dolor unde, beatae ea eos.</p>
+                <p>3. Lorem ipsum, dolor sit amet consectetur adipisicing elit. Deserunt hic laboriosam beatae explicabo, et consequatur? Omnis error sapiente accusamus soluta cum minus libero quasi ab ut, quo rerum hic aspernatur?</p>
+                <p>4. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sapiente iusto eligendi ex odio quia reiciendis in expedita eveniet dicta tempore, maxime, laboriosam hic nostrum inventore assumenda accusantium perferendis illo voluptate!</p>
+                <p>5. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Error, eveniet suscipit repellendus non dolore repellat! At, reprehenderit tempora! Accusamus ut itaque veritatis doloremque delectus dolorem architecto quo perspiciatis reiciendis unde?</p>
+            </div>
+            <div class="card-action">
+                <a href="term.php">Baca Selengkapnya</a>
+            </div>
         </div>
-        <div class="body">
-            <h3>DAFTAR SEBAGAI AGEN</h3>
-            <form action="" method="post">
+        <!-- end term -->
+    </div>
+
+    <!-- regis -->
+    <div class="col s4 offset-s1">
+        <h3 class="header light center">DAFTAR SEBAGAI AGEN</h3>
+        <form action="" class="col center" method="post">
+            <div class="input-field inline">
                 <ul>
-                    <li><input type="text" name="namaLaundry" placeholder="Nama Laundry"></li>
-                    <li><input type="text" name="namaPemilik" placeholder="Nama Pemilik"></li>
-                    <li><input type="text" name="telp" placeholder="No Telp"></li>
-                    <li><input type="text" name="email" placeholder="Email"></li>
-                    <li><input type="text" name="platDriver" placeholder="Plat Driver"></li>
-                    <li><input type="text" name="kota" placeholder="Kota / Kabupaten"></li>
-                    <li><textarea name="alamat" placeholder="Alamat Lengkap"></textarea></li>
+                    <li><input type="text" size=50 name="namaLaundry" placeholder="Nama Laundry"></li>
+                    <li><input type="text" size=50 name="namaPemilik" placeholder="Nama Pemilik"></li>
+                    <li><input type="text" size=50 name="telp" placeholder="No Telp"></li>
+                    <li><input type="text" size=50 name="email" placeholder="Email"></li>
+                    <li><input type="text" size=50 name="platDriver" placeholder="Plat Driver"></li>
+                    <li><input type="text" size=50 name="kota" placeholder="Kota / Kabupaten"></li>
+                    <li><textarea class="materialize-textarea" name="alamat" placeholder="Alamat Lengkap"></textarea></li>
                     <li><input type="password" name="password" placeholder="Password"></li>
                     <li><input type="password" name="password2" placeholder="Ulangi Password"></li>
-                    <li><button type="submit" name="daftar">Daftar</button></li>
-                </ul>
-            </form>
-        </div>
+                    <li><button class="btn-large blue darken-2" type="submit" name="daftar">Daftar</button></li>
+                </ul>        
+            </div>
+        </form>
     </div>
+    <!-- end regis -->
+
+    <!-- footer -->
+    <?php include "footer.php"; ?>
+    <!-- end footer -->
 </body>
 </html>

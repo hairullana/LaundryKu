@@ -2,6 +2,7 @@
 
 session_start();
 include 'connect-db.php';
+include 'functions/functions.php';
 
 if ( isset($_SESSION["login-pelanggan"]) && isset($_SESSION["pelanggan"]) || isset($_SESSION["login-agen"]) && isset($_SESSION["agen"]) || isset($_SESSION["login-admin"]) && isset($_SESSION["admin"]) ) {
     echo "
@@ -15,10 +16,12 @@ if ( isset($_SESSION["login-pelanggan"]) && isset($_SESSION["pelanggan"]) || iss
 
 if ( isset($_POST["login"]) ){
 
-    if (isset($_POST["agen"])){
+    if ($_POST["akun"] == 'agen'){
         // masukkan ke var
-        $email = $_POST["email"];
-        $password = $_POST["password"];
+        $email = htmlspecialchars($_POST["email"]);
+        $password = htmlspecialchars($_POST["password"]);
+
+        validasiEmail($email);
 
         // cari data di db
         $result = mysqli_query($connect, "SELECT * FROM agen WHERE email = '$email'");
@@ -54,9 +57,11 @@ if ( isset($_POST["login"]) ){
                 </script>
             ";
         }
-    }else if (isset($_POST["pelanggan"])){
-        $email = $_POST["email"];
-        $password = $_POST["password"];
+    }else if ($_POST["akun"] == 'pelanggan'){
+        $email = htmlspecialchars($_POST["email"]);
+        $password = htmlspecialchars($_POST["password"]);
+
+        validasiEmail($email);
 
         //cek apakah ada email atau tidak
         $result = mysqli_query($connect, "SELECT * FROM pelanggan WHERE email = '$email'");
@@ -102,9 +107,11 @@ if ( isset($_POST["login"]) ){
                 </script>
             ";
         }
-    }else if (isset($_POST["admin"])){
-        $username = $_POST["email"];
-        $password = $_POST["password"];
+    }else if ($_POST["akun"] == 'admin' ){
+        $username = htmlspecialchars($_POST["email"]);
+        $password = htmlspecialchars($_POST["password"]);
+
+        validasiUsername($username);
     
         // cek di db
         $data = mysqli_query($connect, "SELECT * FROM admin WHERE username = '$username'");
@@ -150,12 +157,12 @@ if ( isset($_POST["login"]) ){
         echo "
             <script>
                 alert ('Berhasil Login Sebagai Admin !');
-                //document.location.href = 'cpanel.php';
+                document.location.href = 'index.php';
             </script>
             
         ";
     }
-
+    
     echo "
         <script>
             alert ('Harap Isi Checklist Untuk Login !');
@@ -172,20 +179,31 @@ if ( isset($_POST["login"]) ){
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Agen</title>
+    <?php include "headtags.html"; ?>
+    <title>Halaman Login</title>
 </head>
 <body>
     <?php include 'header.php'; ?>
     <div id="body">
-        <h3>Login Agen</h3>
-        <form action="" method="post">
-            <ul>
-                <li>Email : <input type="text" id="email" name="email" placeholder="Email"></li>
-                <li>Password : <input type="password" id="password" name="password" placeholder="Password"></li>
-                <li><input type="checkbox" name="agen" value="agen"> Agen <input type="checkbox" name="pelanggan" value="pelanggan"> Pelanggan <input type="checkbox" name="admin" value="admin"> Admin</li>
-                <li><button type="submit" name="login">Login</button> <a href="lupa-kata-sandi.php">Lupa Kata Sandi ?</a></li>
-            </ul>
+        <h3 class="header col s24 light center">Halaman Login</h3>
+        <form action="" class="col s18 center" method="post">
+            <div class="input-field inline">
+                <ul>
+                    <li><input type="text" size=40 id="email" name="email" placeholder="Email"></li>
+                    <li><input type="password" size=40 id="password" name="password" placeholder="Password"></li>
+                    <li>
+                        <label><input name="akun" value="admin" type="radio"/><span>Admin</span> </label>
+                        <label><input name="akun" value="agen" type="radio"/><span>Agen</span> </label>
+                        <label><input name="akun" value="pelanggan" type="radio"/><span>Pelanggan</span></label>
+                    </li>
+                    <br>
+                    <li><button class="waves-effect blue darken-2 btn" type="submit" name="login">Login</button></li>
+                </ul>
+                
+            </div>
+            
         </form>
     </div>
+    <?php include "footer.php"; ?>
 </body>
 </html>

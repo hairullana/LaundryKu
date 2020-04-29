@@ -45,7 +45,7 @@ if ( isset($_POST["simpanRating"]) ){
 
 if ( isset($_POST["kirimKomentar"])){
 
-    $komentar = $_POST["komentar"];
+    $komentar = htmlspecialchars($_POST["komentar"]);
     $kodeTransaksiRating = $_POST["kodeTransaksi"];
 
     mysqli_query($connect, "UPDATE transaksi SET komentar = '$komentar' WHERE kode_transaksi = $kodeTransaksiRating");
@@ -63,27 +63,28 @@ if ( isset($_POST["kirimKomentar"])){
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <?php include "headtags.html"; ?>
     <title>Transasksi - <?= $login ?></title>
-    <link rel="stylesheet" type="text/css" href="css/rating.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
 <?php include 'header.php'; ?>
     <div id="body">
-        <h3>LIST TRANSAKSI</h3>
+        <h3 class="header col s12 light center">Status Cucian</h3>
+        <br>
         <?php if ($login == "Admin") : $query = mysqli_query($connect, "SELECT * FROM transaksi"); ?>
+        <div class="container">
             <table border=1 cellpadding=10>
                 <tr>
-                    <td>Kode Transaksi</td>
-                    <td>Agen</td>
-                    <td>Pelanggan</td>
-                    <td>Total Item</td>
-                    <td>Berat</td>
-                    <td>Jenis</td>
-                    <td>Tanggal Pesan</td>
-                    <td>Tanggal Selesai</td>
-                    <td>Rating</td>
-                    <td>Komentar</td>
+                    <th>Kode Transaksi</th>
+                    <th>Agen</th>
+                    <th>Pelanggan</th>
+                    <th>Total Item</th>
+                    <th>Berat</th>
+                    <th>Jenis</th>
+                    <th>Tanggal Pesan</th>
+                    <th>Tanggal Selesai</th>
+                    <th>Rating</th>
+                    <th>Komentar</th>
                 </tr>
                 <?php while ($transaksi = mysqli_fetch_assoc($query)) : ?>
                 <tr>
@@ -128,18 +129,20 @@ if ( isset($_POST["kirimKomentar"])){
                 </tr>
                 <?php endwhile; ?>
             </table>
+        </div>
         <?php elseif ($login == "Agen") : $query = mysqli_query($connect, "SELECT * FROM transaksi WHERE id_agen = '$idAgen'"); ?>
+        <div class="container">
         <table border=1 cellpadding=10>
                 <tr>
-                    <td>Kode Transaksi</td>
-                    <td>Pelanggan</td>
-                    <td>Total Item</td>
-                    <td>Berat</td>
-                    <td>Jenis</td>
-                    <td>Tanggal Pesan</td>
-                    <td>Tanggal Selesai</td>
-                    <td>Rating</td>
-                    <td>Komentar</td>
+                    <th>Kode Transaksi</th>
+                    <th>Pelanggan</th>
+                    <th>Total Item</th>
+                    <th>Berat</th>
+                    <th>Jenis</th>
+                    <th>Tanggal Pesan</th>
+                    <th>Tanggal Selesai</th>
+                    <th>Rating</th>
+                    <th>Komentar</th>
                 </tr>
                 <?php while ($transaksi = mysqli_fetch_assoc($query)) : ?>
                 <tr>
@@ -176,18 +179,20 @@ if ( isset($_POST["kirimKomentar"])){
                 </tr>
                 <?php endwhile; ?>
             </table>
+        </div>
         <?php elseif ($login == "Pelanggan") : $query = mysqli_query($connect, "SELECT * FROM transaksi WHERE id_pelanggan = $idPelanggan"); ?>
-        <table border=1 cellpadding=10>
+        <div class="container">
+            <table border=1 cellpadding=10>
                 <tr>
-                    <td>Kode Transaksi</td>
-                    <td>Agen</td>
-                    <td>Total Item</td>
-                    <td>Berat</td>
-                    <td>Jenis</td>
-                    <td>Tanggal Pesan</td>
-                    <td>Tanggal Selesai</td>
-                    <td>Rating</td>
-                    <td>Komentar</td>
+                    <th>Kode Transaksi</th>
+                    <th>Agen</th>
+                    <th>Total Item</th>
+                    <th>Berat</th>
+                    <th>Jenis</th>
+                    <th>Tanggal Pesan</th>
+                    <th>Tanggal Selesai</th>
+                    <th>Rating</th>
+                    <th>Komentar</th>
                 </tr>
                 <?php while ($transaksi = mysqli_fetch_assoc($query)) : ?>
                 <tr>
@@ -249,7 +254,9 @@ if ( isset($_POST["kirimKomentar"])){
                 </tr>
                 <?php endwhile; ?>
             </table>
+        </div>
         <?php endif; ?>
     </div>
+    <?php include "footer.php"; ?>
 </body>
 </html>

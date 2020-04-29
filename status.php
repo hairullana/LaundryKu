@@ -2,7 +2,7 @@
 
 session_start();
 include 'connect-db.php';
-
+include 'functions/functions.php';
 
 
 
@@ -76,8 +76,11 @@ if ( isset($_POST["simpanStatus"]) ){
 // total berat
 if (isset($_POST["simpanBerat"])){
 
-    $berat = $_POST["berat"];
+    $berat = htmlspecialchars($_POST["berat"]);
     $idCucian = $_POST["id_cucian"];
+
+    // validasi 
+    validasiBerat($berat);
 
     mysqli_query($connect, "UPDATE cucian SET berat = $berat WHERE id_cucian = $idCucian");
 
@@ -102,23 +105,26 @@ if (isset($_POST["simpanBerat"])){
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <?php include "headtags.html" ?>
     <title>Status Cucian - <?= $login ?></title>
 </head>
 <body>
     <?php include 'header.php'; ?>
     <div id="body">
-        <h3>STATUS CUCIAN</h3>
+        <h3 class="header col s10 light center">Status Cucian</h3>
+        <br>
         <?php if ($login == "Admin") : $query = mysqli_query($connect, "SELECT * FROM cucian WHERE status_cucian != 'Selesai'"); ?>
-            <table border=1 cellpadding=10>
+        <div class="container">
+            <table border=1 cellpadding=10 class="responsive-table center">
                 <tr>
-                    <td>ID Cucian</td>
-                    <td>Nama Agen</td>
-                    <td>Pelanggan</td>
-                    <td>Total Item</td>
-                    <td>Berat</td>
-                    <td>Jenis</td>
-                    <td>Tanggal Dibuat</td>
-                    <td>Status</td>
+                    <th>ID Cucian</th>
+                    <th>Nama Agen</th>
+                    <th>Pelanggan</th>
+                    <th>Total Item</th>
+                    <th>Berat (kg)</th>
+                    <th>Jenis</th>
+                    <th>Tanggal Dibuat</th>
+                    <th>Status</th>
                 </tr>
                 <?php while ($cucian = mysqli_fetch_assoc($query)) : ?>
                 <tr>
@@ -149,17 +155,19 @@ if (isset($_POST["simpanBerat"])){
                 </tr>
                 <?php endwhile; ?>
             </table>
+        </div>
         <?php elseif ($login == "Agen") : $query = mysqli_query($connect, "SELECT * FROM cucian WHERE id_agen = $idAgen AND status_cucian != 'Selesai'"); ?>
-            <table border=1 cellpadding=10>
+        <div class="container">
+            <table border=1 cellpadding=10 class="responsive-table">
                 <tr>
-                    <td>ID Cucian</td>
-                    <td>Pelanggan</td>
-                    <td>Total Item</td>
-                    <td>Berat</td>
-                    <td>Jenis</td>
-                    <td>Tanggal Dibuat</td>
-                    <td>Status</td>
-                    <td>Aksi</td>
+                    <th>ID Cucian</th>
+                    <th>Pelanggan</th>
+                    <th>Total Item</th>
+                    <th>Berat (kg)</th>
+                    <th>Jenis</th>
+                    <th>Tanggal Dibuat</th>
+                    <th>Status</th>
+                    <th>Aksi</th>
                 </tr>
                 <?php while ($cucian = mysqli_fetch_assoc($query)) : ?>
                 <tr>
@@ -180,8 +188,10 @@ if (isset($_POST["simpanBerat"])){
                         <?php if ($cucian["berat"] == NULL) : ?>
                             <form action="" method="post">
                                 <input type="hidden" name="id_cucian" value="<?= $idCucian ?>">
-                                <input type="text" name="berat"> Kg
-                                <button type="submit" name="simpanBerat">&raquo;</button>
+                                <div class="input-field">
+                                    <input type="text" size=1 name="berat">
+                                    <div class="center"><button class="btn blue darken-2" type="submit" name="simpanBerat"><i class="material-icons">send</i></button></div>
+                                </div>
                             </form>
                         <?php else : echo $cucian["berat"]; endif;?>
                     </td>
@@ -191,7 +201,7 @@ if (isset($_POST["simpanBerat"])){
                     <td>
                         <form action="" method="post">
                             <input type="hidden" name="id_cucian" value="<?= $idCucian ?>">
-                            <select name="status_cucian" id="status_cucian">
+                            <select class="browser-default" name="status_cucian" id="status_cucian">
                                 <option disabled selected>Status :</option>
                                 <option value="Penjemputan">Penjemputan</option>
                                 <option value="Sedang di Cuci">Sedang di Cuci</option>
@@ -200,22 +210,27 @@ if (isset($_POST["simpanBerat"])){
                                 <option value="Pengantaran">Pengantaran</option>
                                 <option value="Selesai">Selesai</option>
                             </select>
-                            <button type="submit" name="simpanStatus">&raquo;</button>
+                                
+                            <div class="center">
+                                <button class="btn blue darken-2" type="submit" name="simpanStatus"><i class="material-icons">send</i></button>
+                            </div>
                         </form>
                     </td>
                 </tr>
                 <?php endwhile; ?>
             </table>
+        </div>
         <?php elseif ($login == "Pelanggan") : $query = mysqli_query($connect, "SELECT * FROM cucian WHERE id_pelanggan = $idPelanggan AND status_cucian != 'Selesai'"); ?>
-            <table border=1 cellpadding=10>
+        <div class="container">
+            <table border=1 cellpadding=10 class="responsive-table">
                 <tr>
-                    <td>ID Cucian</td>
-                    <td>Agen</td>
-                    <td>Total Item</td>
-                    <td>Berat</td>
-                    <td>Jenis</td>
-                    <td>Tanggal Dibuat</td>
-                    <td>Status</td>
+                    <th>ID Cucian</th>
+                    <th>Agen</th>
+                    <th>Total Item</th>
+                    <th>Berat (kg)</th>
+                    <th>Jenis</th>
+                    <th>Tanggal Dibuat</th>
+                    <th>Status</th>
                 </tr>
                 <?php while ($cucian = mysqli_fetch_assoc($query)) : ?>
                 <tr>
@@ -240,7 +255,9 @@ if (isset($_POST["simpanBerat"])){
                 </tr>
                 <?php endwhile; ?>
             </table>
+        </div>
         <?php endif; ?>
     </div>
+    <?php include "footer.php"; ?>
 </body>
 </html>

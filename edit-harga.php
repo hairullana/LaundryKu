@@ -2,6 +2,7 @@
 
 session_start();
 include 'connect-db.php';
+include 'functions/functions.php';
 
 
 $idAgen = $_SESSION["agen"];
@@ -16,9 +17,13 @@ $komplit = mysqli_fetch_assoc($komplit);
 function ubahHarga($data){
     global $connect, $idAgen;
 
-    $hargaCuci = $data["cuci"];
-    $hargaSetrika = $data["setrika"];
-    $hargaKomplit = $data["komplit"];
+    $hargaCuci = htmlspecialchars($data["cuci"]);
+    $hargaSetrika = htmlspecialchars($data["setrika"]);
+    $hargaKomplit = htmlspecialchars($data["komplit"]);
+
+    validasiHarga($hargaCuci);
+    validasiHarga($hargaSetrika);
+    validasiHarga($hargaKomplit);
 
     $query1 = "UPDATE harga SET
         harga = $hargaCuci
@@ -73,20 +78,40 @@ if (isset($_POST["simpan"])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <?php include "headtags.html"; ?>
     <title>Ubah Data Harga</title>
 </head>
 <body>
+
+    <!-- header -->
     <?php include 'header.php'; ?>
-    <div id="body">
-        <h3>DATA HARGA</h3>
+    <!-- end header -->
+
+    <!-- body -->
+    <div class="container">
+        <h3 class="header light center">Data Harga</h3>
         <form action="" method="post">
-            <ul>
-                <li>Cuci : <input type="text" name="cuci" value="<?= $cuci['harga'] ?>"> / Kg</li>
-                <li>Setrika : <input type="text" name="setrika" value="<?= $setrika['harga'] ?>"> / Kg</li>
-                <li>Cuci+Setrika : <input type="text" name="komplit" value="<?= $komplit['harga'] ?>"> / Kg</li>
-                <li><button type="submit" name="simpan">Simpan Data</button></li>
-            </ul>
+            <div class="input field">
+                <label for="cuci">Cuci</label>
+                <input type="text" id="cuci" name="cuci" value="<?= $cuci['harga'] ?>">
+            </div>
+            <div class="input field">
+                <label for="setrika">Setrika</label>
+                <input type="text" id="setrika" name="setrika" value="<?= $setrika['harga'] ?>">
+            </div>
+            <div class="input field">
+                <label for="komplit">Cuci + Setrika</label><input type="text" id="komplit" name="komplit" value="<?= $komplit['harga'] ?>">
+            </div>
+            <div class="input field center">
+                <button class="btn-large blue darken-2" type="submit" name="simpan">Simpan Data</button>
+            </div>
         </form>
     </div>
+    <!-- end body -->
+
+    <!-- footer -->
+    <?php include "footer.php" ?>
+    <!-- end footer -->
+
 </body>
 </html>

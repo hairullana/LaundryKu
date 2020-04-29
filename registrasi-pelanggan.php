@@ -3,6 +3,7 @@
     // koneksi ke db
     session_start();
     include 'connect-db.php';
+    include 'functions/functions.php';
 
     if ( isset($_SESSION["login-pelanggan"]) && isset($_SESSION["pelanggan"]) || isset($_SESSION["login-agen"]) && isset($_SESSION["agen"]) || isset($_SESSION["login-admin"]) && isset($_SESSION["admin"]) ) {
         echo "
@@ -19,13 +20,19 @@
         global $connect;
 
         //mengambil data
-        $nama = $data["nama"];
-        $email = $data["email"];
-        $noTelp = $data["noTelp"];
-        $kota = $data["kota"];
-        $alamat = $data["alamat"];
-        $password = $data["password"];
-        $password2 = $data["password2"];
+        $nama = htmlspecialchars($data["nama"]);
+        $email = htmlspecialchars($data["email"]);
+        $noTelp = htmlspecialchars($data["noTelp"]);
+        $kota = htmlspecialchars($data["kota"]);
+        $alamat = htmlspecialchars($data["alamat"]);
+        $password = htmlspecialchars($data["password"]);
+        $password2 = htmlspecialchars($data["password2"]);
+
+        // validasi
+        validasiNama($nama);
+        validasiEmail($email);
+        validasiTelp($noTelp);
+        validasiNama($kota);
 
         // enskripsi password
         $password = mysqli_real_escape_string($connect , $data["password"]);
@@ -56,27 +63,6 @@
 
         //enskripsi password
         $password = password_hash($password, PASSWORD_DEFAULT);
-        
-
-        //pastikan nomor hp hanya angka
-        $noTelp = $data["noTelp"];
-        // memecah no telp
-        $noTelp = str_split($noTelp);
-        $totalNoTelp = count($noTelp);
-
-        // cek no hp
-        for ($i=0 ; $i<$totalNoTelp ; $i++){
-            // mengecek no telp harus angka
-            if ($noTelp[$i] != "1" && $noTelp[$i] != "2" && $noTelp[$i] != "3" && $noTelp[$i] != "4" && $noTelp[$i] != "5" && $noTelp[$i] != "6" && $noTelp[$i] != "7" && $noTelp[$i] != "8" && $noTelp[$i] != "9" && $noTelp[$i] != "0"){
-                $noTelp[$i] = "";
-            }
-        }
-
-        // menggabungkan string
-        $noTelp = implode($noTelp);
-
-        // var_dump($password);
-        // var_dump($noTelp); die;
 
         // masukkan data user ke db
         mysqli_query($connect, "INSERT INTO pelanggan VALUES ('','$nama','$email','$noTelp','$kota','$alamat','$password')");
@@ -114,29 +100,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <?php include "headtags.html"; ?>
     <title>Registrasi Pelanggan</title>
 </head>
 <body>
+
+    <!-- header -->
     <?php include 'header.php'; ?>
-    <div id="body">
-        <h3>Registrasi Pelanggan</h3>
+    <!-- end header -->
+
+    <h3 class="header light center">Registrasi Pelanggan</h3>
+
+    <!-- body -->
+    <div class="container center">
         <form action="" method="POST">
-            <ul>
-                <li><input type="text" placeholder="Nama" name="nama"></li>
-                <li><input type="text" placeholder="E-mail" name="email"></li>
-                <li><input type="text" placeholder="No Telp" name="noTelp"></li>
-                <li><input type="text" placeholder="Kota / Kabupaten" name="kota"></li>
-                <li><input type="text" placeholder="Alamat Lengkap" name="alamat"></li>
-                <li><input type="password" placeholder="Password" name="password"></li>
-                <li><input type="password" placeholder="Re-type Password" name="password2"></li>
-                <li><button type="submit" name="registrasi">Daftar</button></li>
-            </ul>
+            <div class="input-field inline">
+                <ul>
+                    <li><input type="text" size=70 placeholder="Nama" name="nama"></li>
+                    <li><input type="text" size=70 placeholder="E-mail" name="email"></li>
+                    <li><input type="text" size=70 placeholder="No Telp" name="noTelp"></li>
+                    <li><input type="text" size=70 placeholder="Kota / Kabupaten" name="kota"></li>
+                    <li><input type="text" size=70 placeholder="Alamat Lengkap" name="alamat"></li>
+                    <li><input type="password" placeholder="Password" name="password"></li>
+                    <li><input type="password" placeholder="Re-type Password" name="password2"></li>
+                    <li><button class="btn-large blue darken-3" type="submit" name="registrasi">Daftar</button></li>
+                </ul>
+            </div>
         </form>
         <div>
-            Ingin menjadi bagian dari kami ?<br/>
-            Dafar sebagai agen sekarag !<br/>
-            <button><a href="registrasi-agen.php">Registrasi Sebagai Agen</a></button>
+            <br>
+            Ingin menjadi mitra kami ?<br/>
+            Dafar sebagai agen sekarang !<br/>
+            <br>
+            <a class="btn-large red darken-2" href="registrasi-agen.php">Registrasi Sebagai Agen</a>
         </div>
     </div>
+    <?php include "footer.php"; ?>
 </body>
 </html>

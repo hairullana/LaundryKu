@@ -3,6 +3,7 @@
 // mulai session
 session_start();
 include 'connect-db.php';
+include 'functions/function.php';
 
 if ( !isset($_SESSION["pelanggan"]) && !isset($_SESSION["login-pelanggan"]) ){
     echo "
@@ -31,27 +32,17 @@ function ubah($pelanggan){
     global $idPelanggan;
 
     // mengambil pelanggan
-    $nama = $pelanggan["nama"];
-    $email = $pelanggan["email"];
-    $telp = $pelanggan["telp"];
-    $kota = $pelanggan["kota"];
-    $alamat = $pelanggan["alamat"];
+    $nama = htmlspecialchars($pelanggan["nama"]);
+    $email = htmlspecialchars($pelanggan["email"]);
+    $telp = htmlspecialchars($pelanggan["telp"]);
+    $kota = htmlspecialchars($pelanggan["kota"]);
+    $alamat = htmlspecialchars($pelanggan["alamat"]);
 
-    // memastikan no hp angka saja
-    // memecah no telp
-    $telp = str_split($telp);
-    $total = count($telp);
-
-    // cek no hp
-    for ($i=0 ; $i<$total ; $i++){
-        // mengecek no telp harus angka
-        if ($telp[$i] != "1" && $telp[$i] != "2" && $telp[$i] != "3" && $telp[$i] != "4" && $telp[$i] != "5" && $telp[$i] != "6" && $telp[$i] != "7" && $telp[$i] != "8" && $telp[$i] != "9" && $telp[$i] != "0"){
-            $telp[$i] = "";
-        }
-    }
-
-    // menggabungkan string
-    $telp = implode($telp);
+    // validasi
+    validasiNama($nama);
+    validasiEmail($email);
+    validasiTelp($telp);
+    validasiNama($kota);
 
     
     $query = "UPDATE pelanggan SET
@@ -101,22 +92,28 @@ if ( isset($_POST["ubah-data"]) ){
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <?php include "headtags.html"; ?>
     <title>Data Penggunan - <?= $data["nama"] ?></title>
 </head>
 <body>
     <?php include 'header.php'; ?>
-    <div id="body">
-        <h3>DATA PENGGUNA</h3>
-        <form action="" method="post">
-            <ul>
-                <li><input type="text" name="nama" value="<?= $data['nama'] ?>"></li>
-                <li><input type="text" name="email" value="<?= $data['email'] ?>"></li>
-                <li><input type="text" name="telp" value="<?= $data['telp'] ?>"></li>
-                <li><input type="text" name="kota" value="<?= $data['kota'] ?>"></li>
-                <li><textarea name="alamat"><?= $data['alamat'] ?></textarea></li>
-                <li><button type="submit" name="ubah-data">Ubah Data</button> <a href="lupa-kata-sandi.php">Lupa Kata Sandi ?</a></li>
-            </ul>
+    <div class="container">
+        <h3 class="header light center">DATA PENGGUNA</h3>
+        <form action="" method="post" class="center">
+            <div class="input-field inline">
+                <ul>
+                    <li><input type="text" size=60 name="nama" value="<?= $data['nama'] ?>"></li>
+                    <li><input type="text" size=60 name="email" value="<?= $data['email'] ?>"></li>
+                    <li><input type="text" size=60 name="telp" value="<?= $data['telp'] ?>"></li>
+                    <li><input type="text" size=60 name="kota" value="<?= $data['kota'] ?>"></li>
+                    <li><textarea class="materialize-textarea" name="alamat"><?= $data['alamat'] ?></textarea></li>
+                    <li><button class="btn-large blue darken-2" type="submit" name="ubah-data">Simpan Data</button></li>
+                    <br>
+                    <li><a class="btn red darken-2" href="ganti-kata-sandi.php">Ganti Kata Sandi</a></li>
+                </ul>
+            </div>
         </form>
     </div>
+    <?php include "footer.php"; ?>
 </body>
 </html>

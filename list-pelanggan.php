@@ -43,37 +43,52 @@ $pelanggan = mysqli_query($connect,"SELECT * FROM pelanggan LIMIT $awalData, $ju
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <?php include "headtags.html"; ?>
+    <title>List Pelanggan</title>
 </head>
 <body>
+
+    <!-- header -->
     <?php include 'header.php'; ?>
-    <div id="body">
-        <div id="halaman">
-            <?php if( $halamanAktif > 1 ) : ?>
-                <a href="?page=<?= $halamanAktif - 1; ?>">&laquo;</a>
-            <?php endif; ?>
+    <!-- end header -->
 
-            <?php for( $i = 1; $i <= $jumlahHalaman; $i++ ) : ?>
-                <?php if( $i == $halamanAktif ) : ?>
-                    <a href="?page=<?= $i; ?>" style="font-weight: bold; color: red;"><?= $i; ?></a>
-                <?php else : ?>
-                    <a href="?page=<?= $i; ?>"><?= $i; ?></a>
-                <?php endif; ?>
-            <?php endfor; ?>
+    <h3 class="header light center">List Pelanggan</h3>
+    <br>
 
-            <?php if( $halamanAktif < $jumlahHalaman ) : ?>
-                <a href="?page=<?= $halamanAktif + 1; ?>">&raquo;</a>
+    <div class="container">
+
+        <!-- pagination -->
+        <ul class="pagination center">
+        <?php if( $halamanAktif > 1 ) : ?>
+            <li class="disabled-effect blue darken-1">
+                <!-- halaman pertama -->
+                <a href="?page=<?= $halamanAktif - 1; ?>"><i class="material-icons">chevron_left</i></a>
+            </li>
+        <?php endif; ?>
+        <?php for( $i = 1; $i <= $jumlahHalaman; $i++ ) : ?>
+            <?php if( $i == $halamanAktif ) : ?>
+                <li class="active grey"><a href="?page=<?= $i; ?>"><?= $i ?></a></li>
+            <?php else : ?>
+                <li class="waves-effect blue darken-1"><a href="?page=<?= $i; ?>"><?= $i ?></a></li>
             <?php endif; ?>
-        </div>
+        <?php endfor; ?>
+        <?php if( $halamanAktif < $jumlahHalaman ) : ?>
+            <li class="waves-effect blue darken-1">
+                <a class="page-link" href="?page=<?= $halamanAktif + 1; ?>"><i class="material-icons">chevron_right</i></a>
+            </li>
+        <?php endif; ?>
+        </ul>
+        <!-- pagination -->
+
         <table cellpadding=10 border=1>
             <tr>
-                <td>ID Pelanggan</td>
-                <td>Nama</td>
-                <td>No Telp</td>
-                <td>Email</td>
-                <td>Kota</td>
-                <td>Alamat Lengkap</td>
-                <td>Aksi</td>
+                <th>ID Pelanggan</th>
+                <th>Nama</th>
+                <th>No Telp</th>
+                <th>Email</th>
+                <th>Kota</th>
+                <th>Alamat Lengkap</th>
+                <th>Aksi</th>
             </tr>
 
             <?php foreach ($pelanggan as $dataPelanggan) : ?>
@@ -93,5 +108,6 @@ $pelanggan = mysqli_query($connect,"SELECT * FROM pelanggan LIMIT $awalData, $ju
         
     </div>
 
+    <?php include "footer.php"; ?>
 </body>
 </html>

@@ -2,7 +2,9 @@
 
 session_start();
 include 'connect-db.php';
+include 'functions/functions.php';
 
+// klo bukan admin
 if ( !(isset($_SESSION["login-admin"])) ){
     if ( !(isset($_SESSION["admin"])) ){
         echo "
@@ -15,13 +17,18 @@ if ( !(isset($_SESSION["login-admin"])) ){
     }
 }
 
+// ambil data admin
 $idAdmin = $_SESSION["admin"];
 $data = mysqli_query($connect, "SELECT * FROM admin WHERE id_admin = '$idAdmin'");
 $admin = mysqli_fetch_assoc($data);
 
 if ( isset($_POST["simpan"]) ){
-    $username = $_POST["username"];
+    $username = htmlspecialchars($_POST["username"]);
 
+    // VALIDASI
+    validasiUsername($username);
+
+    // UBAH DATA
     mysqli_query($connect, "UPDATE admin SET username = '$username' WHERE id_admin = '$idAdmin'");
 
     if ( mysqli_affected_rows($connect) > 0){
@@ -54,14 +61,18 @@ if ( isset($_POST["simpan"]) ){
 <body>
     <?php include 'header.php'; ?>
     <div id="body">
-        <h3>DATA ADMIN</h3>
-        <form action="" method="post">
-            <ul>
-                <li><input type="text" name="username" value="<?= $admin['username'] ?>"></li>
-                <li><button type="submit" name="simpan">Simpan Data</button></li>
-            </ul>
+        <h3 class="header col s24 light center">Profil Admin</h3>
+        <form action="" class="col s18 center" method="post">
+            <div class="input-field inline">
+                <ul>
+                    <li><span>Username : </span><input type="text" size=40 name="username" value="<?= $admin['username'] ?>"></li>
+                    <li><button type="submit" class="waves-effect blue darken-2 btn" size=40 name="simpan">Simpan Data</button></li>
+                    <br>
+                    <li><a class="btn waves-effect waves-light red darken-3" id="download-button"  href="ganti-kata-sandi.php">Ganti Kata Sandi</a></li>
+                </ul>
+            </div>
         </form>
-        <button type="buttom"><a href="ubah-kata-sandi.php">Ubah Kata Sandi</a></button>
     </div>
+    <?php include 'footer.php'; ?>
 </body>
 </html>

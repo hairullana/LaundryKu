@@ -17,13 +17,13 @@ if ( !(isset($_SESSION["login-admin"])) ){
 
 $idAgen = $_GET["id"];
 
-$query = mysqli_query($connect, "DELETE FROM agen WHERE id_pelanggan = '$idAgen'");
+$query = mysqli_query($connect, "DELETE FROM agen WHERE id_agen = '$idAgen'");
 
 if ( mysqli_affected_rows($connect) > 0 ){
     echo "
         <script>
             alert('Data Berhasil Di Hapus');
-            document.location.href = 'list-pelanggan.php';
+            document.location.href = 'list-agen.php';
         </script>
     ";
 }

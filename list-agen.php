@@ -43,59 +43,83 @@ $agen = mysqli_query($connect,"SELECT * FROM agen LIMIT $awalData, $jumlahDataPe
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <?php include "headtags.html"; ?>
+    <title>Data Agen</title>
 </head>
 <body>
-    <?php include 'header.php'; ?>
-    <div id="body">
-        <div id="halaman">
-            <?php if( $halamanAktif > 1 ) : ?>
-                <a href="?page=<?= $halamanAktif - 1; ?>">&laquo;</a>
-            <?php endif; ?>
 
+    <!-- header -->
+    <?php include 'header.php'; ?>
+    <!-- end header -->
+
+
+    <h3 class="header light center">List Agen</h3>
+    <br>
+        <div class="container">
+            
+            <!-- pagination -->
+            <ul class="pagination center">
+            <?php if( $halamanAktif > 1 ) : ?>
+                <li class="disabled-effect blue darken-1">
+                    <!-- halaman pertama -->
+                    <a href="?page=<?= $halamanAktif - 1; ?>"><i class="material-icons">chevron_left</i></a>
+                </li>
+            <?php endif; ?>
             <?php for( $i = 1; $i <= $jumlahHalaman; $i++ ) : ?>
                 <?php if( $i == $halamanAktif ) : ?>
-                    <a href="?page=<?= $i; ?>" style="font-weight: bold; color: red;"><?= $i; ?></a>
+                    <li class="active grey"><a href="?page=<?= $i; ?>"><?= $i ?></a></li>
                 <?php else : ?>
-                    <a href="?page=<?= $i; ?>"><?= $i; ?></a>
+                    <li class="waves-effect blue darken-1"><a href="?page=<?= $i; ?>"><?= $i ?></a></li>
                 <?php endif; ?>
             <?php endfor; ?>
-
             <?php if( $halamanAktif < $jumlahHalaman ) : ?>
-                <a href="?page=<?= $halamanAktif + 1; ?>">&raquo;</a>
+                <li class="waves-effect blue darken-1">
+                    <a class="page-link" href="?page=<?= $halamanAktif + 1; ?>"><i class="material-icons">chevron_right</i></a>
+                </li>
             <?php endif; ?>
+            </ul>
+            <!-- pagination -->
+        
+            <!-- data agen -->
+            <table cellpadding=10 border=1>
+                <tr>
+                    <th>ID Agen</th>
+                    <th>Nama Laundry</th>
+                    <th>Nama Pemilik</th>
+                    <th>No Telp</th>
+                    <th>Email</th>
+                    <th>Plat Driver</th>
+                    <th>Kota</th>
+                    <th>Alamat Lengkap</th>
+                    <th>Aksi</th>
+                </tr>
+
+                <?php foreach ($agen as $dataAgen) : ?>
+                
+                <tr>
+                    <td><?= $dataAgen["id_agen"] ?></td>
+                    <td><?= $dataAgen["nama_laundry"] ?></td>
+                    <td><?= $dataAgen["nama_pemilik"] ?></td>
+                    <td><?= $dataAgen["telp"] ?></td>
+                    <td><?= $dataAgen["email"] ?></td>
+                    <td><?= $dataAgen["plat_driver"] ?></td>
+                    <td><?= $dataAgen["kota"] ?></td>
+                    <td><?= $dataAgen["alamat"] ?></td>
+                    <td><a href="hapus-agen.php?id=<?= $dataAgen['id_agen'] ?>">Hapus Data</a></td>
+                </tr>
+
+                <?php endforeach ?>
+            </table>
+            <!-- end data agen -->
+
+
+
         </div>
-        <table cellpadding=10 border=1>
-            <tr>
-                <td>ID Agen</td>
-                <td>Nama Laundry</td>
-                <td>Nama Pemilik</td>
-                <td>No Telp</td>
-                <td>Email</td>
-                <td>Plat Driver</td>
-                <td>Kota</td>
-                <td>Alamat Lengkap</td>
-                <td>Aksi</td>
-            </tr>
-
-            <?php foreach ($agen as $dataAgen) : ?>
-            
-            <tr>
-                <td><?= $dataAgen["id_agen"] ?></td>
-                <td><?= $dataAgen["nama_laundry"] ?></td>
-                <td><?= $dataAgen["nama_pemilik"] ?></td>
-                <td><?= $dataAgen["telp"] ?></td>
-                <td><?= $dataAgen["email"] ?></td>
-                <td><?= $dataAgen["plat_driver"] ?></td>
-                <td><?= $dataAgen["kota"] ?></td>
-                <td><?= $dataAgen["alamat"] ?></td>
-                <td><a href="hapus-agen.php?id=<?= $dataAgen['id_agen'] ?>">Hapus Data</a></td>
-            </tr>
-
-            <?php endforeach ?>
-        </table>
         
     </div>
 
+    <!-- footer -->
+    <?php include "footer.php"; ?>
+    <!-- end footer -->
 </body>
 </html>
