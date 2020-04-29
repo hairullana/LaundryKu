@@ -126,7 +126,7 @@ $agen = mysqli_fetch_assoc($query);
                 $pelanggan = mysqli_fetch_assoc($temp);
                 echo "<h5>" . $pelanggan["nama"] . "</h5>";
             ?>
-            <fieldset class="bintang"><span class="starImg star-<?= $$transaksi['rating'] ?>"></span></fieldset>
+            <fieldset class="bintang"><span class="starImg star-<?= $transaksi['rating'] ?>"></span></fieldset>
             <?= $transaksi["komentar"]; ?>
             <?php endwhile; ?>
         </div>
