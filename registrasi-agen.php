@@ -31,6 +31,12 @@ function registrasi($agen){
     $password = htmlspecialchars($agen["password"]);
     $password2 = htmlspecialchars($agen["password2"]);
 
+    // validasi
+    validasiNama($namaLaundry);
+    validasiEmail($email);
+    validasiTelp($telp);
+    validasiNama($kota);
+
     // enskripsi password
     $password = mysqli_real_escape_string($connect , $agen["password"]);
     $password2 = mysqli_real_escape_string($connect , $agen["password2"]);
@@ -61,23 +67,6 @@ function registrasi($agen){
     //enskripsi password
     $password = password_hash($password, PASSWORD_DEFAULT);
     
-
-    //pastikan nomor hp hanya angka
-    $telp = $agen["telp"];
-    // memecah no telp
-    $telp = str_split($telp);
-    $totaltelp = count($telp);
-
-    // cek no hp
-    for ($i=0 ; $i<$totaltelp ; $i++){
-        // mengecek no telp harus angka
-        if ($telp[$i] != "1" && $telp[$i] != "2" && $telp[$i] != "3" && $telp[$i] != "4" && $telp[$i] != "5" && $telp[$i] != "6" && $telp[$i] != "7" && $telp[$i] != "8" && $telp[$i] != "9" && $telp[$i] != "0"){
-            $telp[$i] = "";
-        }
-    }
-
-    // menggabungkan string
-    $telp = implode($telp);
 
     $query = "INSERT INTO agen VALUES (
         '',
@@ -162,24 +151,26 @@ if (isset($_POST["daftar"])) {
     </div>
 
     <!-- regis -->
-    <div class="col s4 offset-s1">
-        <h3 class="header light center">DAFTAR SEBAGAI AGEN</h3>
-        <form action="" class="col center" method="post">
-            <div class="input-field inline">
-                <ul>
-                    <li><input type="text" size=50 name="namaLaundry" placeholder="Nama Laundry"></li>
-                    <li><input type="text" size=50 name="namaPemilik" placeholder="Nama Pemilik"></li>
-                    <li><input type="text" size=50 name="telp" placeholder="No Telp"></li>
-                    <li><input type="text" size=50 name="email" placeholder="Email"></li>
-                    <li><input type="text" size=50 name="platDriver" placeholder="Plat Driver"></li>
-                    <li><input type="text" size=50 name="kota" placeholder="Kota / Kabupaten"></li>
-                    <li><textarea class="materialize-textarea" name="alamat" placeholder="Alamat Lengkap"></textarea></li>
-                    <li><input type="password" name="password" placeholder="Password"></li>
-                    <li><input type="password" name="password2" placeholder="Ulangi Password"></li>
-                    <li><button class="btn-large blue darken-2" type="submit" name="daftar">Daftar</button></li>
-                </ul>        
-            </div>
-        </form>
+    <div class="row">
+        <div class="col s4 offset-s1">
+            <h3 class="header light center">DAFTAR SEBAGAI AGEN</h3>
+            <form action="" class="col center" method="post">
+                <div class="input-field inline">
+                    <ul>
+                        <li><input type="text" size=50 name="namaLaundry" placeholder="Nama Laundry"></li>
+                        <li><input type="text" size=50 name="namaPemilik" placeholder="Nama Pemilik"></li>
+                        <li><input type="text" size=50 name="telp" placeholder="No Telp"></li>
+                        <li><input type="text" size=50 name="email" placeholder="Email"></li>
+                        <li><input type="text" size=50 name="platDriver" placeholder="Plat Driver"></li>
+                        <li><input type="text" size=50 name="kota" placeholder="Kota / Kabupaten"></li>
+                        <li><textarea class="materialize-textarea" name="alamat" placeholder="Alamat Lengkap"></textarea></li>
+                        <li><input type="password" name="password" placeholder="Password"></li>
+                        <li><input type="password" name="password2" placeholder="Ulangi Password"></li>
+                        <li><button class="btn-large blue darken-2" type="submit" name="daftar">Daftar</button></li>
+                    </ul>        
+                </div>
+            </form>
+        </div>
     </div>
     <!-- end regis -->
 

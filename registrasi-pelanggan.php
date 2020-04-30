@@ -38,8 +38,7 @@
         $password = mysqli_real_escape_string($connect , $data["password"]);
         $password2 = mysqli_real_escape_string($connect , $data["password2"]);
 
-        //cek username apakah ada yg sama
-        
+        //cek username apakah ada yg sama        
         $result = mysqli_query($connect, "SELECT email FROM pelanggan WHERE email = '$email'");
         if ( mysqli_fetch_assoc($result) ){ //jika ada (TRUE)
             echo "

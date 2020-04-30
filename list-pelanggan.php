@@ -16,7 +16,7 @@ if ( !(isset($_SESSION["login-admin"])) ){
 }
 
 //konfirgurasi pagination
-$jumlahDataPerHalaman = 3;
+$jumlahDataPerHalaman = 5;
 $query = mysqli_query($connect,"SELECT * FROM pelanggan");
 $jumlahData = mysqli_num_rows($query);
 //ceil() = pembulatan ke atas
@@ -34,7 +34,37 @@ if ( isset($_GET["page"])){
 $awalData = ( $jumlahDataPerHalaman * $halamanAktif ) - $jumlahDataPerHalaman;
 
 //fungsi memasukkan data di db ke array
-$pelanggan = mysqli_query($connect,"SELECT * FROM pelanggan LIMIT $awalData, $jumlahDataPerHalaman");
+$pelanggan = mysqli_query($connect,"SELECT * FROM pelanggan ORDER BY id_pelanggan DESC LIMIT $awalData, $jumlahDataPerHalaman");
+
+//ketika tombol cari ditekan
+if ( isset($_POST["cari"])) {
+    $keyword = htmlspecialchars($_POST["keyword"]);
+
+    $query = "SELECT * FROM pelanggan WHERE 
+        nama LIKE '%$keyword%' OR
+        kota LIKE '%$keyword%' OR
+        email LIKE '%$keyword%' OR
+        alamat LIKE '%$keyword%'
+        ORDER BY id_pelanggan DESC
+        LIMIT $awalData, $jumlahDataPerHalaman
+        ";
+
+    $pelanggan = mysqli_query($connect,$query);
+
+    //konfirgurasi pagination
+    $jumlahDataPerHalaman = 3;
+    $jumlahData = mysqli_num_rows($pelanggan);
+    //ceil() = pembulatan ke atas
+    $jumlahHalaman = ceil($jumlahData / $jumlahDataPerHalaman);
+
+    //menentukan halaman aktif
+    //$halamanAktif = ( isset($_GET["page"]) ) ? $_GET["page"] : 1; = versi simple
+    if ( isset($_GET["page"])){
+        $halamanAktif = $_GET["page"];
+    }else{
+        $halamanAktif = 1;
+    }
+}
 
 ?>
 
@@ -55,57 +85,68 @@ $pelanggan = mysqli_query($connect,"SELECT * FROM pelanggan LIMIT $awalData, $ju
     <h3 class="header light center">List Pelanggan</h3>
     <br>
 
-    <div class="container">
+    <!-- searching -->
+    <form class="col s12 center" action="" method="post">
+        <div class="input-field inline">
+            <input type="text" size=40 name="keyword" placeholder="Keyword">
+            <button type="submit" class="btn waves-effect blue darken-2" name="cari"><i class="material-icons">send</i></button>
+        </div>
+    </form>
+    <!-- end searching -->
 
-        <!-- pagination -->
-        <ul class="pagination center">
-        <?php if( $halamanAktif > 1 ) : ?>
-            <li class="disabled-effect blue darken-1">
-                <!-- halaman pertama -->
-                <a href="?page=<?= $halamanAktif - 1; ?>"><i class="material-icons">chevron_left</i></a>
-            </li>
-        <?php endif; ?>
-        <?php for( $i = 1; $i <= $jumlahHalaman; $i++ ) : ?>
-            <?php if( $i == $halamanAktif ) : ?>
-                <li class="active grey"><a href="?page=<?= $i; ?>"><?= $i ?></a></li>
-            <?php else : ?>
-                <li class="waves-effect blue darken-1"><a href="?page=<?= $i; ?>"><?= $i ?></a></li>
+    <div class="row">
+        <div class="col s10 offset-s1">
+
+            <!-- pagination -->
+            <ul class="pagination center">
+            <?php if( $halamanAktif > 1 ) : ?>
+                <li class="disabled-effect blue darken-1">
+                    <!-- halaman pertama -->
+                    <a href="?page=<?= $halamanAktif - 1; ?>"><i class="material-icons">chevron_left</i></a>
+                </li>
             <?php endif; ?>
-        <?php endfor; ?>
-        <?php if( $halamanAktif < $jumlahHalaman ) : ?>
-            <li class="waves-effect blue darken-1">
-                <a class="page-link" href="?page=<?= $halamanAktif + 1; ?>"><i class="material-icons">chevron_right</i></a>
-            </li>
-        <?php endif; ?>
-        </ul>
-        <!-- pagination -->
+            <?php for( $i = 1; $i <= $jumlahHalaman; $i++ ) : ?>
+                <?php if( $i == $halamanAktif ) : ?>
+                    <li class="active grey"><a href="?page=<?= $i; ?>"><?= $i ?></a></li>
+                <?php else : ?>
+                    <li class="waves-effect blue darken-1"><a href="?page=<?= $i; ?>"><?= $i ?></a></li>
+                <?php endif; ?>
+            <?php endfor; ?>
+            <?php if( $halamanAktif < $jumlahHalaman ) : ?>
+                <li class="waves-effect blue darken-1">
+                    <a class="page-link" href="?page=<?= $halamanAktif + 1; ?>"><i class="material-icons">chevron_right</i></a>
+                </li>
+            <?php endif; ?>
+            </ul>
+            <!-- pagination -->
 
-        <table cellpadding=10 border=1>
-            <tr>
-                <th>ID Pelanggan</th>
-                <th>Nama</th>
-                <th>No Telp</th>
-                <th>Email</th>
-                <th>Kota</th>
-                <th>Alamat Lengkap</th>
-                <th>Aksi</th>
-            </tr>
+            <table cellpadding=10 border=1>
+                <tr>
+                    <th>ID Pelanggan</th>
+                    <th>Nama</th>
+                    <th>No Telp</th>
+                    <th>Email</th>
+                    <th>Kota</th>
+                    <th>Alamat Lengkap</th>
+                    <th>Aksi</th>
+                </tr>
 
-            <?php foreach ($pelanggan as $dataPelanggan) : ?>
+                <?php foreach ($pelanggan as $dataPelanggan) : ?>
+                
+                <tr>
+                    <td><?= $dataPelanggan["id_pelanggan"] ?></td>
+                    <td><?= $dataPelanggan["nama"] ?></td>
+                    <td><?= $dataPelanggan["telp"] ?></td>
+                    <td><?= $dataPelanggan["email"] ?></td>
+                    <td><?= $dataPelanggan["kota"] ?></td>
+                    <td><?= $dataPelanggan["alamat"] ?></td>
+                    <td><a class="btn red darken-2" href="hapus-pelanggan.php?id=<?= $dataPelanggan['id_pelanggan'] ?>">Hapus Data</a></td>
+                </tr>
+
+                <?php endforeach ?>
+            </table>
             
-            <tr>
-                <td><?= $dataPelanggan["id_pelanggan"] ?></td>
-                <td><?= $dataPelanggan["nama"] ?></td>
-                <td><?= $dataPelanggan["telp"] ?></td>
-                <td><?= $dataPelanggan["email"] ?></td>
-                <td><?= $dataPelanggan["kota"] ?></td>
-                <td><?= $dataPelanggan["alamat"] ?></td>
-                <td><a href="hapus-pelanggan.php?id=<?= $dataPelanggan['id_pelanggan'] ?>">Hapus Data</a></td>
-            </tr>
-
-            <?php endforeach ?>
-        </table>
-        
+        </div>
     </div>
 
     <?php include "footer.php"; ?>

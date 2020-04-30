@@ -25,6 +25,8 @@ $awalData = ( $jumlahDataPerHalaman * $halamanAktif ) - $jumlahDataPerHalaman;
 //fungsi memasukkan data di db ke array
 $agen = mysqli_query($connect,"SELECT * FROM agen LIMIT $awalData, $jumlahDataPerHalaman");
 
+
+
 //ketika tombol cari ditekan
 if ( isset($_POST["cari"])) {
     $keyword = htmlspecialchars($_POST["keyword"]);
@@ -33,10 +35,49 @@ if ( isset($_POST["cari"])) {
         kota LIKE '%$keyword%' OR
         nama_laundry LIKE '%$keyword%'
         LIMIT $awalData, $jumlahDataPerHalaman
-        ";
+    ";
 
     $agen = mysqli_query($connect,$query);
+
+    //konfirgurasi pagination
+    $jumlahDataPerHalaman = 3;
+    $jumlahData = mysqli_num_rows($agen);
+    //ceil() = pembulatan ke atas
+    $jumlahHalaman = ceil($jumlahData / $jumlahDataPerHalaman);
+
+    //menentukan halaman aktif
+    //$halamanAktif = ( isset($_GET["page"]) ) ? $_GET["page"] : 1; = versi simple
+    if ( isset($_GET["page"])){
+        $halamanAktif = $_GET["page"];
+    }else{
+        $halamanAktif = 1;
+    }
 }
+
+
+if (isset($_POST["submitSorting"])){
+    $sorting = $_POST["sorting"];
+
+    if($sorting == "ratingUp"){
+        $orderBy = "rating";
+        $sort = "desc";
+    }else if ($sorting == "ratingDown"){
+        $orderBy = "rating";
+        $sort = "asc";
+    }else if ($sorting == "hargaUp"){
+        $orderBy = "cuci + setrika + komplit";
+        $sort = "desc";
+    }else if($sorting == "hargaDown"){
+        $orderBy = "cuci + setrika + komplit";
+        $sort = "asc";
+    }
+
+    $_GET["sorting"] = $sorting;
+
+    $agen = mysqli_query($connect, "SELECT * FROM agen JOIN transaksi ON agen.id_agen = transaksi.id_agen ORDER BY transaksi.$orderBy $sort LIMIT $awalData, $jumlahDataPerHalaman");
+}
+
+
 
 ?>
 
@@ -101,33 +142,54 @@ if ( isset($_POST["cari"])) {
     <form class="col s12 center" action="" method="post">
         <div class="input-field inline">
             <input type="text" size=40 name="keyword" placeholder="Kota / Kabupaten">
-            <button type="submit" class="btn waves-effect blue" name="cari">CARI</button>
+            <a href="#search"><button type="submit" class="btn waves-effect blue darken-2" name="cari"><i class="material-icons">search</i></button></a>
         </div>
     </form>
     <!-- end searching -->
 
     <!-- pagination -->
-    <ul class="pagination center">
-    <?php if( $halamanAktif > 1 ) : ?>
-        <li class="disabled-effect blue darken-1">
-            <!-- halaman pertama -->
-            <a href="?page=<?= $halamanAktif - 1; ?>"><i class="material-icons">chevron_left</i></a>
-        </li>
-    <?php endif; ?>
-    <?php for( $i = 1; $i <= $jumlahHalaman; $i++ ) : ?>
-        <?php if( $i == $halamanAktif ) : ?>
-            <li class="active grey"><a href="?page=<?= $i; ?>"><?= $i ?></a></li>
-        <?php else : ?>
-            <li class="waves-effect blue darken-1"><a href="?page=<?= $i; ?>"><?= $i ?></a></li>
+    <div id="search">
+        <ul class="pagination center">
+        <?php if( $halamanAktif > 1 ) : ?>
+            <li class="disabled-effect blue darken-1">
+                <!-- halaman pertama -->
+                <a href="?page=<?= $halamanAktif - 1; ?>"><i class="material-icons">chevron_left</i></a>
+            </li>
         <?php endif; ?>
-    <?php endfor; ?>
-    <?php if( $halamanAktif < $jumlahHalaman ) : ?>
-        <li class="waves-effect blue darken-1">
-            <a class="page-link" href="?page=<?= $halamanAktif + 1; ?>"><i class="material-icons">chevron_right</i></a>
-        </li>
-    <?php endif; ?>
-    </ul>
+        <?php for( $i = 1; $i <= $jumlahHalaman; $i++ ) : ?>
+            <?php if( $i == $halamanAktif ) : ?>
+                <li class="active grey"><a href="?page=<?= $i; ?>"><?= $i ?></a></li>
+            <?php else : ?>
+                <li class="waves-effect blue darken-1"><a href="?page=<?= $i; ?>"><?= $i ?></a></li>
+            <?php endif; ?>
+        <?php endfor; ?>
+        <?php if( $halamanAktif < $jumlahHalaman ) : ?>
+            <li class="waves-effect blue darken-1">
+                <a class="page-link" href="?page=<?= $halamanAktif + 1; ?>"><i class="material-icons">chevron_right</i></a>
+            </li>
+        <?php endif; ?>
+        </ul>
+    </div>
     <!-- pagination -->
+
+
+    <!-- sorting -->
+    <!-- <div class="row">
+        <div class="col s4 offset-s4">
+            <form action="" method="post">
+                <label for="sorting">Sorting</label>
+                <select class="browser-default" name="sorting" id="sorting">
+                    <option disabled>Sorting</option>
+                    <option value="ratingUp">Rating Tertinggi</option>
+                    <option value="ratingDown">Rating Terendah</option>
+                    <option value="hargaUp">HargaTertinggi</option>
+                    <option value="hargaDown">Harga Terendah</option>
+                </select>
+                <div class="center"><button class="btn blue darken-2" type="submit" name="submitSorting"><i class="material-icons">send</i></button></div>
+            </form>
+        </div>
+    </div> -->
+    <!-- end sorting -->
 
     <!-- list agen -->
     <div class="container">
@@ -138,7 +200,7 @@ if ( isset($_POST["cari"])) {
             <?php foreach ( $agen as $dataAgen) : ?>
                 <div class="col s12 m4">
                     <div class="icon-block center">
-                        <h2 class="center light-blue-text"><img src="img/logo.png" width="60%" /></h2>
+                        <h2 class="center light-blue-text"><a href="detail-agen.php?id=<?= $dataAgen['id_agen'] ?>"><img src="img/logo.png" width=60% /></a></h2>
                         <h5 class="center"><a href="detail-agen.php?id=<?= $dataAgen['id_agen'] ?>"><?= $dataAgen["nama_laundry"] ?></a></h5>
                         <?php
                             $temp = $dataAgen["id_agen"];
@@ -146,9 +208,13 @@ if ( isset($_POST["cari"])) {
                             $totalStar = 0;
                             $i = 0;
                             while ($star = mysqli_fetch_assoc($queryStar)){
-                                $totalStar += $star["rating"];
-                                $i++;
-                                $fixStar = ceil($totalStar / $i);
+
+                                // kalau belum kasi rating gk dihitung
+                                if ($star["rating"] != 0){
+                                    $totalStar += $star["rating"];
+                                    $i++;
+                                    $fixStar = ceil($totalStar / $i);
+                                }
                             }
                                 
                             if ( $totalStar == 0 ) {

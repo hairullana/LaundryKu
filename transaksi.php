@@ -68,23 +68,24 @@ if ( isset($_POST["kirimKomentar"])){
 </head>
 <body>
 <?php include 'header.php'; ?>
-    <div id="body">
-        <h3 class="header col s12 light center">Status Cucian</h3>
+    <div class="row">
+        <h3 class="header col s12 light center">Riwayat Transaksi Cucian</h3>
         <br>
         <?php if ($login == "Admin") : $query = mysqli_query($connect, "SELECT * FROM transaksi"); ?>
-        <div class="container">
-            <table border=1 cellpadding=10>
+        <div class="col s10 offset-s1">
+            <table border=1 cellpadding=10 class="responsive-table centered">
                 <tr>
-                    <th>Kode Transaksi</th>
-                    <th>Agen</th>
-                    <th>Pelanggan</th>
-                    <th>Total Item</th>
-                    <th>Berat</th>
-                    <th>Jenis</th>
-                    <th>Tanggal Pesan</th>
-                    <th>Tanggal Selesai</th>
-                    <th>Rating</th>
-                    <th>Komentar</th>
+                    <td style="font-weight:bold;">Kode Transaksi</td>
+                    <td style="font-weight:bold;">Agen</td>
+                    <td style="font-weight:bold;">Pelanggan</td>
+                    <td style="font-weight:bold;">Total Item</td>
+                    <td style="font-weight:bold;">Berat</td>
+                    <td style="font-weight:bold;">Jenis</td>
+                    <td style="font-weight:bold;">Total Bayar</td>
+                    <td style="font-weight:bold;">Tanggal Pesan</td>
+                    <td style="font-weight:bold;">Tanggal Selesai</td>
+                    <td style="font-weight:bold;">Rating</td>
+                    <td style="font-weight:bold;">Komentar</td>
                 </tr>
                 <?php while ($transaksi = mysqli_fetch_assoc($query)) : ?>
                 <tr>
@@ -115,6 +116,7 @@ if ( isset($_POST["kirimKomentar"])){
                     </td>
                     <td><?= $cucian["berat"] ?></td>
                     <td><?= $cucian["jenis"] ?></td>
+                    <td><?= $transaksi["total_bayar"] ?></td>
                     <td><?= $transaksi["tgl_mulai"] ?></td>
                     <td><?= $transaksi["tgl_selesai"] ?></td>
                     <td>
@@ -131,18 +133,19 @@ if ( isset($_POST["kirimKomentar"])){
             </table>
         </div>
         <?php elseif ($login == "Agen") : $query = mysqli_query($connect, "SELECT * FROM transaksi WHERE id_agen = '$idAgen'"); ?>
-        <div class="container">
-        <table border=1 cellpadding=10>
+        <div class="col s10 offset-s1">
+        <table border=1 cellpadding=10 class="responsive-table centered">
                 <tr>
-                    <th>Kode Transaksi</th>
-                    <th>Pelanggan</th>
-                    <th>Total Item</th>
-                    <th>Berat</th>
-                    <th>Jenis</th>
-                    <th>Tanggal Pesan</th>
-                    <th>Tanggal Selesai</th>
-                    <th>Rating</th>
-                    <th>Komentar</th>
+                    <td style="font-weight:bold">Kode Transaksi</td>
+                    <td style="font-weight:bold">Pelanggan</td>
+                    <td style="font-weight:bold">Total Item</td>
+                    <td style="font-weight:bold">Berat</td>
+                    <td style="font-weight:bold">Jenis</td>
+                    <td style="font-weight:bold">Total Bayar</td>
+                    <td style="font-weight:bold">Tanggal Pesan</td>
+                    <td style="font-weight:bold">Tanggal Selesai</td>
+                    <td style="font-weight:bold">Rating</td>
+                    <td style="font-weight:bold">Komentar</td>
                 </tr>
                 <?php while ($transaksi = mysqli_fetch_assoc($query)) : ?>
                 <tr>
@@ -165,6 +168,7 @@ if ( isset($_POST["kirimKomentar"])){
                     </td>
                     <td><?= $cucian["berat"] ?></td>
                     <td><?= $cucian["jenis"] ?></td>
+                    <td><?= $transaksi["total_bayar"] ?></td>
                     <td><?= $transaksi["tgl_mulai"] ?></td>
                     <td><?= $transaksi["tgl_selesai"] ?></td>
                     <td>
@@ -182,17 +186,18 @@ if ( isset($_POST["kirimKomentar"])){
         </div>
         <?php elseif ($login == "Pelanggan") : $query = mysqli_query($connect, "SELECT * FROM transaksi WHERE id_pelanggan = $idPelanggan"); ?>
         <div class="container">
-            <table border=1 cellpadding=10>
+            <table border=1 cellpadding=10 class="responsive-table centered">
                 <tr>
-                    <th>Kode Transaksi</th>
-                    <th>Agen</th>
-                    <th>Total Item</th>
-                    <th>Berat</th>
-                    <th>Jenis</th>
-                    <th>Tanggal Pesan</th>
-                    <th>Tanggal Selesai</th>
-                    <th>Rating</th>
-                    <th>Komentar</th>
+                    <td style="font-weight:bold">Kode Transaksi</td>
+                    <td style="font-weight:bold">Agen</td>
+                    <td style="font-weight:bold">Total Item</td>
+                    <td style="font-weight:bold">Berat</td>
+                    <td style="font-weight:bold">Jenis</td>
+                    <td style="font-weight:bold">Total Bayar</td>
+                    <td style="font-weight:bold">Tanggal Pesan</td>
+                    <td style="font-weight:bold">Tanggal Selesai</td>
+                    <td style="font-weight:bold">Rating</td>
+                    <td style="font-weight:bold">Komentar</td>
                 </tr>
                 <?php while ($transaksi = mysqli_fetch_assoc($query)) : ?>
                 <tr>
@@ -215,13 +220,14 @@ if ( isset($_POST["kirimKomentar"])){
                     </td>
                     <td><?= $cucian["berat"] ?></td>
                     <td><?= $cucian["jenis"] ?></td>
+                    <td><?= $transaksi["total_bayar"] ?></td>
                     <td><?= $transaksi["tgl_mulai"] ?></td>
                     <td><?= $transaksi["tgl_selesai"] ?></td>
                     <td>
                         <?php if ( $transaksi["rating"] == 0 ) : ?>
                             <form action="" method="post">
                                 <input type="hidden" value="<?= $kodeTransaksi ?>" name="kodeTransaksi">
-                                <select name="rating" id="">
+                                <select class="browser-default" name="rating" id="">
                                     <option disabled>Rating</option>
                                     <option value="2">1</option>
                                     <option value="4">2</option>
@@ -229,7 +235,7 @@ if ( isset($_POST["kirimKomentar"])){
                                     <option value="8">4</option>
                                     <option value="10">5</option>
                                 </select>
-                                <button type="submit" name="simpanRating">&raquo;</button>
+                                <div class="center"><button class="btn blue darken-2" type="submit" name="simpanRating"><i class="material-icons">send</i></button></div>
                             </form>
                         <?php else : ?>
                             <?php
@@ -244,8 +250,8 @@ if ( isset($_POST["kirimKomentar"])){
                         <?php if ( $transaksi["komentar"] == "" ) : ?>
                             <form action="" method="post">
                                 <input type="hidden" value="<?= $kodeTransaksi ?>" name="kodeTransaksi">
-                                <textarea name="komentar" id="" cols="30" rows="10" placeholder="Masukkan Komentar"></textarea>
-                                <button type="submit" name="kirimKomentar">Kirim</button>
+                                <textarea name="komentar" class="materialize-textarea" id="" cols="30" rows="10" placeholder="Masukkan Komentar"></textarea>
+                                <div class="center"><button class="btn blue darken-2" type="submit" name="kirimKomentar"><i class="material-icons">send</i></button></div>
                             </form>
                         <?php else : ?>
                         <?= $transaksi["komentar"] ?>

@@ -28,9 +28,9 @@ function dataHarga($data){
     $setrika = htmlspecialchars($data["setrika"]);
     $komplit = htmlspecialchars($data["komplit"]);
 
-    validaiHarga($cuci);
-    validaiHarga($setrika);
-    validaiHarga($komplit);
+    validasiHarga($cuci);
+    validasiHarga($setrika);
+    validasiHarga($komplit);
 
     $query2 = "INSERT INTO harga VALUES(
         '',

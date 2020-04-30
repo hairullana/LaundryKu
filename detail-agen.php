@@ -43,9 +43,13 @@ $agen = mysqli_fetch_assoc($query);
                         $totalStar = 0;
                         $i = 0;
                         while ($star = mysqli_fetch_assoc($queryStar)){
-                            $totalStar += $star["rating"];
-                            $i++;
-                            $fixStar = ceil($totalStar / $i);
+
+                            // kalau belum kasi rating gak dihitung
+                            if ($star["rating"] != 0){
+                                $totalStar += $star["rating"];
+                                $i++;
+                                $fixStar = ceil($totalStar / $i);
+                            }
                         }
                             
                         if ( $totalStar == 0 ) {
@@ -114,23 +118,34 @@ $agen = mysqli_fetch_assoc($query);
     <!-- komentar -->
 
     <div class="row">
-        <div class="col s4 offset-s2">
-            <?php
-                $temp = mysqli_query($connect, "SELECT * FROM transaksi WHERE id_agen = $idAgen");
-                while ( $transaksi = mysqli_fetch_assoc($temp) ) :
-            ?>
-            <img src="files/laundryku.jpg" width=30% alt="foto" style="float:left;margin-right:20px">    
+        <?php
+
+        $temp = mysqli_query($connect, "SELECT * FROM transaksi WHERE id_agen = $idAgen");
+        while ( $transaksi = mysqli_fetch_assoc($temp) ) :
+
+        ?>
+
+        <div class="col s5 offset-s1">
+            <div class="col s2">
+                <img src="files/laundryku.jpg" width=100% alt="foto">
+            </div>
+
             <?php
                 $idPelanggan = $transaksi["id_pelanggan"];
-                $temp = mysqli_query($connect, "SELECT * FROM pelanggan WHERE id_pelanggan = $idPelanggan");
-                $pelanggan = mysqli_fetch_assoc($temp);
-                echo "<h5>" . $pelanggan["nama"] . "</h5>";
+                $temp2 = mysqli_query($connect, "SELECT * FROM pelanggan WHERE id_pelanggan = $idPelanggan");
+                $pelanggan = mysqli_fetch_assoc($temp2);
+                echo "<h6 class='light'>" . $pelanggan["nama"] . "</h6>";
             ?>
-            <fieldset class="bintang"><span class="starImg star-<?= $transaksi['rating'] ?>"></span></fieldset>
-            <?= $transaksi["komentar"]; ?>
-            <?php endwhile; ?>
+
+            <div class="col s4">
+                <fieldset class="bintang"><span class="starImg star-<?= $transaksi['rating'] ?>"></span></fieldset>
+                <?= $transaksi["komentar"]; ?>
+            </div>
         </div>
+        <?php endwhile; ?>
     </div>
+
     <?php include "footer.php"; ?>
+
 </body>
 </html>

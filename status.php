@@ -114,17 +114,17 @@ if (isset($_POST["simpanBerat"])){
         <h3 class="header col s10 light center">Status Cucian</h3>
         <br>
         <?php if ($login == "Admin") : $query = mysqli_query($connect, "SELECT * FROM cucian WHERE status_cucian != 'Selesai'"); ?>
-        <div class="container">
-            <table border=1 cellpadding=10 class="responsive-table center">
+        <div class="col s10 offset-s1">
+            <table border=1 cellpadding=10 class="responsive-table centered">
                 <tr>
-                    <th>ID Cucian</th>
-                    <th>Nama Agen</th>
-                    <th>Pelanggan</th>
-                    <th>Total Item</th>
-                    <th>Berat (kg)</th>
-                    <th>Jenis</th>
-                    <th>Tanggal Dibuat</th>
-                    <th>Status</th>
+                    <td style="font-weight:bold;">ID Cucian</td>
+                    <td style="font-weight:bold;">Nama Agen</td>
+                    <td style="font-weight:bold;">Pelanggan</td>
+                    <td style="font-weight:bold;">Total Item</td>
+                    <td style="font-weight:bold;">Berat (kg)</td>
+                    <td style="font-weight:bold;">Jenis</td>
+                    <td style="font-weight:bold;">Tanggal Dibuat</td>
+                    <td style="font-weight:bold;">Status</td>
                 </tr>
                 <?php while ($cucian = mysqli_fetch_assoc($query)) : ?>
                 <tr>
@@ -157,17 +157,17 @@ if (isset($_POST["simpanBerat"])){
             </table>
         </div>
         <?php elseif ($login == "Agen") : $query = mysqli_query($connect, "SELECT * FROM cucian WHERE id_agen = $idAgen AND status_cucian != 'Selesai'"); ?>
-        <div class="container">
-            <table border=1 cellpadding=10 class="responsive-table">
+        <div class="col s10 offset-s1">
+            <table border=1 cellpadding=10 class="responsive-table centered">
                 <tr>
-                    <th>ID Cucian</th>
-                    <th>Pelanggan</th>
-                    <th>Total Item</th>
-                    <th>Berat (kg)</th>
-                    <th>Jenis</th>
-                    <th>Tanggal Dibuat</th>
-                    <th>Status</th>
-                    <th>Aksi</th>
+                    <td style="font-weight:bold;">ID Cucian</td>
+                    <td style="font-weight:bold;">Pelanggan</td>
+                    <td style="font-weight:bold;">Total Item</td>
+                    <td style="font-weight:bold;">Berat (kg)</td>
+                    <td style="font-weight:bold;">Jenis</td>
+                    <td style="font-weight:bold;">Tanggal Dibuat</td>
+                    <td style="font-weight:bold;">Status</td>
+                    <td style="font-weight:bold;">Aksi</td>
                 </tr>
                 <?php while ($cucian = mysqli_fetch_assoc($query)) : ?>
                 <tr>
@@ -221,16 +221,16 @@ if (isset($_POST["simpanBerat"])){
             </table>
         </div>
         <?php elseif ($login == "Pelanggan") : $query = mysqli_query($connect, "SELECT * FROM cucian WHERE id_pelanggan = $idPelanggan AND status_cucian != 'Selesai'"); ?>
-        <div class="container">
-            <table border=1 cellpadding=10 class="responsive-table">
+        <div class="col s10 offset-s1">
+            <table border=1 cellpadding=10 class="responsive-table centered">
                 <tr>
-                    <th>ID Cucian</th>
-                    <th>Agen</th>
-                    <th>Total Item</th>
-                    <th>Berat (kg)</th>
-                    <th>Jenis</th>
-                    <th>Tanggal Dibuat</th>
-                    <th>Status</th>
+                    <td style="font-weight:bold">ID Cucian</td>
+                    <td style="font-weight:bold">Agen</td>
+                    <td style="font-weight:bold">Total Item</td>
+                    <td style="font-weight:bold">Berat (kg)</td>
+                    <td style="font-weight:bold">Jenis</td>
+                    <td style="font-weight:bold">Tanggal Dibuat</td>
+                    <td style="font-weight:bold">Status</td>
                 </tr>
                 <?php while ($cucian = mysqli_fetch_assoc($query)) : ?>
                 <tr>

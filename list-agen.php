@@ -16,7 +16,7 @@ if ( !(isset($_SESSION["login-admin"])) ){
 }
 
 //konfirgurasi pagination
-$jumlahDataPerHalaman = 3;
+$jumlahDataPerHalaman = 5;
 $query = mysqli_query($connect,"SELECT * FROM agen");
 $jumlahData = mysqli_num_rows($query);
 //ceil() = pembulatan ke atas
@@ -34,8 +34,39 @@ if ( isset($_GET["page"])){
 $awalData = ( $jumlahDataPerHalaman * $halamanAktif ) - $jumlahDataPerHalaman;
 
 //fungsi memasukkan data di db ke array
-$agen = mysqli_query($connect,"SELECT * FROM agen LIMIT $awalData, $jumlahDataPerHalaman");
+$agen = mysqli_query($connect,"SELECT * FROM agen ORDER BY id_agen DESC LIMIT $awalData, $jumlahDataPerHalaman");
 
+
+//ketika tombol cari ditekan
+if ( isset($_POST["cari"])) {
+    $keyword = htmlspecialchars($_POST["keyword"]);
+
+    $query = "SELECT * FROM agen WHERE 
+        nama_laundry LIKE '%$keyword%' OR
+        nama_pemilik LIKE '%$keyword%' OR
+        kota LIKE '%$keyword%' OR
+        email LIKE '%$keyword%' OR
+        alamat LIKE '%$keyword%'
+        ORDER BY id_agen DESC
+        LIMIT $awalData, $jumlahDataPerHalaman
+        ";
+
+    $agen = mysqli_query($connect,$query);
+
+    //konfirgurasi pagination
+    $jumlahDataPerHalaman = 3;
+    $jumlahData = mysqli_num_rows($agen);
+    //ceil() = pembulatan ke atas
+    $jumlahHalaman = ceil($jumlahData / $jumlahDataPerHalaman);
+
+    //menentukan halaman aktif
+    //$halamanAktif = ( isset($_GET["page"]) ) ? $_GET["page"] : 1; = versi simple
+    if ( isset($_GET["page"])){
+        $halamanAktif = $_GET["page"];
+    }else{
+        $halamanAktif = 1;
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -55,7 +86,19 @@ $agen = mysqli_query($connect,"SELECT * FROM agen LIMIT $awalData, $jumlahDataPe
 
     <h3 class="header light center">List Agen</h3>
     <br>
-        <div class="container">
+
+
+    <!-- searching -->
+    <form class="col s12 center" action="" method="post">
+        <div class="input-field inline">
+            <input type="text" size=40 name="keyword" placeholder="Keyword">
+            <button type="submit" class="btn waves-effect blue darken-2" name="cari"><i class="material-icons">send</i></button>
+        </div>
+    </form>
+    <!-- end searching -->
+
+    <div class="row">
+        <div class="col s10 offset-s1">
             
             <!-- pagination -->
             <ul class="pagination center">
@@ -79,8 +122,11 @@ $agen = mysqli_query($connect,"SELECT * FROM agen LIMIT $awalData, $jumlahDataPe
             <?php endif; ?>
             </ul>
             <!-- pagination -->
+
+        
         
             <!-- data agen -->
+            
             <table cellpadding=10 border=1>
                 <tr>
                     <th>ID Agen</th>
@@ -105,7 +151,7 @@ $agen = mysqli_query($connect,"SELECT * FROM agen LIMIT $awalData, $jumlahDataPe
                     <td><?= $dataAgen["plat_driver"] ?></td>
                     <td><?= $dataAgen["kota"] ?></td>
                     <td><?= $dataAgen["alamat"] ?></td>
-                    <td><a href="hapus-agen.php?id=<?= $dataAgen['id_agen'] ?>">Hapus Data</a></td>
+                    <td><a class="btn red darken-2" href="hapus-agen.php?id=<?= $dataAgen['id_agen'] ?>">Hapus Data</a></td>
                 </tr>
 
                 <?php endforeach ?>
@@ -114,6 +160,7 @@ $agen = mysqli_query($connect,"SELECT * FROM agen LIMIT $awalData, $jumlahDataPe
 
 
 
+        </div>
         </div>
         
     </div>
