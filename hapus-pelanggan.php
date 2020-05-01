@@ -2,18 +2,9 @@
 
 session_start();
 include 'connect-db.php';
+include 'functions/functions.php';
 
-if ( !(isset($_SESSION["login-admin"])) ){
-    if ( !(isset($_SESSION["admin"])) ){
-        echo "
-            <script>
-                alert('Belum Login Sebagai Admin !');
-                document.location.href = 'index.php';
-            </script>
-        ";
-        exit;
-    }
-}
+cekAdmin();
 
 $idPelanggan = $_GET["id"];
 

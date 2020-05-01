@@ -6,15 +6,7 @@ include 'connect-db.php';
 include 'functions/functions.php';
 
 // kalau sudah login
-if ( isset($_SESSION["login-pelanggan"]) && isset($_SESSION["pelanggan"]) || isset($_SESSION["login-agen"]) && isset($_SESSION["agen"]) || isset($_SESSION["login-admin"]) && isset($_SESSION["admin"]) ) {
-    echo "
-        <script>
-            alert('Anda Sudah Mendaftar !');
-            document.location.href = 'index.php';
-        </script>
-    ";
-    exit;
-}
+cekLogin();
 
 function registrasi($agen){
 
@@ -77,6 +69,7 @@ function registrasi($agen){
         '$kota',
         '$alamat',
         '$platDriver',
+        'default.png';
         '$password'
     )";
 
@@ -128,7 +121,6 @@ if (isset($_POST["daftar"])) {
     <!-- end header -->
 
     <div class="row">
-
         <!-- term -->
         <div class="col s4 offset-s1">
             <div class="card">
@@ -136,37 +128,71 @@ if (isset($_POST["daftar"])) {
                     <img src="img/banner.png" alt="laundryku" width=100%/><br><br>
                     <span class="card-title black-text">Syarat dan Ketentuan :</span>
                 </div>
-            <div class="card-content">
-                <p>1. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Non, accusamus? Excepturi officia inventore dolor, quisquam facere ipsum quis perspiciatis. Consequuntur rem molestiae sint, commodi atque magnam. Unde blanditiis quam quo.</p>
-                <p>2. Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic natus aut rerum similique ad, voluptatibus magnam tenetur velit sapiente dicta sunt molestiae culpa deleniti, corrupti dolor unde, beatae ea eos.</p>
-                <p>3. Lorem ipsum, dolor sit amet consectetur adipisicing elit. Deserunt hic laboriosam beatae explicabo, et consequatur? Omnis error sapiente accusamus soluta cum minus libero quasi ab ut, quo rerum hic aspernatur?</p>
-                <p>4. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sapiente iusto eligendi ex odio quia reiciendis in expedita eveniet dicta tempore, maxime, laboriosam hic nostrum inventore assumenda accusantium perferendis illo voluptate!</p>
-                <p>5. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Error, eveniet suscipit repellendus non dolore repellat! At, reprehenderit tempora! Accusamus ut itaque veritatis doloremque delectus dolorem architecto quo perspiciatis reiciendis unde?</p>
-            </div>
-            <div class="card-action">
-                <a href="term.php">Baca Selengkapnya</a>
+                <div class="card-content">
+                    <p>1.	Memiliki lokasi usaha laundry yang strategis dan teridentifikasi oleh google map</p>
+                    <p>2.	Agen memiliki nama usaha serta logo perusahaan agar dapat diposting di website laundryKU</p>
+                    <p>3.	Mampu memberikan layanan Laundry dengan kualitas prima dan harga yang bersaing</p>
+                    <p>4.	Memiliki driver yang bersedia untuk melakukan penjemputan dan pengantaran terhadap laundry pelanggan</p>
+                    <p>5.	Harga dari jenis laundry ditentukan berdasarkan berat per kilo (kg) ditambah dengan biaya ongkos kirim</p>
+                    <p>6.	Bersedia untuk memberikan informasi kepada pelanggan mengenai harga Laundry Kiloan</p>
+                    <p>7.	Bersedia untuk menerapkan sistem poin kepada pelanggan</p>
+                    <p>8.	Bersedia memberikan kompensasi untuk setiap kemungkinan terjadinya seperti kehilangan pakaian atau kerusakan pakaian pada saat proses Laundry dilakukan</p>
+                    <p>9.	Agen tidak diperkenankan untuk melakukan kerjasama dengan pihak Laundry lainnya</p>
+                    <p>10.	Sebagai kompensasi atas kerjasama adalah sistem bagi hasil sebesar 5%, yang diperhitungkan dari setiap 7 hari</p>
+                    <p>11.	Status agen secara otomatis dicabut apabila melanggar kesepakatan yang telah ditetapkan dalam surat perjanjian kerjasama ataupun agen ingin mengundurkan diri</p>
+                </div>
+                <div class="card-action">
+                    <a href="term.php">Baca Selengkapnya</a>
+                </div>
             </div>
         </div>
         <!-- end term -->
-    </div>
 
-    <!-- regis -->
-    <div class="row">
+        <!-- regis -->
         <div class="col s4 offset-s1">
             <h3 class="header light center">DAFTAR SEBAGAI AGEN</h3>
-            <form action="" class="col center" method="post">
+            <form action="" method="post">
                 <div class="input-field inline">
                     <ul>
-                        <li><input type="text" size=50 name="namaLaundry" placeholder="Nama Laundry"></li>
-                        <li><input type="text" size=50 name="namaPemilik" placeholder="Nama Pemilik"></li>
-                        <li><input type="text" size=50 name="telp" placeholder="No Telp"></li>
-                        <li><input type="text" size=50 name="email" placeholder="Email"></li>
-                        <li><input type="text" size=50 name="platDriver" placeholder="Plat Driver"></li>
-                        <li><input type="text" size=50 name="kota" placeholder="Kota / Kabupaten"></li>
-                        <li><textarea class="materialize-textarea" name="alamat" placeholder="Alamat Lengkap"></textarea></li>
-                        <li><input type="password" name="password" placeholder="Password"></li>
-                        <li><input type="password" name="password2" placeholder="Ulangi Password"></li>
-                        <li><button class="btn-large blue darken-2" type="submit" name="daftar">Daftar</button></li>
+                        <li>
+                            <label for="namaLaundry">Nama Laundry</label>
+                            <input type="text" size=50 id="namaLaundry" name="namaLaundry" placeholder="Nama Laundry">
+                        </li>
+                        <li>
+                            <label for="namaPemilik">Nama Pemilik</label>
+                            <input type="text" size=50 id="namaPemilik" name="namaPemilik" placeholder="Nama Pemilik">
+                        </li>
+                        <li>
+                            <label for="telp">No Telp</label>
+                            <input type="text" size=50 id="telp" name="telp" placeholder="No Telp">
+                        </li>
+                        <li>
+                            <label for="email">E-mail</label>
+                            <input type="text" size=50 id="email" name="email" placeholder="Email">
+                        </li>
+                        <li>
+                            <label for="plat">Plat Driver</label>
+                            <input type="text" size=50 id="plat" name="platDriver" placeholder="Plat Driver">
+                        </li>
+                        <li>
+                            <label for="kota">Kota / Kabupaten</label>
+                            <input type="text" size=50 id="kota" name="kota" placeholder="Kota / Kabupaten">
+                        </li>
+                        <li>
+                            <label for="alamat">Alamat Lengkap</label>
+                            <textarea class="materialize-textarea" id="alamat" name="alamat" placeholder="Alamat Lengkap"></textarea>
+                        </li>
+                        <li>
+                            <label for="password">Password</label>
+                            <input type="password" name="password" placeholder="Password">
+                        </li>
+                        <li>
+                            <label for="repassword">Re-type Password</label>
+                            <input type="password" id="repassword" name="password2" placeholder="Re-type Password">
+                        </li>
+                        <li>
+                            <div id="setuju" class="center"><button class='btn-large blue darken-2' type='submit' name='daftar'>Daftar</button></div>
+                        </li>
                     </ul>        
                 </div>
             </form>

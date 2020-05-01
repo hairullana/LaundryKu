@@ -127,4 +127,90 @@ function validasiNama($objek){
     }
 }
 
+
+
+
+
+
+// SESSION
+
+// admin
+function cekAdmin(){
+    if ( isset($_SESSION["login-admin"]) && isset($_SESSION["admin"]) ){
+
+        $idAdmin = $_SESSION["admin"];
+        
+    }else {
+        echo "
+            <script>
+                alert('Belum Login Sebagai Admin !');
+                document.location.href = 'index.php';
+            </script>
+        ";
+        exit;
+    }
+}
+
+
+// agen
+function cekAgen(){
+    if (isset($_SESSION["login-agen"]) && isset($_SESSION["agen"]) ){
+
+        $idAgen = $_SESSION["agen"];
+    }else {
+        echo "
+            <script>
+                alert('Kamu Belum Login Sebagai Agen !');
+                document.location.href = 'index.php';
+            </script>
+        ";
+        exit;
+    }
+}
+
+
+// pengguna
+function cekPelanggan(){
+    if ( isset($_SESSION["login-pelanggan"]) && isset($_SESSION["pelanggan"]) ){
+
+        $idPengguna = $_SESSION["pelanggan"];
+    }else {
+        echo "
+            <script>
+                alert('Kamu Belum Login Sebagai Pelanggan !');
+                document.location.href = 'index.php';
+            </script>
+        ";
+        exit;
+    }
+}
+
+
+// login
+function cekLogin(){
+    if ( (isset($_SESSION["login-pelanggan"]) && isset($_SESSION["pelanggan"])) || (isset($_SESSION["login-agen"]) && isset($_SESSION["agen"])) || (isset($_SESSION["login-admin"]) && isset($_SESSION["admin"])) ) {
+        echo "
+            <script>
+                alert('Kamu Sudah Login !');
+                document.location.href = 'index.php';
+            </script>
+        ";
+        exit;
+    }
+}
+
+// belum login
+function cekBelumLogin(){
+    if ( !(isset($_SESSION["login-pelanggan"]) && isset($_SESSION["pelanggan"])) && !(isset($_SESSION["login-agen"]) && isset($_SESSION["agen"])) && !(isset($_SESSION["login-admin"]) && isset($_SESSION["admin"])) ) {
+        echo "
+            <script>
+                alert('Kamu Belum Login !');
+                document.location.href = 'index.php';
+            </script>
+        ";
+        exit;
+    }
+}
+
+
 ?>

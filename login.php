@@ -4,15 +4,7 @@ session_start();
 include 'connect-db.php';
 include 'functions/functions.php';
 
-if ( isset($_SESSION["login-pelanggan"]) && isset($_SESSION["pelanggan"]) || isset($_SESSION["login-agen"]) && isset($_SESSION["agen"]) || isset($_SESSION["login-admin"]) && isset($_SESSION["admin"]) ) {
-    echo "
-        <script>
-            alert('Anda Sudah Login !');
-            document.location.href = 'index.php';
-        </script>
-    ";
-    exit;
-}
+cekLogin();
 
 if ( isset($_POST["login"]) ){
 
@@ -34,9 +26,9 @@ if ( isset($_POST["login"]) ){
             if(password_verify($password, $row["password"])){
                 $_SESSION["agen"] = $row["id_agen"];
                 $_SESSION["login-agen"] = true;
+
                 echo "
                     <script>
-                        alert('Berhasil Login Sebagai Agen !');
                         document.location.href = 'index.php';
                     </script>
                 ";
@@ -78,15 +70,8 @@ if ( isset($_POST["login"]) ){
                 $_SESSION["pelanggan"] = $data["id_pelanggan"];
                 $_SESSION["login-pelanggan"] = true;
 
-                // BELAKANGAN AJA DIBUAT HEHE, YANG PENTING JALAN DULU
-                // if ( isset($_POST["remember"]) ){
-                //     //buat cookie yg di hash
-                //     setcookie('id',$data['id'], time() + 60*60);
-                //     setcookie('pengguna',hash('sha256',$data['username']), time() + 60*60);
-                // }
                 echo "
                     <script>
-                        alert('Berhasil Login !');
                         document.location.href = 'index.php';
                     </script>
                 ";
@@ -128,27 +113,20 @@ if ( isset($_POST["login"]) ){
                 //session login 
                 $_SESSION["login-admin"] = true;
                 $_SESSION["admin"] = $idAdmin;
-    
-                //jika remember me di checklist (NANTI DULU)
-                // if ( isset($_POST["remember"]) ){
-                //     //buat cookie yg di hash
-                //     setcookie('id',$data['id'], time() + 60*60);
-                //     setcookie('pengguna',hash('sha256',$data['username']), time() + 60*60);
-                // }
                 
-            }else{
+            }else {
                 echo "
-                <script>
-                    alert ('Username Tidak Terdaftar !');
-                    document.location.href = 'login.php';
-                </script>
-            ";
+                    <script>
+                        alert ('Password Salah !');
+                        document.location.href = 'index.php';
+                    </script>
+                ";
             }
         }else {
             echo "
                 <script>
-                    alert ('Username Tidak Terdaftar !');
-                    document.location.href = 'login.php';
+                    alert ('Username Tidak Ditemukan !');
+                    document.location.href = 'index.php';
                 </script>
             ";
             exit;
@@ -156,20 +134,10 @@ if ( isset($_POST["login"]) ){
     
         echo "
             <script>
-                alert ('Berhasil Login Sebagai Admin !');
                 document.location.href = 'index.php';
             </script>
-            
         ";
     }
-    
-    echo "
-        <script>
-            alert ('Harap Isi Checklist Untuk Login !');
-            document.location.href = 'login.php';
-        </script>
-        
-    ";
 }
 
 ?>
@@ -183,27 +151,44 @@ if ( isset($_POST["login"]) ){
     <title>Halaman Login</title>
 </head>
 <body>
+
+    <!-- header -->
     <?php include 'header.php'; ?>
-    <div id="body">
-        <h3 class="header col s24 light center">Halaman Login</h3>
-        <form action="" class="col s18 center" method="post">
+    <!-- end header -->
+
+    <!-- body -->
+    <div class="container center">  
+        <h3 class="header light center">Halaman Login</h3>
+        <form action="" method="post">
             <div class="input-field inline">
                 <ul>
-                    <li><input type="text" size=40 id="email" name="email" placeholder="Email"></li>
-                    <li><input type="password" size=40 id="password" name="password" placeholder="Password"></li>
-                    <li>
+                <li>
                         <label><input name="akun" value="admin" type="radio"/><span>Admin</span> </label>
                         <label><input name="akun" value="agen" type="radio"/><span>Agen</span> </label>
                         <label><input name="akun" value="pelanggan" type="radio"/><span>Pelanggan</span></label>
                     </li>
+                    <li>
+                        <input type="text" id="email" name="email" placeholder="Email">
+                    </li>
+                    <li>
+                        <input type="password" id="password" name="password" placeholder="Password">
+                        <p class="tes"></p>
+                    </li>
                     <br>
-                    <li><button class="waves-effect blue darken-2 btn" type="submit" name="login">Login</button></li>
+                    <li>
+                        <div class="center">
+                            <button class="waves-effect blue darken-2 btn" type="submit" name="login">Login</button>
+                        </div>
+                    </li>
                 </ul>
-                
             </div>
-            
         </form>
     </div>
+    <!-- end body -->
+
+    <!-- footer -->
     <?php include "footer.php"; ?>
+    <!-- end footer -->
+
 </body>
 </html>

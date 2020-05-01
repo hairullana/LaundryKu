@@ -4,16 +4,7 @@ session_start();
 include 'connect-db.php';
 include 'functions/functions.php';
 
-if ( !isset($_SESSION["pelanggan"])){
-    if (!isset($_SESSION["login-pelanggan"])){
-        echo "
-            <script>
-                alert('Anda Harus Login Sebagai Pelanggan');
-                document.location.href = 'index.php';
-            </script>
-        ";
-    }
-}
+cekPelanggan();
 
 // ambil data agen
 $idAgen = $_GET["id"];

@@ -30,7 +30,7 @@ $agen = mysqli_fetch_assoc($query);
     <!-- data agen -->
     <div class="row">
         <div class="col s2 offset-s4">
-            <img src="img/logo.png" width="70%" />
+            <img src="img/agen/<?= $agen['foto'] ?>" class="circle responsive-img" width="70%" />
             <a id="download-button" class="btn waves-effect waves-light red darken-3" href="pesan-laundry.php?id=<?= $idAgen ?>">PESAN LAUNDRY</a>
         </div>
         <div class="col s6">
@@ -122,20 +122,19 @@ $agen = mysqli_fetch_assoc($query);
 
         $temp = mysqli_query($connect, "SELECT * FROM transaksi WHERE id_agen = $idAgen");
         while ( $transaksi = mysqli_fetch_assoc($temp) ) :
+        
+        $idPelanggan = $transaksi["id_pelanggan"];
+        $temp2 = mysqli_query($connect, "SELECT * FROM pelanggan WHERE id_pelanggan = $idPelanggan");
+        $pelanggan = mysqli_fetch_assoc($temp2);
 
         ?>
 
         <div class="col s5 offset-s1">
             <div class="col s2">
-                <img src="files/laundryku.jpg" width=100% alt="foto">
+                <img src="img/pelanggan/<?= $pelanggan['foto'] ?>" class="circle responsive-img" width=100% alt="foto">
             </div>
 
-            <?php
-                $idPelanggan = $transaksi["id_pelanggan"];
-                $temp2 = mysqli_query($connect, "SELECT * FROM pelanggan WHERE id_pelanggan = $idPelanggan");
-                $pelanggan = mysqli_fetch_assoc($temp2);
-                echo "<h6 class='light'>" . $pelanggan["nama"] . "</h6>";
-            ?>
+            <?= "<h6 class='light'>" . $pelanggan["nama"] . "</h6>";?>
 
             <div class="col s4">
                 <fieldset class="bintang"><span class="starImg star-<?= $transaksi['rating'] ?>"></span></fieldset>

@@ -95,45 +95,44 @@ if (isset($_POST["submitSorting"])){
     <?php include 'header.php'; ?>
     <div class="section no-pad-bot" id="index-banner">
         <div class="container">
-        <br><br>
-        <h1 class="header center orange-text"><img src="img/banner.png" width=110% alt=""></h1>
-        <div class="row center">
-            <h5 class="header col s12 light">Solusi Laundry Praktis Tanpa Keluar Rumah</h5>
-        </div>
-
-        <!-- menu -->
-        <div class="row center">
-            <div id="body">
-                <?php if ( isset($_SESSION["login-pelanggan"]) && isset($_SESSION["pelanggan"]) ) : ?>
-                    <div class="hero__btn" data-animation="fadeInRight" data-delay="1s">
-                        <a id="download-button" class="btn-large waves-effect waves-light blue darken-3" href="pelanggan.php">Profil Saya</a>
-                        <a id="download-button" class="btn-large waves-effect waves-light blue darken-3" href="status.php">Status Cucian</a>
-                        <a id="download-button" class="btn-large waves-effect waves-light blue darken-3" href="transaksi.php">Riwayat Transaksi</a>
-                    </div>
-                <?php elseif ( isset($_SESSION["login-agen"]) && isset($_SESSION["agen"]) ) : ?>
-                    <div class="hero__btn" data-animation="fadeInRight" data-delay="1s">
-                        <a id="download-button" class="btn-large waves-effect waves-light blue darken-3" href="agen.php">Profil Saya</a>
-                        <a id="download-button" class="btn-large waves-effect waves-light blue darken-3" href="status.php">Status Cucian</a>
-                        <a id="download-button" class="btn-large waves-effect waves-light blue darken-3" href="transaksi.php">Riwayat Transaksi</a>
-                    </div>
-                <?php elseif ( isset($_SESSION["login-admin"]) && isset($_SESSION["admin"]) ) : ?>
-                    <div class="hero__btn" data-animation="fadeInRight" data-delay="1s">
-                        <a id="download-button" class="btn-large waves-effect waves-light blue darken-3" href="admin.php">Profil Saya</a>
-                        <a id="download-button" class="btn-large waves-effect waves-light blue darken-3" href="status.php">Status Cucian</a>
-                        <a id="download-button" class="btn-large waves-effect waves-light blue darken-3" href="transaksi.php">Riwayat Transaksi</a>
-                        <br><br>
-                        <a id="download-button" class="btn-large waves-effect waves-light blue darken-3" href="list-agen.php">Data Agen</a>
-                        <a id="download-button" class="btn-large waves-effect waves-light blue darken-3" href="list-pelanggan.php">Data Pelanggan</a>
-                    </div>
-                <?php else : ?>
-                    <div class="hero__btn" data-animation="fadeInRight" data-delay="1s">
-                        <a href="registrasi.php" id="download-button" class="btn-large waves-effect waves-light blue darken-3">Daftar Sekarang</a>
-                    </div>
-                <?php endif ?>
+            <br>
+            <h1 class="header center orange-text"><img src="img/banner.png" width=110% alt=""></h1>
+            <div class="row center">
+                <h5 class="header col s12 light">Solusi Laundry Praktis Tanpa Keluar Rumah</h5>
             </div>
-        <!-- end menu -->
-        <br><br>
-        <hr>
+
+            <!-- menu -->
+            <div class="row center">
+                <div id="body">
+                    <?php if ( isset($_SESSION["login-pelanggan"]) && isset($_SESSION["pelanggan"]) ) : ?>
+                        <div class="hero__btn" data-animation="fadeInRight" data-delay="1s">
+                            <a id="download-button" class="btn-large waves-effect waves-light blue darken-3" href="pelanggan.php">Profil Saya</a>
+                            <a id="download-button" class="btn-large waves-effect waves-light blue darken-3" href="status.php">Status Cucian</a>
+                            <a id="download-button" class="btn-large waves-effect waves-light blue darken-3" href="transaksi.php">Riwayat Transaksi</a>
+                        </div>
+                    <?php elseif ( isset($_SESSION["login-agen"]) && isset($_SESSION["agen"]) ) : ?>
+                        <div class="hero__btn" data-animation="fadeInRight" data-delay="1s">
+                            <a id="download-button" class="btn-large waves-effect waves-light blue darken-3" href="agen.php">Profil Saya</a>
+                            <a id="download-button" class="btn-large waves-effect waves-light blue darken-3" href="status.php">Status Cucian</a>
+                            <a id="download-button" class="btn-large waves-effect waves-light blue darken-3" href="transaksi.php">Riwayat Transaksi</a>
+                        </div>
+                    <?php elseif ( isset($_SESSION["login-admin"]) && isset($_SESSION["admin"]) ) : ?>
+                        <div class="hero__btn" data-animation="fadeInRight" data-delay="1s">
+                            <a id="download-button" class="btn-large waves-effect waves-light blue darken-3" href="admin.php">Profil Saya</a>
+                            <a id="download-button" class="btn-large waves-effect waves-light blue darken-3" href="status.php">Status Cucian</a>
+                            <a id="download-button" class="btn-large waves-effect waves-light blue darken-3" href="transaksi.php">Riwayat Transaksi</a>
+                            <br><br>
+                            <a id="download-button" class="btn-large waves-effect waves-light blue darken-3" href="list-agen.php">Data Agen</a>
+                            <a id="download-button" class="btn-large waves-effect waves-light blue darken-3" href="list-pelanggan.php">Data Pelanggan</a>
+                        </div>
+                    <?php else : ?>
+                        <div class="hero__btn" data-animation="fadeInRight" data-delay="1s">
+                            <a href="registrasi.php" id="download-button" class="btn-large waves-effect waves-light blue darken-3">Daftar Sekarang</a>
+                        </div>
+                    <?php endif ?>
+                </div>
+            <!-- end menu -->
+            <br>
         </div>
     </div>
 
@@ -196,11 +195,11 @@ if (isset($_POST["submitSorting"])){
         <div class="section">
 
         <!--   Icon Section   -->
-        <div class="row">
+        <div class="row card">
             <?php foreach ( $agen as $dataAgen) : ?>
                 <div class="col s12 m4">
                     <div class="icon-block center">
-                        <h2 class="center light-blue-text"><a href="detail-agen.php?id=<?= $dataAgen['id_agen'] ?>"><img src="img/logo.png" width=60% /></a></h2>
+                        <h2 class="center light-blue-text"><a href="detail-agen.php?id=<?= $dataAgen['id_agen'] ?>"><img src="img/agen/<?= $dataAgen['foto'] ?>" class="circle resposive-img" width=60% /></a></h2>
                         <h5 class="center"><a href="detail-agen.php?id=<?= $dataAgen['id_agen'] ?>"><?= $dataAgen["nama_laundry"] ?></a></h5>
                         <?php
                             $temp = $dataAgen["id_agen"];

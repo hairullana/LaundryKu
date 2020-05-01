@@ -4,7 +4,10 @@
         <div class="row">
             <div class="col l6 s12">
             <h5 class="white-text">Company Bio</h5>
-            <p class="grey-text text-lighten-4">We are a team of college students working on this project like it's our full time job. Any amount would help support and continue development on this project and is greatly appreciated.</p>
+            <p class="grey-text text-lighten-4">
+                LaundryKu adalah sebuah projek yang ditujukan sebagai tugas akhir untuk mata kuliah "Basis Data Lanjut" pada Program Studi Informatika, Fakultas MIPA, Universitas Udayana.<br/>
+                Segala bentuk dukungan akan sangat membantu kami dalam menyelesaikan projek ini. Terima Kasih.
+            </p>
 
 
             </div>

@@ -3,6 +3,9 @@
 // session
 session_start();
 include 'connect-db.php';
+include 'functions/functions.php';
+
+cekBelumLogin();
 
 // sesuaikan dengan jenis login
 if(isset($_SESSION["login-admin"]) && isset($_SESSION["admin"])){

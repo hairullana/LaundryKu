@@ -5,15 +5,7 @@
     include 'connect-db.php';
     include 'functions/functions.php';
 
-    if ( isset($_SESSION["login-pelanggan"]) && isset($_SESSION["pelanggan"]) || isset($_SESSION["login-agen"]) && isset($_SESSION["agen"]) || isset($_SESSION["login-admin"]) && isset($_SESSION["admin"]) ) {
-        echo "
-            <script>
-                alert('Anda Sudah Mendaftar !');
-                document.location.href = 'index.php';
-            </script>
-        ";
-        exit;
-    }
+    cekLogin();
 
     // fungsi registrasi
     function registrasi ($data) {
@@ -64,7 +56,7 @@
         $password = password_hash($password, PASSWORD_DEFAULT);
 
         // masukkan data user ke db
-        mysqli_query($connect, "INSERT INTO pelanggan VALUES ('','$nama','$email','$noTelp','$kota','$alamat','$password')");
+        mysqli_query($connect, "INSERT INTO pelanggan VALUES ('','$nama','$email','$noTelp','$kota','$alamat','default.png','$password')");
 
         // RETURN TRUE
         return mysqli_affected_rows($connect);
@@ -111,29 +103,61 @@
     <h3 class="header light center">Registrasi Pelanggan</h3>
 
     <!-- body -->
-    <div class="container center">
-        <form action="" method="POST">
-            <div class="input-field inline">
-                <ul>
-                    <li><input type="text" size=70 placeholder="Nama" name="nama"></li>
-                    <li><input type="text" size=70 placeholder="E-mail" name="email"></li>
-                    <li><input type="text" size=70 placeholder="No Telp" name="noTelp"></li>
-                    <li><input type="text" size=70 placeholder="Kota / Kabupaten" name="kota"></li>
-                    <li><input type="text" size=70 placeholder="Alamat Lengkap" name="alamat"></li>
-                    <li><input type="password" placeholder="Password" name="password"></li>
-                    <li><input type="password" placeholder="Re-type Password" name="password2"></li>
-                    <li><button class="btn-large blue darken-3" type="submit" name="registrasi">Daftar</button></li>
-                </ul>
+    <div class="row">
+        <div class="col s6 offset-s3">
+            <form action="" method="POST">
+                <div class="input-field inline">
+                    <ul>
+                        <li>
+                            <label for="nama">Nama</label>
+                            <input type="text" size=70 id="nama" placeholder="Nama" name="nama">
+                        </li>
+                        <li>
+                            <label for="email">Email</label>
+                            <input type="text" size=70 id="email" placeholder="E-mail" name="email">
+                        </li>
+                        <li>
+                            <label for="telp">No Telp</label>
+                            <input type="text" size=70 id="telp" placeholder="No Telp" name="noTelp">
+                        </li>
+                        <li>
+                            <label for="kota">Kota / Kabupaten</label>
+                            <input type="text" size=70 id="kota" placeholder="Kota / Kabupaten" name="kota">
+                        </li>
+                        <li>
+                            <label for="alamat">Alamat Lengkap</label>
+                            <input type="text" size=70 id="alamat" placeholder="Alamat Lengkap" name="alamat">
+                        </li>
+                        <li>
+                            <label for="password">Password</label>
+                            <input type="password" id="password" placeholder="Password" name="password">
+                        </li>
+                        <li>
+                            <label for="repassword">Re-type Password</label>
+                            <input type="password" id="repassword" placeholder="Re-type Password" name="password2">
+                        </li>
+                        <li>
+                            <div class="center">
+                                <button class="btn-large blue darken-3" type="submit" name="registrasi">Daftar</button>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </form>
+            <div class="center">
+                Ingin menjadi mitra kami ?<br/>
+                Dafar sebagai agen sekarang !<br/>
+                <br>
+                <a class="btn-large red darken-2" href="registrasi-agen.php">Registrasi Sebagai Agen</a>
             </div>
-        </form>
-        <div>
-            <br>
-            Ingin menjadi mitra kami ?<br/>
-            Dafar sebagai agen sekarang !<br/>
-            <br>
-            <a class="btn-large red darken-2" href="registrasi-agen.php">Registrasi Sebagai Agen</a>
         </div>
     </div>
+    <!-- end body -->
+
+
+    <!-- footer -->
     <?php include "footer.php"; ?>
+    <!-- end footer -->
+
 </body>
 </html>

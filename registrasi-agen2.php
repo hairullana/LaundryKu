@@ -4,15 +4,7 @@ session_start();
 include 'connect-db.php';
 include 'functions/functions.php';
 
-if ( isset($_SESSION["login-pelanggan"]) && isset($_SESSION["pelanggan"]) || isset($_SESSION["login-admin"]) && isset($_SESSION["admin"]) ) {
-    echo "
-        <script>
-            alert('Anda Bukan Agen !');
-            document.location.href = 'index.php';
-        </script>
-    ";
-    exit;
-}
+cekAgen();
 
 $idAgen = $_SESSION["agen"];
 
@@ -94,40 +86,69 @@ if ( isset($_POST["submit"]) ){
     <?php include 'header.php' ?>
     <!-- end header -->
 
-    <!-- term -->
     <div class="row">
+
+        <!-- term -->
         <div class="col s4 offset-s1">
             <div class="card">
                 <div class="col center" style="margin:20px">
                     <img src="img/banner.png" alt="laundryku" width=100%/><br><br>
                     <span class="card-title black-text">Syarat dan Ketentuan :</span>
                 </div>
-            <div class="card-content">
-                <p>1. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Non, accusamus? Excepturi officia inventore dolor, quisquam facere ipsum quis perspiciatis. Consequuntur rem molestiae sint, commodi atque magnam. Unde blanditiis quam quo.</p>
-                <p>2. Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic natus aut rerum similique ad, voluptatibus magnam tenetur velit sapiente dicta sunt molestiae culpa deleniti, corrupti dolor unde, beatae ea eos.</p>
-                <p>3. Lorem ipsum, dolor sit amet consectetur adipisicing elit. Deserunt hic laboriosam beatae explicabo, et consequatur? Omnis error sapiente accusamus soluta cum minus libero quasi ab ut, quo rerum hic aspernatur?</p>
-                <p>4. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sapiente iusto eligendi ex odio quia reiciendis in expedita eveniet dicta tempore, maxime, laboriosam hic nostrum inventore assumenda accusantium perferendis illo voluptate!</p>
-                <p>5. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Error, eveniet suscipit repellendus non dolore repellat! At, reprehenderit tempora! Accusamus ut itaque veritatis doloremque delectus dolorem architecto quo perspiciatis reiciendis unde?</p>
-            </div>
-            <div class="card-action">
-                <a href="term.php">Baca Selengkapnya</a>
-            </div>
+                <div class="card-content">
+                    <p>1.	Memiliki lokasi usaha laundry yang strategis dan teridentifikasi oleh google map</p>
+                    <p>2.	Agen memiliki nama usaha serta logo perusahaan agar dapat diposting di website laundryKU</p>
+                    <p>3.	Mampu memberikan layanan Laundry dengan kualitas prima dan harga yang bersaing</p>
+                    <p>4.	Memiliki driver yang bersedia untuk melakukan penjemputan dan pengantaran terhadap laundry pelanggan</p>
+                    <p>5.	Harga dari jenis laundry ditentukan berdasarkan berat per kilo (kg) ditambah dengan biaya ongkos kirim</p>
+                    <p>6.	Bersedia untuk memberikan informasi kepada pelanggan mengenai harga Laundry Kiloan</p>
+                    <p>7.	Bersedia untuk menerapkan sistem poin kepada pelanggan</p>
+                    <p>8.	Bersedia memberikan kompensasi untuk setiap kemungkinan terjadinya seperti kehilangan pakaian atau kerusakan pakaian pada saat proses Laundry dilakukan</p>
+                    <p>9.	Agen tidak diperkenankan untuk melakukan kerjasama dengan pihak Laundry lainnya</p>
+                    <p>10.	Sebagai kompensasi atas kerjasama adalah sistem bagi hasil sebesar 5%, yang diperhitungkan dari setiap 7 hari</p>
+                    <p>11.	Status agen secara otomatis dicabut apabila melanggar kesepakatan yang telah ditetapkan dalam surat perjanjian kerjasama ataupun agen ingin mengundurkan diri</p>
+                </div>
+                <div class="card-action">
+                    <a href="term.php">Baca Selengkapnya</a>
+                </div>
+            </div>  
         </div>
-    </div>
-    <!-- end term -->
+        <!-- end term -->
 
     
-    <div class="col s4 offset-s1">
-        <h3 class="header light center">Data Harga</h3>
-        <form action="" method="post">
-            <div class="input-field inline">
-                    Cuci : <input type="text" name="cuci" value="0">
-                    Setrika : <input type="text" name="setrika" value="0">
-                    Cuci + Setrika : <input type="text" name="komplit" value="0">
-                    <div class="center"><button class="btn-large blue darken-2" type="submit" name="submit">Simpan Harga</button></div>
-            </div>
-        </form>
+        <!-- harga -->
+        <div class="col s4 offset-s1">
+            <h3 class="header light center">Data Harga</h3>
+            <form action="" method="post">
+                <div class="input-field inline">
+                    <ul>
+                        <li>
+                            <label for="cuci">Cuci (Rp.)</label>
+                            <input type="text" size=50 name="cuci" value="0">
+                        </li>
+                        <li>
+                            <label for="setrika">Setrika (Rp.)</label>
+                            <input type="text" size=50 name="setrika" value="0">
+                        </li>
+                        <li>
+                            <label for="komplit">Cuci + Setrika (Rp.)</label>
+                            <input type="text" size=50 name="komplit" value="0">
+                        </li>
+                        <li>
+                            <div class="center">
+                                <button class="btn-large blue darken-2" type="submit" name="submit">Simpan Harga</button>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </form>
+        </div>
+        <!-- end harga -->
     </div>
+
+    <!-- footer -->
+    <?php include 'footer.php'; ?>
+    <!-- end footer -->
 
 </body>
 </html>

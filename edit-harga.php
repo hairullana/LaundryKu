@@ -4,8 +4,8 @@ session_start();
 include 'connect-db.php';
 include 'functions/functions.php';
 
+cekAgen();
 
-$idAgen = $_SESSION["agen"];
 $cuci = mysqli_query($connect, "SELECT * FROM harga WHERE id_agen = '$idAgen' AND jenis = 'cuci'");
 $cuci = mysqli_fetch_assoc($cuci);
 $setrika = mysqli_query($connect, "SELECT * FROM harga WHERE id_agen = '$idAgen' AND jenis = 'setrika'");

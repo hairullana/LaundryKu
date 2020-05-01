@@ -5,17 +5,17 @@ include 'connect-db.php';
 include 'functions/functions.php';
 
 // sesuaikan dengan jenis login
-if(isset($_SESSION["login-admin"]) && isset($_SESSION["admin"])){
+if((isset($_SESSION["login-admin"]) && isset($_SESSION["admin"])) || isset($_COOKIE["admin"])){
 
     $login = "Admin";
     $idAdmin = $_SESSION["admin"];
 
-}else if(isset($_SESSION["login-agen"]) && isset($_SESSION["agen"])){
+}else if( (isset($_SESSION["login-agen"]) && isset($_SESSION["agen"])) || isset($_COOKIE["agen"])){
 
     $idAgen = $_SESSION["agen"];
     $login = "Agen";
 
-}else if (isset($_SESSION["login-pelanggan"]) && isset($_SESSION["pelanggan"])){
+}else if ((isset($_SESSION["login-pelanggan"]) && isset($_SESSION["pelanggan"])) || isset($_COOKIE["pelanggan"])){
 
     $idPelanggan = $_SESSION["pelanggan"];
     $login = "Pelanggan";
