@@ -140,8 +140,8 @@ if (isset($_POST["submitSorting"])){
     <!-- searching -->
     <form class="col s12 center" action="" method="post">
         <div class="input-field inline">
-            <input type="text" size=40 name="keyword" placeholder="Kota / Kabupaten">
-            <a href="#search"><button type="submit" class="btn waves-effect blue darken-2" name="cari"><i class="material-icons">search</i></button></a>
+            <input type="text" size=40 name="keyword" placeholder="Kota / Kabupaten" id="keyword" autofocus autocomplete="off">
+            <a href="#search"><button type="submit" class="btn waves-effect blue darken-2" id="cariData" name="cari"><i class="material-icons">search</i></button></a>
         </div>
     </form>
     <!-- end searching -->
@@ -191,49 +191,51 @@ if (isset($_POST["submitSorting"])){
     <!-- end sorting -->
 
     <!-- list agen -->
-    <div class="container">
-        <div class="section">
+    <div id="container">
+        <div class="container">
+            <div class="section">
 
-        <!--   Icon Section   -->
-        <div class="row card">
-            <?php foreach ( $agen as $dataAgen) : ?>
-                <div class="col s12 m4">
-                    <div class="icon-block center">
-                        <h2 class="center light-blue-text"><a href="detail-agen.php?id=<?= $dataAgen['id_agen'] ?>"><img src="img/agen/<?= $dataAgen['foto'] ?>" class="circle resposive-img" width=60% /></a></h2>
-                        <h5 class="center"><a href="detail-agen.php?id=<?= $dataAgen['id_agen'] ?>"><?= $dataAgen["nama_laundry"] ?></a></h5>
-                        <?php
-                            $temp = $dataAgen["id_agen"];
-                            $queryStar = mysqli_query($connect,"SELECT * FROM transaksi WHERE id_agen = '$temp'");
-                            $totalStar = 0;
-                            $i = 0;
-                            while ($star = mysqli_fetch_assoc($queryStar)){
+                <!--   Icon Section   -->
+                <div class="row card">
+                    <?php foreach ( $agen as $dataAgen) : ?>
+                        <div class="col s12 m4">
+                            <div class="icon-block center">
+                                <h2 class="center light-blue-text"><a href="detail-agen.php?id=<?= $dataAgen['id_agen'] ?>"><img src="img/agen/<?= $dataAgen['foto'] ?>" class="circle resposive-img" width=60% /></a></h2>
+                                <h5 class="center"><a href="detail-agen.php?id=<?= $dataAgen['id_agen'] ?>"><?= $dataAgen["nama_laundry"] ?></a></h5>
+                                <?php
+                                    $temp = $dataAgen["id_agen"];
+                                    $queryStar = mysqli_query($connect,"SELECT * FROM transaksi WHERE id_agen = '$temp'");
+                                    $totalStar = 0;
+                                    $i = 0;
+                                    while ($star = mysqli_fetch_assoc($queryStar)){
 
-                                // kalau belum kasi rating gk dihitung
-                                if ($star["rating"] != 0){
-                                    $totalStar += $star["rating"];
-                                    $i++;
-                                    $fixStar = ceil($totalStar / $i);
-                                }
-                            }
-                                
-                            if ( $totalStar == 0 ) {
-                        ?>
-                            <center><fieldset class="bintang"><span class="starImg star-0"></span></fieldset></center>
-                        <?php }else { ?>
-                            <center><fieldset class="bintang"><span class="starImg star-<?= $fixStar ?>"></span></fieldset></center>
-                        <?php } ?>
+                                        // kalau belum kasi rating gk dihitung
+                                        if ($star["rating"] != 0){
+                                            $totalStar += $star["rating"];
+                                            $i++;
+                                            $fixStar = ceil($totalStar / $i);
+                                        }
+                                    }
+                                        
+                                    if ( $totalStar == 0 ) {
+                                ?>
+                                    <center><fieldset class="bintang"><span class="starImg star-0"></span></fieldset></center>
+                                <?php }else { ?>
+                                    <center><fieldset class="bintang"><span class="starImg star-<?= $fixStar ?>"></span></fieldset></center>
+                                <?php } ?>
 
-                        <p class="light">
-                            Alamat : <?= $dataAgen["alamat"] . ", " . $dataAgen["kota"]  ?>
-                            <br/>Telp : <?= $dataAgen["telp"] ?></p>
-                        </p>
-                    </div>
+                                <p class="light">
+                                    Alamat : <?= $dataAgen["alamat"] . ", " . $dataAgen["kota"]  ?>
+                                    <br/>Telp : <?= $dataAgen["telp"] ?></p>
+                                </p>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
                 </div>
-            <?php endforeach; ?>
-        </div>
 
+            </div>
+            <br><br>
         </div>
-        <br><br>
     </div>
 
     <!-- footer -->
@@ -241,4 +243,5 @@ if (isset($_POST["submitSorting"])){
     <!-- end footer -->
 
     </body>
+    <script src="js/scriptAjax.js"></script>
 </html>

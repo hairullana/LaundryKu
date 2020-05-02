@@ -142,7 +142,7 @@ if ( isset($_POST["cari"])) {
                     <td><?= $dataAgen["plat_driver"] ?></td>
                     <td><?= $dataAgen["kota"] ?></td>
                     <td><?= $dataAgen["alamat"] ?></td>
-                    <td><a class="btn red darken-2" href="hapus-agen.php?id=<?= $dataAgen['id_agen'] ?>">Hapus Data</a></td>
+                    <td><a class="btn red darken-2" href="hapus-agen.php?id=<?= $dataAgen['id_agen'] ?>" onclick="return confirm('Apakah anda yakin ingin menghapus data ?')"><i class="material-icons">delete</i></a></td>
                 </tr>
 
                 <?php endforeach ?>
