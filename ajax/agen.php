@@ -38,6 +38,52 @@ $agen = mysqli_query($connect,$query);
 
 ?>
 
+<!-- pagination -->
+<div id="search">
+    <ul class="pagination center">
+    <?php if( $halamanAktif > 1 ) : ?>
+        <li class="disabled-effect blue darken-1">
+            <!-- halaman pertama -->
+            <a href="?page=<?= $halamanAktif - 1; ?>"><i class="material-icons">chevron_left</i></a>
+        </li>
+    <?php endif; ?>
+    <?php for( $i = 1; $i <= $jumlahHalaman; $i++ ) : ?>
+        <?php if( $i == $halamanAktif ) : ?>
+            <li class="active grey"><a href="?page=<?= $i; ?>"><?= $i ?></a></li>
+        <?php else : ?>
+            <li class="waves-effect blue darken-1"><a href="?page=<?= $i; ?>"><?= $i ?></a></li>
+        <?php endif; ?>
+    <?php endfor; ?>
+    <?php if( $halamanAktif < $jumlahHalaman ) : ?>
+        <li class="waves-effect blue darken-1">
+            <a class="page-link" href="?page=<?= $halamanAktif + 1; ?>"><i class="material-icons">chevron_right</i></a>
+        </li>
+    <?php endif; ?>
+    </ul>
+</div>
+<!-- pagination -->
+
+
+<!-- sorting -->
+<!-- <div class="row">
+    <div class="col s4 offset-s4">
+        <form action="" method="post">
+            <label for="sorting">Sorting</label>
+            <select class="browser-default" name="sorting" id="sorting">
+                <option disabled>Sorting</option>
+                <option value="ratingUp">Rating Tertinggi</option>
+                <option value="ratingDown">Rating Terendah</option>
+                <option value="hargaUp">HargaTertinggi</option>
+                <option value="hargaDown">Harga Terendah</option>
+            </select>
+            <div class="center"><button class="btn blue darken-2" type="submit" name="submitSorting"><i class="material-icons">send</i></button></div>
+        </form>
+    </div>
+</div> -->
+<!-- end sorting -->
+
+<!-- list agen -->
+
 <div class="container">
     <div class="section">
 
