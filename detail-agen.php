@@ -4,8 +4,10 @@
 session_start();
 include 'connect-db.php';
 
+// mengambil id agen dg method get
 $idAgen = $_GET["id"];
 
+// ambil data agen
 $query = mysqli_query($connect, "SELECT * FROM agen WHERE id_agen = '$idAgen'");
 $agen = mysqli_fetch_assoc($query);
 

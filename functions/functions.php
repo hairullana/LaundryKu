@@ -1,3 +1,6 @@
+<script src="sweetalert2/sweetalert2.all.min.js"></script>
+
+
 <?php
 
 
@@ -6,16 +9,14 @@ function validasiUsername($objek){
     if (empty($objek)){
         echo "
             <script>
-                alert('Form Tidak Boleh Kosong !');
-                document.location.href = '';
+                Swal.fire('Username Tidak Boleh Kosong','','error');
             </script>
         ";
         exit;
     }else if (!preg_match("/^[a-zA-Z0-9]*$/",$objek)){
         echo "
             <script>
-                alert('Username Hanya Diperbolehkan Huruf dan Angka !');
-                document.location.href = '';
+                Swal.fire('Username Hanya Boleh Huruf dan Angka','','error');
             </script>
         ";
         exit;
@@ -27,16 +28,14 @@ function validasiTelp($objek){
     if (empty($objek)){
         echo "
             <script>
-                alert('Form Tidak Boleh Kosong !');
-                document.location.href = '';
+                Swal.fire('No Telp Tidak Boleh Kosong','','error');
             </script>
         ";
         exit;
     }else if (!preg_match("/^[0-9]*$/",$objek)){
         echo "
             <script>
-                alert('Nomor Telp Hanya Diperbolehkan Angka !');
-                document.location.href= '';
+                Swal.fire('No Telp Hanya Diperbolehkan Angka','','error');
             </script>
         ";
         exit;
@@ -48,16 +47,14 @@ function validasiBerat($objek){
     if (empty($objek)){
         echo "
             <script>
-                alert('Form Tidak Boleh Kosong !');
-                document.location.href = '';
+                Swal.fire('Form Tidak Boleh Kosong','','error');
             </script>
         ";
         exit;
     }else if (!preg_match("/^[0-9]*$/",$objek)){
         echo "
             <script>
-                alert('Satuan Berat Hanya Diperbolehkan Angka !');
-                document.location.href= '';
+                Swal.fire('Satuan Berat Hanya Diperbolehkan Angka','','error');
             </script>
         ";
         exit;
@@ -69,16 +66,14 @@ function validasiHarga($objek){
     if (empty($objek)){
         echo "
             <script>
-                alert('Form Tidak Boleh Kosong !');
-                document.location.href = '';
+                Swal.fire('Form Harga Tidak Boleh Kosong','','error');
             </script>
         ";
         exit;
     }else if (!preg_match("/^[0-9]*$/",$objek)){
         echo "
             <script>
-                alert('Harga Hanya Diperbolehkan Angka !');
-                document.location.href= '';
+                Swal.fire('Masukkan Harga Yang Benar !','','error');
             </script>
         ";
         exit;
@@ -90,16 +85,14 @@ function validasiEmail($objek){
     if (empty($objek)){
         echo "
             <script>
-                alert('Form Tidak Boleh Kosong !');
-                document.location.href = '';
+                Swal.fire('Form Email Tidak Boleh Kosong','','error');
             </script>
         ";
         exit;
     }else if (!filter_var($objek, FILTER_VALIDATE_EMAIL)){
         echo "
             <script>
-                alert('Masukkan Format Email Yang Benar !');
-                document.location.href= '';
+                Swal.fire('Masukkan Format Email Yang Benar','','error');
             </script>
         ";
         exit;
@@ -111,16 +104,14 @@ function validasiNama($objek){
     if (empty($objek)){
         echo "
             <script>
-                alert('Form Tidak Boleh Kosong !');
-                document.location.href = '';
+                Swal.fire('Form Nama Tidak Boleh Kosong','','error');
             </script>
         ";
         exit;
     }else if (!preg_match("/^[a-zA-Z .]*$/",$objek)){
         echo "
             <script>
-                alert('Hanya Huruf dan Spasi Yang Diijinkan Untuk Nama !');
-                document.location.href= '';
+                Swal.fire('Nama Hanya Diperbolehkan Huruf dan Spasi','','error');
             </script>
         ";
         exit;
@@ -143,8 +134,7 @@ function cekAdmin(){
     }else {
         echo "
             <script>
-                alert('Belum Login Sebagai Admin !');
-                document.location.href = 'index.php';
+                window.location = 'index.php';
             </script>
         ";
         exit;
@@ -160,8 +150,7 @@ function cekAgen(){
     }else {
         echo "
             <script>
-                alert('Kamu Belum Login Sebagai Agen !');
-                document.location.href = 'index.php';
+                window.location = 'index.php';
             </script>
         ";
         exit;
@@ -173,12 +162,11 @@ function cekAgen(){
 function cekPelanggan(){
     if ( isset($_SESSION["login-pelanggan"]) && isset($_SESSION["pelanggan"]) ){
 
-        $idPengguna = $_SESSION["pelanggan"];
+        $idPelanggan = $_SESSION["pelanggan"];
     }else {
         echo "
             <script>
-                alert('Kamu Belum Login Sebagai Pelanggan !');
-                document.location.href = 'index.php';
+                window.location = 'index.php';
             </script>
         ";
         exit;
@@ -191,8 +179,7 @@ function cekLogin(){
     if ( (isset($_SESSION["login-pelanggan"]) && isset($_SESSION["pelanggan"])) || (isset($_SESSION["login-agen"]) && isset($_SESSION["agen"])) || (isset($_SESSION["login-admin"]) && isset($_SESSION["admin"])) ) {
         echo "
             <script>
-                alert('Kamu Sudah Login !');
-                document.location.href = 'index.php';
+                window.location = 'index.php';
             </script>
         ";
         exit;
@@ -204,8 +191,7 @@ function cekBelumLogin(){
     if ( !(isset($_SESSION["login-pelanggan"]) && isset($_SESSION["pelanggan"])) && !(isset($_SESSION["login-agen"]) && isset($_SESSION["agen"])) && !(isset($_SESSION["login-admin"]) && isset($_SESSION["admin"])) ) {
         echo "
             <script>
-                alert('Kamu Belum Login !');
-                document.location.href = 'index.php';
+                window.location = 'login.php';
             </script>
         ";
         exit;

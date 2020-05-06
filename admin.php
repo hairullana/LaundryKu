@@ -12,31 +12,7 @@ $idAdmin = $_SESSION["admin"];
 $data = mysqli_query($connect, "SELECT * FROM admin WHERE id_admin = '$idAdmin'");
 $admin = mysqli_fetch_assoc($data);
 
-if ( isset($_POST["simpan"]) ){
-    $username = htmlspecialchars($_POST["username"]);
 
-    // VALIDASI
-    validasiUsername($username);
-
-    // UBAH DATA
-    mysqli_query($connect, "UPDATE admin SET username = '$username' WHERE id_admin = '$idAdmin'");
-
-    if ( mysqli_affected_rows($connect) > 0){
-        echo "
-            <script>
-                alert('Data Berhasil Di Update !');
-                document.location.href = 'admin.php';
-            </script>
-        ";
-    }else{
-        echo "
-            <script>
-                alert('Data Gagal Di Update !');
-            </script>
-        ";
-        echo mysqli_error($connect);
-    }
-}
 
 ?>
 
@@ -66,3 +42,36 @@ if ( isset($_POST["simpan"]) ){
     <?php include 'footer.php'; ?>
 </body>
 </html>
+
+<?php
+
+if ( isset($_POST["simpan"]) ){
+    $username = htmlspecialchars($_POST["username"]);
+
+    // VALIDASI
+    validasiUsername($username);
+
+    // UBAH DATA
+    mysqli_query($connect, "UPDATE admin SET username = '$username' WHERE id_admin = '$idAdmin'");
+
+    if ( mysqli_affected_rows($connect) > 0){
+        echo "
+            <script>
+                Swal.fire('Data Berhasil Di Update','','success').then(function() {
+                    window.location = 'admin.php';
+                });
+            </script>
+        ";
+    }else{
+        echo "
+            <script>
+                Swal.fire('Data Gagal Di Update','','success').then(function() {
+                    window.location = 'admin.php';
+                });
+            </script>
+        ";
+        echo mysqli_error($connect);
+    }
+}
+
+?>

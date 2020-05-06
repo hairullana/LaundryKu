@@ -13,63 +13,6 @@ $query = "SELECT * FROM agen WHERE id_agen = '$idAgen'";
 $result = mysqli_query($connect, $query);
 $agen = mysqli_fetch_assoc($result);
 
-function dataHarga($data){
-    global $connect, $idAgen;
-
-    $cuci = htmlspecialchars($data["cuci"]);
-    $setrika = htmlspecialchars($data["setrika"]);
-    $komplit = htmlspecialchars($data["komplit"]);
-
-    validasiHarga($cuci);
-    validasiHarga($setrika);
-    validasiHarga($komplit);
-
-    $query2 = "INSERT INTO harga VALUES(
-        '',
-        'cuci',
-        '$idAgen',
-        '$cuci'
-    )";
-    $query3 = "INSERT INTO harga VALUES(
-        '',
-        'setrika',
-        '$idAgen',
-        '$setrika'
-    )";
-    $query4 = "INSERT INTO harga VALUES(
-        '',
-        'komplit',
-        '$idAgen',
-        '$komplit'
-    )";
-
-    $result2 = mysqli_query($connect, $query2);
-    $result3 = mysqli_query($connect, $query3);
-    $result4 = mysqli_query($connect, $query4);
-
-    return mysqli_affected_rows($connect);
-}
-
-if ( isset($_POST["submit"]) ){
-    
-
-    if ( dataHarga($_POST) > 0 ){
-        echo "
-            <script>
-                alert('Data Berhasil Ditambahkan !');
-                document.location.href = 'index.php';
-            </script>
-        ";
-    }else {
-        echo "
-            <script>
-                alert('Data Gagal Ditambahkan !');
-            </script>
-        ";
-        echo mysqli_error($connect);
-    }
-}
-
 ?>
 
 <!DOCTYPE html>
@@ -152,3 +95,65 @@ if ( isset($_POST["submit"]) ){
 
 </body>
 </html>
+
+<?php
+
+function dataHarga($data){
+    global $connect, $idAgen;
+
+    $cuci = htmlspecialchars($data["cuci"]);
+    $setrika = htmlspecialchars($data["setrika"]);
+    $komplit = htmlspecialchars($data["komplit"]);
+
+    validasiHarga($cuci);
+    validasiHarga($setrika);
+    validasiHarga($komplit);
+
+    $query2 = "INSERT INTO harga VALUES(
+        '',
+        'cuci',
+        '$idAgen',
+        '$cuci'
+    )";
+    $query3 = "INSERT INTO harga VALUES(
+        '',
+        'setrika',
+        '$idAgen',
+        '$setrika'
+    )";
+    $query4 = "INSERT INTO harga VALUES(
+        '',
+        'komplit',
+        '$idAgen',
+        '$komplit'
+    )";
+
+    $result2 = mysqli_query($connect, $query2);
+    $result3 = mysqli_query($connect, $query3);
+    $result4 = mysqli_query($connect, $query4);
+
+    return mysqli_affected_rows($connect);
+}
+
+if ( isset($_POST["submit"]) ){
+    
+
+    if ( dataHarga($_POST) > 0 ){
+        echo "
+            <script>
+                Swal.fire('Pendaftaran Berhasil','Data Harga Berhasil Ditambahkan','success').then(function(){
+                    window.location = 'index.php';
+                });
+            </script>
+        ";
+    }else {
+        echo "
+            <script>
+                alert('Data Gagal Ditambahkan !');
+            </script>
+        ";
+        echo mysqli_error($connect);
+    }
+}
+
+?>

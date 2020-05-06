@@ -29,7 +29,7 @@ include 'connect-db.php';
         <div class="col s2 offset-s2">
             <div class="card">
                 <div class="card-image center">
-                    <img src="files/laundryku.jpg">
+                    <img src="img/logo.png">
                     <h5 class="header light">Nadya Oktaviana</h5>
                 </div>
                 <div class="card-content">
@@ -44,7 +44,7 @@ include 'connect-db.php';
         <div class="col s2">
             <div class="card">
                 <div class="card-image center">
-                    <img src="files/laundryku.jpg">
+                    <img src="img/logo.png">
                     <h5 class="header light">Eka Nadya</h5>
                 </div>
                 <div class="card-content">
@@ -59,7 +59,7 @@ include 'connect-db.php';
         <div class="col s2">
             <div class="card">
                 <div class="card-image center">
-                    <img src="files/laundryku.jpg">
+                    <img src="img/logo.png">
                     <h5 class="header light">Hairul Lana</h5>
                 </div>
                 <div class="card-content">
@@ -74,7 +74,7 @@ include 'connect-db.php';
         <div class="col s2">
             <div class="card">
                 <div class="card-image center">
-                    <img src="files/laundryku.jpg">
+                    <img src="img/logo.png">
                     <h5 class="header light">Wina Artha</h5>
                 </div>
                 <div class="card-content">

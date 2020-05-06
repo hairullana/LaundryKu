@@ -4,6 +4,7 @@ session_start();
 include 'connect-db.php';
 include 'functions/functions.php';
 
+// validasi login
 cekAdmin();
 
 //konfirgurasi pagination
@@ -142,7 +143,7 @@ if ( isset($_POST["cari"])) {
                     <td><?= $dataAgen["plat_driver"] ?></td>
                     <td><?= $dataAgen["kota"] ?></td>
                     <td><?= $dataAgen["alamat"] ?></td>
-                    <td><a class="btn red darken-2" href="hapus-agen.php?id=<?= $dataAgen['id_agen'] ?>" onclick="return confirm('Apakah anda yakin ingin menghapus data ?')"><i class="material-icons">delete</i></a></td>
+                    <td><a class="btn red darken-2" href="list-agen.php?hapus=<?= $dataAgen['id_agen'] ?>" onclick="return confirm('Apakah anda yakin ingin menghapus data ?')"><i class="material-icons">delete</i></a></td>
                 </tr>
 
                 <?php endforeach ?>
@@ -161,3 +162,25 @@ if ( isset($_POST["cari"])) {
     <!-- end footer -->
 </body>
 </html>
+<?php
+
+if (isset($_GET["hapus"])){
+
+    // ambil id agen dri method post
+    $idAgen = $_GET["hapus"];
+
+    // hapus data agen
+    $query = mysqli_query($connect, "DELETE FROM agen WHERE id_agen = '$idAgen'");
+
+    // kalau berhasil di hapus, keluar alert
+    if ( mysqli_affected_rows($connect) > 0 ){
+        echo "
+            <script>
+                Swal.fire('Data Agen Berhasil Di Hapus','','success').then(function(){
+                    window.location = 'list-agen.php';
+                });
+            </script>
+        ";
+    }
+}
+?>

@@ -26,38 +26,11 @@ if(isset($_SESSION["login-admin"]) && isset($_SESSION["admin"])){
 }else {
     echo "
         <script>
-            alert('Anda Belum Login');
-            document.location.href = 'index.php';
+            document.location.href = 'login.php';
         </script>
     ";
 }
 
-// jika pelanggan rating
-if ( isset($_POST["simpanRating"]) ){
-
-    $rating = $_POST["rating"];
-    $kodeTransaksiRating = $_POST["kodeTransaksi"];
-
-    mysqli_query($connect, "UPDATE transaksi SET rating = $rating WHERE kode_transaksi = $kodeTransaksiRating");
-    echo "
-        <script>
-        document.location.href = 'transaksi.php';
-        </script>
-    ";
-}
-
-if ( isset($_POST["kirimKomentar"])){
-
-    $komentar = htmlspecialchars($_POST["komentar"]);
-    $kodeTransaksiRating = $_POST["kodeTransaksi"];
-
-    mysqli_query($connect, "UPDATE transaksi SET komentar = '$komentar' WHERE kode_transaksi = $kodeTransaksiRating");
-    echo "
-        <script>
-        document.location.href = 'transaksi.php';
-        </script>
-    ";
-}
 
 ?>
 
@@ -200,7 +173,7 @@ if ( isset($_POST["kirimKomentar"])){
                     <td style="font-weight:bold">Tanggal Pesan</td>
                     <td style="font-weight:bold">Tanggal Selesai</td>
                     <td style="font-weight:bold">Rating</td>
-                    <td style="font-weight:bold">Komentar</td>
+                    <td style="font-weight:bold">Feedback</td>
                 </tr>
                 <?php while ($transaksi = mysqli_fetch_assoc($query)) : ?>
                 <tr>
@@ -269,3 +242,39 @@ if ( isset($_POST["kirimKomentar"])){
     <?php include "footer.php"; ?>
 </body>
 </html>
+
+<?php
+
+
+// jika pelanggan rating
+if ( isset($_POST["simpanRating"]) ){
+
+    $rating = $_POST["rating"];
+    $kodeTransaksiRating = $_POST["kodeTransaksi"];
+
+    mysqli_query($connect, "UPDATE transaksi SET rating = $rating WHERE kode_transaksi = $kodeTransaksiRating");
+    echo "
+        <script>
+            Swal.fire('Penilaian Berhasil','Rating Berhasil Di Tambahkan','success').then(function() {
+                window.location = 'transaksi.php';
+            });
+        </script>
+    ";
+}
+
+if ( isset($_POST["kirimKomentar"])){
+
+    $komentar = htmlspecialchars($_POST["komentar"]);
+    $kodeTransaksiRating = $_POST["kodeTransaksi"];
+
+    mysqli_query($connect, "UPDATE transaksi SET komentar = '$komentar' WHERE kode_transaksi = $kodeTransaksiRating");
+    echo "
+        <script>
+            Swal.fire('Penilaian Berhasil','Feedback Berhasil Di Tambahkan','success').then(function() {
+                window.location = 'transaksi.php';
+            });
+        </script>
+    ";
+}
+
+?>

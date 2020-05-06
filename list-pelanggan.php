@@ -131,7 +131,7 @@ if ( isset($_POST["cari"])) {
                     <td><?= $dataPelanggan["email"] ?></td>
                     <td><?= $dataPelanggan["kota"] ?></td>
                     <td><?= $dataPelanggan["alamat"] ?></td>
-                    <td><a class="btn red darken-2" href="hapus-pelanggan.php?id=<?= $dataPelanggan['id_pelanggan'] ?>" onclick="return confirm('Apakah anda yakin ingin menghapus data ?')"><i class="material-icons">delete</i></a></td>
+                    <td><a class="btn red darken-2" href="list-pelanggan.php?hapus=<?= $dataPelanggan['id_pelanggan'] ?>" onclick="return confirm('Apakah anda yakin ingin menghapus data ?')"><i class="material-icons">delete</i></a></td>
                 </tr>
 
                 <?php endforeach ?>
@@ -143,3 +143,27 @@ if ( isset($_POST["cari"])) {
     <?php include "footer.php"; ?>
 </body>
 </html>
+
+<?php
+
+if (isset($_GET["hapus"])){
+    // ambil id pelangan
+    $idPelanggan = $_GET["hapus"];
+
+    // hapus data
+    $query = mysqli_query($connect, "DELETE FROM pelanggan WHERE id_pelanggan = '$idPelanggan'");
+
+    // langsung arahin ke halaman sebelumnya
+    // buat alert setelah semua halaman tampil
+    if ( mysqli_affected_rows($connect) > 0 ){
+        echo "
+            <script>
+                Swal.fire('Data Pelanggan Berhasil Di Hapus','','success').then(function(){
+                    window.location = 'list-pelanggan.php';
+                });
+            </script>
+        ";
+    }
+}
+
+?>

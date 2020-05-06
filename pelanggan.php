@@ -5,7 +5,10 @@ session_start();
 include 'connect-db.php';
 include 'functions/functions.php';
 
+// validasi login
 cekPelanggan();
+
+
 
 // mengambil email di session
 $idPelanggan = $_SESSION["pelanggan"];
@@ -19,107 +22,7 @@ $data = mysqli_fetch_assoc($data);
 //var_dump($idPelanggan);die;
 
 
-// AKSI UBAH DATA
-function ubah($pelanggan){
-    global $connect;
-    global $idPelanggan;
 
-    function uploadFoto(){
-        //data foto
-        $ukuranFile = $_FILES["foto"]["size"];
-        $temp = $_FILES["foto"]["tmp_name"];
-        $namaFile = $_FILES["foto"]["name"];
-        $error = $_FILES["foto"]["error"];
-
-        //cek apakah file adalah gambar
-        $ekstensiGambarValid = ['jpg','jpeg','png'];
-        // explode = memecah string menjadi array (dg pemisah delimiter)
-        $ekstensiGambar = explode('.',$namaFile);
-        //mengambil ekstensi gambar yg paling belakang dg strltolower (mengecilkan semua huruf)
-        $ekstensiGambar = strtolower(end($ekstensiGambar));
-
-        //CEK $ekstensiGambar ada di array $ekstensiGambarValid
-        if ( !in_array($ekstensiGambar,$ekstensiGambarValid) ){
-            echo "
-                <script>
-                    alert('Yang Anda Masukkan Bukan Gambar');
-                </script>
-            ";
-            return false;
-        }
-
-        //CEK ukuran file
-        if ( $ukuranFile > 3000000 ) {
-            echo "
-                <script>
-                    alert('Ukuran Gambar Terlalu Besar');
-                </script>
-            ";
-            return false;
-        }
-
-        //LOLOS CEK BROOO
-        //generate nama baru random
-        $namaFileBaru = uniqid() . '.' . $ekstensiGambar;
-        move_uploaded_file($temp,'img/pelanggan/'.$namaFileBaru);
-
-        return $namaFileBaru;
-    }
-
-    // mengambil pelanggan
-    $nama = htmlspecialchars($pelanggan["nama"]);
-    $email = htmlspecialchars($pelanggan["email"]);
-    $telp = htmlspecialchars($pelanggan["telp"]);
-    $kota = htmlspecialchars($pelanggan["kota"]);
-    $alamat = htmlspecialchars($pelanggan["alamat"]);
-    $foto = uploadFoto();
-
-    // validasi
-    validasiNama($nama);
-    validasiEmail($email);
-    validasiTelp($telp);
-    validasiNama($kota);
-
-    
-    $query = "UPDATE pelanggan SET
-        nama = '$nama',
-        email = '$email',
-        telp = '$telp',
-        kota = '$kota',
-        alamat = '$alamat',
-        foto = '$foto'
-        WHERE id_pelanggan = $idPelanggan
-    ";
-
-    mysqli_query($connect,$query);
-
-    return mysqli_affected_rows($connect);
-}
-
-
-if ( isset($_POST["ubah-data"]) ){
-    if ( ubah($_POST) > 0 ){
-
-        // panggis isi db
-        $pelanggan = mysqli_query($connect, "SELECT * FROM pelanggan WHERE id_pelanggan = $idPelanggan");
-        $pelanggan = mysqli_fetch_assoc($pelanggan);
-
-        // mengganti session
-        $_SESSION["pelanggan"] = $pelanggan["id_pelanggan"];
-        echo "
-            <script>
-                alert('Data Berhasil Diupdate !');
-                document.location.href = 'pelanggan.php';
-            </script>
-        ";
-    }else{
-        echo "
-            <script>
-                alert('Data Gagal Diupdate !');
-            </script>
-        ";
-    }
-}
     
 
 ?>
@@ -201,3 +104,118 @@ if ( isset($_POST["ubah-data"]) ){
 
 </body>
 </html>
+
+<?php
+
+
+
+function uploadFoto(){
+    //data foto
+    $ukuranFile = $_FILES["foto"]["size"];
+    $temp = $_FILES["foto"]["tmp_name"];
+    $namaFile = $_FILES["foto"]["name"];
+    $error = $_FILES["foto"]["error"];
+
+    if ($namaFile == NULL){
+        return NULL;
+        exit;
+    }
+
+    //cek apakah file adalah gambar
+    $ekstensiGambarValid = ['jpg','jpeg','png'];
+    // explode = memecah string menjadi array (dg pemisah delimiter)
+    $ekstensiGambar = explode('.',$namaFile);
+    //mengambil ekstensi gambar yg paling belakang dg strltolower (mengecilkan semua huruf)
+    $ekstensiGambar = strtolower(end($ekstensiGambar));
+
+    //CEK $ekstensiGambar ada di array $ekstensiGambarValid
+    if ( !in_array($ekstensiGambar,$ekstensiGambarValid) ){
+        echo "
+            <script>
+                Swal.fire('Upload Gagal','Masukan Ekstensi Gambar Yang Valid','warning');
+            </script>
+        ";
+        return false;
+    }
+
+    //CEK ukuran file
+    if ( $ukuranFile > 3000000 ) {
+        echo "
+            <script>
+                Swal.fire('Upload Gagal','Ukuran File Gambar Terlalu Besar','warning');
+            </script>
+        ";
+        return false;
+    }
+
+    //LOLOS CEK BROOO
+    //generate nama baru random
+    $namaFileBaru = uniqid() . '.' . $ekstensiGambar;
+    move_uploaded_file($temp,'img/pelanggan/'.$namaFileBaru);
+
+    return $namaFileBaru;
+}
+
+
+if ( isset($_POST["ubah-data"]) ){
+
+    // mengambil pelanggan
+    $nama = htmlspecialchars($_POST["nama"]);
+    $email = htmlspecialchars($_POST["email"]);
+    $telp = htmlspecialchars($_POST["telp"]);
+    $kota = htmlspecialchars($_POST["kota"]);
+    $alamat = htmlspecialchars($_POST["alamat"]);
+    $foto = uploadFoto();
+
+    if ($foto == NULL){
+        $foto = $data["foto"];
+    }
+
+    //var_dump($foto);die;
+
+    // validasi
+    validasiNama($nama);
+    validasiEmail($email);
+    validasiTelp($telp);
+    validasiNama($kota);
+
+    
+    $query = "UPDATE pelanggan SET
+        nama = '$nama',
+        email = '$email',
+        telp = '$telp',
+        kota = '$kota',
+        alamat = '$alamat',
+        foto = '$foto'
+        WHERE id_pelanggan = $idPelanggan
+    ";
+
+    mysqli_query($connect,$query);
+
+    $hasil = mysqli_affected_rows($connect);
+
+    if ( $hasil > 0 ){
+
+        // panggis isi db
+        $pelanggan = mysqli_query($connect, "SELECT * FROM pelanggan WHERE id_pelanggan = $idPelanggan");
+        $pelanggan = mysqli_fetch_assoc($pelanggan);
+
+        // mengganti session
+        $_SESSION["pelanggan"] = $pelanggan["id_pelanggan"];
+        echo "
+            <script>
+                Swal.fire('Data Berhasil Di Update','','success').then(function(){
+                    window.location = 'pelanggan.php';
+                });
+            </script>
+        ";
+    }else{
+        echo "
+            <script>
+                Swal.fire('Upload Gagal','','error');
+            </script>
+        ";
+    }
+}
+
+?>

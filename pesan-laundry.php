@@ -16,27 +16,7 @@ $idPelanggan = $_SESSION["pelanggan"];
 $query = mysqli_query($connect, "SELECT * FROM pelanggan WHERE id_pelanggan = '$idPelanggan'");
 $pelanggan = mysqli_fetch_assoc($query);
 
-if (isset($_POST["pesan"])){
-    $alamat = htmlspecialchars($_POST["alamat"]);
-    $jenis = htmlspecialchars($_POST["jenis"]);
-    $catatan = htmlspecialchars($_POST["catatan"]);
-    $tgl = htmlspecialchars(date("Y-m-d H:i:s"));
-    $total = htmlspecialchars($_POST["total"]);
 
-
-    $query = mysqli_query($connect, "INSERT INTO cucian (id_agen, id_pelanggan, tgl_mulai, jenis, total_item, alamat, catatan, status_cucian) VALUES ($idAgen, $idPelanggan, '$tgl', '$jenis', $total, '$alamat', '$catatan', 'Penjemputan')");
-
-    if (mysqli_affected_rows($connect) > 0){
-        echo "
-            <script>
-                alert('Pesanan Berhasil Dibuat');
-                document.location.href = 'status.php';
-            </script>
-        ";
-    }else {
-        echo mysqli_error($connect);
-    }
-}
 
 ?>
 
@@ -148,3 +128,30 @@ if (isset($_POST["pesan"])){
     
 </body>
 </html>
+
+<?php
+
+if (isset($_POST["pesan"])){
+    $alamat = htmlspecialchars($_POST["alamat"]);
+    $jenis = htmlspecialchars($_POST["jenis"]);
+    $catatan = htmlspecialchars($_POST["catatan"]);
+    $tgl = htmlspecialchars(date("Y-m-d H:i:s"));
+    $total = htmlspecialchars($_POST["total"]);
+
+
+    $query = mysqli_query($connect, "INSERT INTO cucian (id_agen, id_pelanggan, tgl_mulai, jenis, total_item, alamat, catatan, status_cucian) VALUES ($idAgen, $idPelanggan, '$tgl', '$jenis', $total, '$alamat', '$catatan', 'Penjemputan')");
+
+    if (mysqli_affected_rows($connect) > 0){
+        echo "
+            <script>
+                Swal.fire('Pesanan Berhasil Dibuat','Silahkan Pergi Ke Halaman Status Cucian','success').then(function(){
+                    window.location = 'status.php';
+                });
+            </script>
+        ";
+    }else {
+        echo mysqli_error($connect);
+    }
+}
+
+?>

@@ -244,5 +244,6 @@ if (isset($_POST["submitSorting"])){
     <!-- end footer -->
 
     </body>
+    <script src="js/script.js"></script>
     <script src="js/scriptAjax.js"></script>
 </html>

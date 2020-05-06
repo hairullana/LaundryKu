@@ -4,7 +4,6 @@ session_start();
 include 'connect-db.php';
 include 'functions/functions.php';
 
-
 // harus agen yg kesini
 cekAgen();
 
@@ -15,98 +14,7 @@ $result = mysqli_query($connect, $query);
 $agen = mysqli_fetch_assoc($result);
 $idAgen = $agen["id_agen"];
 
-// klo ubah data agen
-if ( isset($_POST["simpan"]) ){
 
-    function uploadFoto(){
-        //data foto
-        $ukuranFile = $_FILES["foto"]["size"];
-        $temp = $_FILES["foto"]["tmp_name"];
-        $namaFile = $_FILES["foto"]["name"];
-        $error = $_FILES["foto"]["error"];
-
-        //cek apakah file adalah gambar
-        $ekstensiGambarValid = ['jpg','jpeg','png'];
-        // explode = memecah string menjadi array (dg pemisah delimiter)
-        $ekstensiGambar = explode('.',$namaFile);
-        //mengambil ekstensi gambar yg paling belakang dg strltolower (mengecilkan semua huruf)
-        $ekstensiGambar = strtolower(end($ekstensiGambar));
-
-        //CEK $ekstensiGambar ada di array $ekstensiGambarValid
-        if ( !in_array($ekstensiGambar,$ekstensiGambarValid) ){
-            echo "
-                <script>
-                    alert('Yang Anda Masukkan Bukan Gambar');
-                </script>
-            ";
-            return false;
-        }
-
-        //CEK ukuran file
-        if ( $ukuranFile > 3000000 ) {
-            echo "
-                <script>
-                    alert('Ukuran Gambar Terlalu Besar');
-                </script>
-            ";
-            return false;
-        }
-
-        //LOLOS CEK BROOO
-        //generate nama baru random
-        $namaFileBaru = uniqid() . '.' . $ekstensiGambar;
-        move_uploaded_file($temp,'img/agen/'.$namaFileBaru);
-
-        return $namaFileBaru;
-    }
-
-    //ambil data
-    $namaLaundry = htmlspecialchars($_POST["namaLaundry"]);
-    $namaPemilik = htmlspecialchars($_POST["namaPemilik"]);
-    $email = htmlspecialchars($_POST["email"]);
-    $telp = htmlspecialchars($_POST["telp"]);
-    $platDriver = htmlspecialchars($_POST["platDriver"]);
-    $kota = htmlspecialchars($_POST["kota"]);
-    $alamat = htmlspecialchars($_POST["alamat"]);
-    $foto = uploadFoto();
-
-    // validasi
-    validasiNama($namaPemilik);
-    validasiEmail($email);
-    validasiTelp($telp);
-    validasiNama($kota);
-
-    
-    $query = "UPDATE agen SET
-        nama_laundry = '$namaLaundry',
-        nama_pemilik = '$namaPemilik',
-        email = '$email',
-        telp = '$telp',
-        kota = '$kota',
-        plat_driver = '$platDriver',
-        alamat = '$alamat',
-        foto = '$foto'
-        WHERE id_agen = $idAgen
-    ";
-
-    mysqli_query($connect,$query);
-
-    if ( mysqli_affected_rows($connect) > 0){
-        echo "
-            <script>
-                alert('Data Berhasil Di Update !');
-                document.location.href = 'agen.php';
-            </script>
-        ";
-    }else{
-        echo "
-            <script>
-                alert('Data Gagal Di Update !');
-            </script>
-        ";
-        echo mysqli_error($connect);
-    }
-}
 
 ?>
 
@@ -195,3 +103,108 @@ if ( isset($_POST["simpan"]) ){
     <!-- end footer -->
 </body>
 </html>
+
+
+<?php
+
+
+
+// klo ubah data agen
+if ( isset($_POST["simpan"]) ){
+
+    function uploadFoto(){
+        //data foto
+        $ukuranFile = $_FILES["foto"]["size"];
+        $temp = $_FILES["foto"]["tmp_name"];
+        $namaFile = $_FILES["foto"]["name"];
+        $error = $_FILES["foto"]["error"];
+
+        if ($namaFile == NULL){
+            return NULL;
+            exit;
+        }
+
+        //cek apakah file adalah gambar
+        $ekstensiGambarValid = ['jpg','jpeg','png'];
+        // explode = memecah string menjadi array (dg pemisah delimiter)
+        $ekstensiGambar = explode('.',$namaFile);
+        //mengambil ekstensi gambar yg paling belakang dg strltolower (mengecilkan semua huruf)
+        $ekstensiGambar = strtolower(end($ekstensiGambar));
+
+        //CEK $ekstensiGambar ada di array $ekstensiGambarValid
+        if ( !in_array($ekstensiGambar,$ekstensiGambarValid) ){
+            echo "
+                <script>
+                    Swal.fire('Masukkan Format Gambar','','warning');
+                </script>
+            ";
+            return false;
+            exit;
+        }
+
+        //CEK ukuran file
+        if ( $ukuranFile > 3000000 ) {
+            echo "
+                <script>
+                    Swal.fire('Ukuran Gambar Terlalu Besar','','warning');
+                </script>
+            ";
+            return false;
+            exit;
+        }
+
+        //LOLOS CEK BROOO
+        //generate nama baru random
+        $namaFileBaru = uniqid() . '.' . $ekstensiGambar;
+        move_uploaded_file($temp,'img/agen/'.$namaFileBaru);
+
+        return $namaFileBaru;
+    }
+
+    //ambil data
+    $namaLaundry = htmlspecialchars($_POST["namaLaundry"]);
+    $namaPemilik = htmlspecialchars($_POST["namaPemilik"]);
+    $email = htmlspecialchars($_POST["email"]);
+    $telp = htmlspecialchars($_POST["telp"]);
+    $platDriver = htmlspecialchars($_POST["platDriver"]);
+    $kota = htmlspecialchars($_POST["kota"]);
+    $alamat = htmlspecialchars($_POST["alamat"]);
+    $foto = uploadFoto();
+
+    if ($foto == NULL){
+        $foto = $agen["foto"];
+    }
+
+    // validasi
+    validasiNama($namaPemilik);
+    validasiEmail($email);
+    validasiTelp($telp);
+    validasiNama($kota);
+
+    
+    $query = "UPDATE agen SET
+        nama_laundry = '$namaLaundry',
+        nama_pemilik = '$namaPemilik',
+        email = '$email',
+        telp = '$telp',
+        kota = '$kota',
+        plat_driver = '$platDriver',
+        alamat = '$alamat',
+        foto = '$foto'
+        WHERE id_agen = $idAgen
+    ";
+
+    mysqli_query($connect,$query);
+
+    if ( mysqli_affected_rows($connect) > 0){
+        echo "
+            <script>
+                Swal.fire('Data Berhasil Di Update','','success').then(function() {
+                    window.location = 'agen.php';
+                });
+            </script>
+        ";
+    }
+}
+
+?>

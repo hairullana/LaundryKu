@@ -7,83 +7,6 @@
 
     cekLogin();
 
-    // fungsi registrasi
-    function registrasi ($data) {
-        global $connect;
-
-        //mengambil data
-        $nama = htmlspecialchars($data["nama"]);
-        $email = htmlspecialchars($data["email"]);
-        $noTelp = htmlspecialchars($data["noTelp"]);
-        $kota = htmlspecialchars($data["kota"]);
-        $alamat = htmlspecialchars($data["alamat"]);
-        $password = htmlspecialchars($data["password"]);
-        $password2 = htmlspecialchars($data["password2"]);
-
-        // validasi
-        validasiNama($nama);
-        validasiEmail($email);
-        validasiTelp($noTelp);
-        validasiNama($kota);
-
-        // enskripsi password
-        $password = mysqli_real_escape_string($connect , $data["password"]);
-        $password2 = mysqli_real_escape_string($connect , $data["password2"]);
-
-        //cek username apakah ada yg sama        
-        $result = mysqli_query($connect, "SELECT email FROM pelanggan WHERE email = '$email'");
-        if ( mysqli_fetch_assoc($result) ){ //jika ada (TRUE)
-            echo "
-                <script>
-                    alert('Email Sudah Terdaftar :)');
-                </script>
-            ";
-            // RETURN FALSE
-            return false;
-        }
-
-        //cek konfirmasi password
-        if ($password != $password2) {
-            echo "
-                <script>   
-                    alert('Password Tidak Sama :)');
-                </script>
-            ";
-            return false;
-        }
-
-        //enskripsi password
-        $password = password_hash($password, PASSWORD_DEFAULT);
-
-        // masukkan data user ke db
-        mysqli_query($connect, "INSERT INTO pelanggan VALUES ('','$nama','$email','$noTelp','$kota','$alamat','default.png','$password')");
-
-        // RETURN TRUE
-        return mysqli_affected_rows($connect);
-    }
-
-
-    // ketika tombol registrasi di klik
-    if ( isset($_POST["registrasi"]) ){
-        if ( registrasi($_POST) > 0 ) {
-
-            $email = $_POST["email"];
-            $query = mysqli_query($connect, "SELECT * FROM pelanggan WHERE email = '$email'");
-            $pelanggan = mysqli_fetch_assoc($query);
-            $_SESSION["pelanggan"] = $pelanggan["id_pelanggan"];
-            $_SESSION["login-pelanggan"] = true;
-            echo "
-                <script>
-                    alert('Registrasi Berhasil !!!');
-                    document.location.href = 'index.php';
-                </script>
-            ";
-        }else {
-            echo mysqli_error($connect);
-        }
-
-    }
-
 ?>
 
 <!DOCTYPE html>
@@ -161,3 +84,85 @@
 
 </body>
 </html>
+
+<?php
+
+// fungsi registrasi
+function registrasi ($data) {
+    global $connect;
+
+    //mengambil data
+    $nama = htmlspecialchars($data["nama"]);
+    $email = htmlspecialchars($data["email"]);
+    $noTelp = htmlspecialchars($data["noTelp"]);
+    $kota = htmlspecialchars($data["kota"]);
+    $alamat = htmlspecialchars($data["alamat"]);
+    $password = htmlspecialchars($data["password"]);
+    $password2 = htmlspecialchars($data["password2"]);
+
+    // validasi
+    validasiNama($nama);
+    validasiEmail($email);
+    validasiTelp($noTelp);
+    validasiNama($kota);
+
+    // enskripsi password
+    $password = mysqli_real_escape_string($connect , $data["password"]);
+    $password2 = mysqli_real_escape_string($connect , $data["password2"]);
+
+    //cek username apakah ada yg sama        
+    $result = mysqli_query($connect, "SELECT email FROM pelanggan WHERE email = '$email'");
+    if ( mysqli_fetch_assoc($result) ){ //jika ada (TRUE)
+        echo "
+            <script>
+                Swal.fire('Pendaftaran Gagal','Email Sudah Terdaftar','error');
+            </script>
+        ";
+        // RETURN FALSE
+        return false;
+    }
+
+    //cek konfirmasi password
+    if ($password != $password2) {
+        echo "
+            <script>   
+                Swal.fire('Pendaftaran Gagal','Password Tidak Sama','error');
+            </script>
+        ";
+        return false;
+    }
+
+    //enskripsi password
+    $password = password_hash($password, PASSWORD_DEFAULT);
+
+    // masukkan data user ke db
+    mysqli_query($connect, "INSERT INTO pelanggan VALUES ('','$nama','$email','$noTelp','$kota','$alamat','default.png','$password')");
+
+    // RETURN TRUE
+    return mysqli_affected_rows($connect);
+}
+
+
+// ketika tombol registrasi di klik
+if ( isset($_POST["registrasi"]) ){
+    if ( registrasi($_POST) > 0 ) {
+
+        $email = $_POST["email"];
+        $query = mysqli_query($connect, "SELECT * FROM pelanggan WHERE email = '$email'");
+        $pelanggan = mysqli_fetch_assoc($query);
+        $_SESSION["pelanggan"] = $pelanggan["id_pelanggan"];
+        $_SESSION["login-pelanggan"] = true;
+        echo "
+            <script>
+                Swal.fire('Pendaftaran Berhasil','Selamat Bergabung Dengan LaundryKu','success').then(function() {
+                    window.location = 'index.php';
+                });
+            </script>
+        ";
+    }else {
+        echo mysqli_error($connect);
+    }
+
+}
+
+?>

@@ -7,103 +7,6 @@ include 'functions/functions.php';
 
 // kalau sudah login
 cekLogin();
-
-function registrasi($agen){
-
-    global $connect;
-
-    // ambil data agen
-    $namaLaundry = htmlspecialchars($agen["namaLaundry"]);
-    $namaPemilik = htmlspecialchars($agen["namaPemilik"]);
-    $email = htmlspecialchars($agen["email"]);
-    $telp = htmlspecialchars($agen["telp"]);
-    $kota = htmlspecialchars($agen["kota"]);
-    $alamat = htmlspecialchars($agen["alamat"]);
-    $platDriver = htmlspecialchars($agen["platDriver"]);
-    $password = htmlspecialchars($agen["password"]);
-    $password2 = htmlspecialchars($agen["password2"]);
-
-    // validasi
-    validasiNama($namaLaundry);
-    validasiEmail($email);
-    validasiTelp($telp);
-    validasiNama($kota);
-
-    // enskripsi password
-    $password = mysqli_real_escape_string($connect , $agen["password"]);
-    $password2 = mysqli_real_escape_string($connect , $agen["password2"]);
-
-    //cek username apakah ada yg sama
-    
-    $result = mysqli_query($connect, "SELECT email FROM agen WHERE email = '$email'");
-    if ( mysqli_fetch_assoc($result) ){ //jika ada ada
-        echo "
-            <script>
-                alert('Email Sudah Terdaftar !');
-            </script>
-        ";
-        // RETURN FALSE
-        return false;
-    }
-
-    //cek konfirmasi password
-    if ($password != $password2) {
-        echo "
-            <script>   
-                alert('Password Tidak Sama !');
-            </script>
-        ";
-        return false;
-    }
-
-    //enskripsi password
-    $password = password_hash($password, PASSWORD_DEFAULT);
-    
-
-    $query = "INSERT INTO agen VALUES (
-        '',
-        '$namaLaundry',
-        '$namaPemilik',
-        '$telp',
-        '$email',
-        '$kota',
-        '$alamat',
-        '$platDriver',
-        'default.png';
-        '$password'
-    )";
-
-    mysqli_query($connect, $query);
-
-    return mysqli_affected_rows($connect);
-}
-
-// AKSI DAFTAR
-if (isset($_POST["daftar"])) {
-
-    if  ( registrasi($_POST) > 0) {
-        // ambil data agen di db
-        $email = $_POST['email'];
-        $query  = "SELECT * FROM agen WHERE email = '$email'";
-        $result = mysqli_query($connect,$query);
-        $agen = mysqli_fetch_assoc($result);
-
-        // buat session
-        $_SESSION["agen"] = $agen["id_agen"];
-        $_SESSION["login-agen"] = true;
-        
-        echo "
-            <script>
-                alert ('Registrasi Sebagai Agen Berhasil !');
-                document.location.href = 'registrasi-agen2.php';
-            </script>
-            
-        ";
-    }
-
-
-}
-
 ?>
 
 <!DOCTYPE html>
@@ -205,3 +108,106 @@ if (isset($_POST["daftar"])) {
     <!-- end footer -->
 </body>
 </html>
+
+<?php
+
+function registrasi($agen){
+
+    global $connect;
+
+    // ambil data agen
+    $namaLaundry = htmlspecialchars($agen["namaLaundry"]);
+    $namaPemilik = htmlspecialchars($agen["namaPemilik"]);
+    $email = htmlspecialchars($agen["email"]);
+    $telp = htmlspecialchars($agen["telp"]);
+    $kota = htmlspecialchars($agen["kota"]);
+    $alamat = htmlspecialchars($agen["alamat"]);
+    $platDriver = htmlspecialchars($agen["platDriver"]);
+    $password = htmlspecialchars($agen["password"]);
+    $password2 = htmlspecialchars($agen["password2"]);
+
+    // validasi
+    validasiNama($namaLaundry);
+    validasiEmail($email);
+    validasiTelp($telp);
+    validasiNama($kota);
+
+    // enskripsi password
+    $password = mysqli_real_escape_string($connect , $agen["password"]);
+    $password2 = mysqli_real_escape_string($connect , $agen["password2"]);
+
+    //cek username apakah ada yg sama
+    
+    $result = mysqli_query($connect, "SELECT email FROM agen WHERE email = '$email'");
+    if ( mysqli_fetch_assoc($result) ){ //jika ada ada
+        echo "
+            <script>
+                Swal.fire('Pendaftaran Agen Gagal','Email Yang Anda Masukkan Sudah Terdaftar','error');
+            </script>
+        ";
+        // RETURN FALSE
+        return false;
+    }
+
+    //cek konfirmasi password
+    if ($password != $password2) {
+        echo "
+            <script>   
+                Swal.fire('Pendaftaran Agen Gagal','Password Tidak Sama','error');
+            </script>
+        ";
+        return false;
+    }
+
+    //enskripsi password
+    $password = password_hash($password, PASSWORD_DEFAULT);
+    
+
+    $query = "INSERT INTO agen VALUES (
+        '',
+        '$namaLaundry',
+        '$namaPemilik',
+        '$telp',
+        '$email',
+        '$kota',
+        '$alamat',
+        '$platDriver',
+        'default.png',
+        '$password'
+    )";
+
+    mysqli_query($connect, $query);
+
+    return mysqli_affected_rows($connect);
+}
+
+// AKSI DAFTAR
+if (isset($_POST["daftar"])) {
+
+    if  ( registrasi($_POST) > 0) {
+        // ambil data agen di db
+        $email = $_POST['email'];
+        $query  = "SELECT * FROM agen WHERE email = '$email'";
+        $result = mysqli_query($connect,$query);
+        $agen = mysqli_fetch_assoc($result);
+
+        // buat session
+        $_SESSION["agen"] = $agen["id_agen"];
+        $_SESSION["login-agen"] = true;
+        
+        echo "
+            <script>
+                Swal.fire('Pendaftaran Agen Berhasil','Silahkan Mengisi Data Harga Cucian','success').then(function(){
+                    window.location = 'registrasi-agen2.php';
+                });
+            </script>
+            
+        ";
+    }else {
+        echo mysqli_error($connect);
+    }
+
+
+}
+
+?>
