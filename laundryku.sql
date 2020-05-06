@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 01, 2020 at 06:10 AM
+-- Generation Time: May 06, 2020 at 05:49 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.5
 
@@ -38,7 +38,7 @@ CREATE TABLE `admin` (
 --
 
 INSERT INTO `admin` (`id_admin`, `username`, `password`) VALUES
-(1, 'admin', 'admin');
+(1, 'admin2', 'admin');
 
 -- --------------------------------------------------------
 
@@ -64,11 +64,12 @@ CREATE TABLE `agen` (
 --
 
 INSERT INTO `agen` (`id_agen`, `nama_laundry`, `nama_pemilik`, `telp`, `email`, `kota`, `alamat`, `plat_driver`, `foto`, `password`) VALUES
-(1, 'Nadya Laundry', 'Nadya Eka', '083123456789', 'agen1@gmail.com', 'Denpasar', 'Jl. Diponegoro No 55', 'DK 1234 AA', '5eab524e20d98.jpg', '$2y$10$tQ4th/nx/LLxYB7iHpbg4.FX1wdffLb5yplJIJsTdU6XlUCNPgEC6'),
+(1, 'Nadya LaundryKu', 'Nadya Eka', '083123456789', 'agen1@gmail.com', 'Denpasar', 'Jl. Diponegoro No 55', 'DK 1234 AA', '5eab524e20d98.jpg', '$2y$10$tQ4th/nx/LLxYB7iHpbg4.FX1wdffLb5yplJIJsTdU6XlUCNPgEC6'),
 (4, 'Laundry 2', 'Firdaus', '3875120', 'agen2@gmail.com', 'Surabaya', 'Jl. Surabaya No 12', 'DK 0000 AA', 'default.png', '$2y$10$mmXlXG97cauDgYemQwPjKuScxSjrnSrTZMH04bb1dosa7luvj1yUW'),
 (5, 'Laundry WINA GANS', 'Wina Arth', '57109', 'agen3@gmail.com', 'Badung', 'Kuta No 22', 'DK 1234 AA', 'default.png', '$2y$10$tKrLGx8FMw8sCwuxIdUWgevKb0ikEozi8xseBV9CvBzUnUhOkHd1S'),
 (7, 'Hairul Laundry', 'Hairul Lana', '08321456378', 'agen5@gmail.com', 'Karangasem', 'Jl. Mawar No 78', 'DK 5432 AB', 'default.png', '$2y$10$ldHD7JtlC26H.EuNf.kMPO9aamXxsO3yRWagW/gKzUrWjcWezq/eO'),
-(9, 'Satan Laundry', 'Satan', '098527815618', 'agen6@gmail.com', 'Denpasar', 'Jl. Hehe No 77', 'DK 6666 DD', 'default.png', '$2y$10$IS1G8nhOpgY2EeVXppcz1u5sX.enw50eNYkRy9lli2wpnhlCu7PZG');
+(9, 'Satan Laundry', 'Satan', '098527815618', 'agen6@gmail.com', 'Denpasar', 'Jl. Hehe No 77', 'DK 6666 DD', 'default.png', '$2y$10$IS1G8nhOpgY2EeVXppcz1u5sX.enw50eNYkRy9lli2wpnhlCu7PZG'),
+(10, 'IBM Laundry', 'IBM Shava', '083123456789', 'agen4@gmail.com', 'Bangli', 'Jl. Sumatra No 33', 'DK 5555 SM', 'default.png', '$2y$10$OB2C9R4kUHrhGaMi3eF6z.DrDnQzapZhPZTucYh4I.ckes73MoFxy');
 
 -- --------------------------------------------------------
 
@@ -95,13 +96,15 @@ CREATE TABLE `cucian` (
 --
 
 INSERT INTO `cucian` (`id_cucian`, `id_agen`, `id_pelanggan`, `tgl_mulai`, `tgl_selesai`, `jenis`, `total_item`, `berat`, `alamat`, `catatan`, `status_cucian`) VALUES
-(1, 1, 11, '2020-04-25', '0000-00-00', 'Setrika', 2, 1, 'Jl. Aceg No 44, Aceh', 'tak ada', 'Selesai'),
-(2, 5, 8, '2020-04-25', '0000-00-00', 'Cuci + Setrika', 6, 4, 'Jl. Melati No 99, Denpasar', 'yang bersih yaaaa', 'Sedang di Cuci'),
-(3, 1, 11, '2020-04-26', '0000-00-00', 'Cuci', 1, 5, 'Jl. Aceg No 44, Aceh', 'cepet ya', 'Selesai'),
-(4, 4, 11, '2020-04-27', '0000-00-00', 'Cuci', 1, 5, 'Jl. Aceg No 44, Aceh', 'cepet', 'Selesai'),
-(5, 5, 11, '2020-04-27', '0000-00-00', 'Cuci + Setrika', 5, 6, 'Jl. Aceg No 44, Aceh', 'yg bersih y', 'Penjemputan'),
-(6, 7, 9, '2020-04-27', '0000-00-00', 'Setrika', 1, NULL, 'Jl. Goa Gong, No 99, Kec Kuta Selatan (Rumah warna hitam), Badung', 'ngebut ya\r\n', 'Penjemputan'),
-(7, 5, 12, '2020-04-29', '0000-00-00', 'setrika', 4, NULL, 'Jl. Umum No 77, Singaraja', 'yang sabar', 'Sedang Di Jemur');
+(1, 1, 11, '2020-04-25', '0000-00-00', 'setrika', 2, 1, 'Jl. Aceg No 44, Aceh', 'tak ada', 'Selesai'),
+(2, 5, 8, '2020-04-25', '0000-00-00', 'komplit', 6, 4, 'Jl. Melati No 99, Denpasar', 'yang bersih yaaaa', 'Selesai'),
+(3, 1, 11, '2020-04-26', '0000-00-00', 'cuci', 1, 5, 'Jl. Aceg No 44, Aceh', 'cepet ya', 'Selesai'),
+(4, 4, 11, '2020-04-27', '0000-00-00', 'cuci', 1, 5, 'Jl. Aceg No 44, Aceh', 'cepet', 'Selesai'),
+(5, 5, 11, '2020-04-27', '0000-00-00', 'komplit', 5, 6, 'Jl. Aceg No 44, Aceh', 'yg bersih y', 'Selesai'),
+(6, 7, 9, '2020-04-27', '0000-00-00', 'setrika', 1, NULL, 'Jl. Goa Gong, No 99, Kec Kuta Selatan (Rumah warna hitam), Badung', 'ngebut ya\r\n', 'Penjemputan'),
+(7, 5, 12, '2020-04-29', '0000-00-00', 'setrika', 4, 2, 'Jl. Umum No 77, Singaraja', 'yang sabar', 'Sedang Di Jemur'),
+(8, 5, 12, '2020-05-06', '0000-00-00', 'setrika', 5, 3, 'Jl. Umum No 77, Singaraja', 'Yang Harum ya beb', 'Sedang di Cuci'),
+(9, 5, 13, '2020-05-06', '0000-00-00', 'komplit', 1, 1, 'Jl. Semarang No 99, Semarang', 'tes', 'Selesai');
 
 -- --------------------------------------------------------
 
@@ -144,7 +147,13 @@ INSERT INTO `harga` (`id_harga`, `jenis`, `id_agen`, `harga`) VALUES
 (21, 'komplit', 8, 7500),
 (22, 'cuci', 9, 4000),
 (23, 'setrika', 9, 2000),
-(24, 'komplit', 9, 5000);
+(24, 'komplit', 9, 5000),
+(25, 'cuci', 10, 5000),
+(26, 'setrika', 10, 3000),
+(27, 'komplit', 10, 6000),
+(28, 'cuci', 10, 5000),
+(29, 'setrika', 10, 3000),
+(30, 'komplit', 10, 6000);
 
 -- --------------------------------------------------------
 
@@ -171,7 +180,8 @@ INSERT INTO `pelanggan` (`id_pelanggan`, `nama`, `email`, `telp`, `kota`, `alama
 (8, 'Pelanggan 1', 'pelanggan1@gmail.com', '0897654321', 'Denpasar', 'Jl. Melati No 99', 'default.png', '$2y$10$Q/LTUi2tH9UawYdI5ynTJe5vq.ga.mIKfTmr7ErtprUQgRkK.pmrG'),
 (9, 'Nadya Eka', 'pelanggan2@gmail.com', '08123456789', 'Badung', 'Jl. Goa Gong, No 99, Kec Kuta Selatan (Rumah warna hitam)', 'default.png', '$2y$10$wvrs6fZ4riwS7j/QoQ1ERunXsVS3a4JBzmaGEMkZEE.2xRGjnVB5G'),
 (11, 'Hairul Lana', 'pelanggan4@gmail.com', '082134567', 'Aceh', 'Jl. Aceg No 44', 'default.png', '$2y$10$XmHjcO/uFSqjtYnwdMAtG.wN/hFJaP2RmX4ObfKXHzYtWzrq88ml6'),
-(12, 'Kadek Nadya Okatviana', 'pelanggan5@gmail.com', '089764532132', 'Singaraja', 'Jl. Umum No 77', '5eab5700222f5.jpg', '$2y$10$jxuKyuzIQS3wSYXxcOmde.d26tWIBPf1dpP01IVqDCdKSkkOmEGU.');
+(12, 'Nadya Okta Via', 'pelanggan5@gmail.com', '089764532132', 'Singaraja', 'Jl. Umum No 77', '5eb222e525b06.jpg', '$2y$10$jxuKyuzIQS3wSYXxcOmde.d26tWIBPf1dpP01IVqDCdKSkkOmEGU.'),
+(13, 'Riski Atma', 'pelanggan3@gmail.com', '09864738429', 'Semarang', 'Jl. Semarang No 99', 'default.png', '$2y$10$rv2iH7OayCjL6.84.9uA8.gaC4lTDzcxG.btFrB6JB4H4mNw5Vxpi');
 
 -- --------------------------------------------------------
 
@@ -198,7 +208,10 @@ CREATE TABLE `transaksi` (
 INSERT INTO `transaksi` (`kode_transaksi`, `id_cucian`, `id_agen`, `id_pelanggan`, `tgl_mulai`, `tgl_selesai`, `total_bayar`, `rating`, `komentar`) VALUES
 (6, 1, 1, 11, '2020-04-25', '2020-04-26', 1000, 6, 'Mantap'),
 (19, 4, 4, 11, '2020-04-27', '2020-04-27', 10000, 10, 'Reccomended'),
-(20, 3, 1, 11, '2020-04-26', '2020-04-29', 10000, 10, 'Sangat cocok, agennya ramah sampe ke ubun ubun');
+(20, 3, 1, 11, '2020-04-26', '2020-04-29', 10000, 10, 'Sangat cocok, agennya ramah sampe ke ubun ubun'),
+(21, 2, 5, 8, '2020-04-25', '2020-05-06', 10000, 0, ''),
+(22, 5, 5, 11, '2020-04-27', '2020-05-06', 15000, 0, ''),
+(23, 9, 5, 13, '2020-05-06', '2020-05-06', 2500, 10, 'Sangat direkomendasikan');
 
 --
 -- Indexes for dumped tables
@@ -254,31 +267,31 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `agen`
 --
 ALTER TABLE `agen`
-  MODIFY `id_agen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_agen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `cucian`
 --
 ALTER TABLE `cucian`
-  MODIFY `id_cucian` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_cucian` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `harga`
 --
 ALTER TABLE `harga`
-  MODIFY `id_harga` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id_harga` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `pelanggan`
 --
 ALTER TABLE `pelanggan`
-  MODIFY `id_pelanggan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id_pelanggan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `transaksi`
 --
 ALTER TABLE `transaksi`
-  MODIFY `kode_transaksi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `kode_transaksi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
