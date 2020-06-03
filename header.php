@@ -1,6 +1,6 @@
 <nav class="blue darken-1" role="navigation">
     <div class="nav-wrapper container">
-        <a id="logo-container" href="index.php" class="brand-logo">LaundryKu</a>
+        <a id="logo-container" href="index.php" class="brand-logo"><i class="material-icons left large">home</i>LaundryKu</a>
         <ul class="right hide-on-med-and-down">
             <li> 
             <?php

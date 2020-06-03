@@ -58,26 +58,8 @@ if ( isset($_POST["cari"])) {
 if (isset($_POST["submitSorting"])){
     $sorting = $_POST["sorting"];
 
-    if($sorting == "ratingUp"){
-        $orderBy = "rating";
-        $sort = "desc";
-    }else if ($sorting == "ratingDown"){
-        $orderBy = "rating";
-        $sort = "asc";
-    }else if ($sorting == "hargaUp"){
-        $orderBy = "cuci + setrika + komplit";
-        $sort = "desc";
-    }else if($sorting == "hargaDown"){
-        $orderBy = "cuci + setrika + komplit";
-        $sort = "asc";
-    }
-
-    $_GET["sorting"] = $sorting;
-
-    $agen = mysqli_query($connect, "SELECT * FROM agen JOIN transaksi ON agen.id_agen = transaksi.id_agen ORDER BY transaksi.$orderBy $sort LIMIT $awalData, $jumlahDataPerHalaman");
+    $agen = mysqli_query($connect, "SELECT * FROM agen JOIN harga ON agen.id_agen = harga.id_agen WHERE harga.jenis = 'komplit' ORDER BY harga.harga ASC LIMIT $awalData, $jumlahDataPerHalaman");
 }
-
-
 
 ?>
 
@@ -86,10 +68,9 @@ if (isset($_POST["submitSorting"])){
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
-    <title>Laundryku</title>
-
-    <!-- CSS  -->
+    
     <?php include 'headtags.html' ?>
+    <title>Laundryku</title>
 </head>
 <body>
     <?php include 'header.php'; ?>
@@ -107,13 +88,40 @@ if (isset($_POST["submitSorting"])){
                     <?php if ( isset($_SESSION["login-pelanggan"]) && isset($_SESSION["pelanggan"]) ) : ?>
                         <div class="hero__btn" data-animation="fadeInRight" data-delay="1s">
                             <a id="download-button" class="btn-large waves-effect waves-light blue darken-3" href="pelanggan.php">Profil Saya</a>
-                            <a id="download-button" class="btn-large waves-effect waves-light blue darken-3" href="status.php">Status Cucian</a>
-                            <a id="download-button" class="btn-large waves-effect waves-light blue darken-3" href="transaksi.php">Riwayat Transaksi</a>
+                            <?php 
+                            $idPelanggan = $_SESSION['pelanggan'];
+                            $cek = mysqli_query($connect,"SELECT * FROM cucian WHERE id_pelanggan = $idPelanggan AND status_cucian != 'Selesai'");
+                            if (mysqli_num_rows($cek) > 0){
+                                $status = "Status Cucian<i class='material-icons right'>notifications_active</i>";
+                            }else {
+                                $status = "Status Cucian";
+                            }
+
+                            $cek = mysqli_query($connect,"SELECT * FROM transaksi WHERE id_pelanggan = $idPelanggan AND rating = 0 AND komentar = ''");
+                            if (mysqli_num_rows($cek) > 0){
+                                $transaksi = "Riwayat Transaksi<i class='material-icons right'>notifications_active</i>";
+                            }else {
+                                $transaksi = "Riwayat Transaksi";
+                            }
+
+                            ?>
+
+                            <a id="download-button" class="btn-large waves-effect waves-light blue darken-3" href="status.php"><?= $status ?></a>
+                            <a id="download-button" class="btn-large waves-effect waves-light blue darken-3" href="transaksi.php"><?= $transaksi ?></a>
                         </div>
                     <?php elseif ( isset($_SESSION["login-agen"]) && isset($_SESSION["agen"]) ) : ?>
                         <div class="hero__btn" data-animation="fadeInRight" data-delay="1s">
+                        <?php
+                        $idAgen = $_SESSION['agen'];
+                        $cek = mysqli_query($connect,"SELECT * FROM cucian WHERE id_agen = $idAgen AND status_cucian != 'Selesai'");
+                        if (mysqli_num_rows($cek) > 0){
+                            $status = "Status Cucian<i class='material-icons right'>notifications_active</i>";
+                        }else {
+                            $status = "Status Cucian";
+                        }
+                        ?>
                             <a id="download-button" class="btn-large waves-effect waves-light blue darken-3" href="agen.php">Profil Saya</a>
-                            <a id="download-button" class="btn-large waves-effect waves-light blue darken-3" href="status.php">Status Cucian</a>
+                            <a id="download-button" class="btn-large waves-effect waves-light blue darken-3" href="status.php"><?= $status ?></a>
                             <a id="download-button" class="btn-large waves-effect waves-light blue darken-3" href="transaksi.php">Riwayat Transaksi</a>
                         </div>
                     <?php elseif ( isset($_SESSION["login-admin"]) && isset($_SESSION["admin"]) ) : ?>
@@ -180,9 +188,6 @@ if (isset($_POST["submitSorting"])){
                     <label for="sorting">Sorting</label>
                     <select class="browser-default" name="sorting" id="sorting">
                         <option disabled>Sorting</option>
-                        <option value="ratingUp">Rating Tertinggi</option>
-                        <option value="ratingDown">Rating Terendah</option>
-                        <option value="hargaUp">HargaTertinggi</option>
                         <option value="hargaDown">Harga Terendah</option>
                     </select>
                     <div class="center"><button class="btn blue darken-2" type="submit" name="submitSorting"><i class="material-icons">send</i></button></div>

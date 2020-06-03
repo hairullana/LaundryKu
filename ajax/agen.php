@@ -36,6 +36,7 @@ $query = "SELECT * FROM agen WHERE
 
 $agen = mysqli_query($connect,$query);
 
+
 ?>
 
 <!-- pagination -->
@@ -71,9 +72,6 @@ $agen = mysqli_query($connect,$query);
             <label for="sorting">Sorting</label>
             <select class="browser-default" name="sorting" id="sorting">
                 <option disabled>Sorting</option>
-                <option value="ratingUp">Rating Tertinggi</option>
-                <option value="ratingDown">Rating Terendah</option>
-                <option value="hargaUp">HargaTertinggi</option>
                 <option value="hargaDown">Harga Terendah</option>
             </select>
             <div class="center"><button class="btn blue darken-2" type="submit" name="submitSorting"><i class="material-icons">send</i></button></div>
