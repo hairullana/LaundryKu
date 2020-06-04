@@ -66,15 +66,15 @@ if (isset($_POST["submitSorting"])){
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+    <meta charset="UTF-8">
     
-    <?php include 'headtags.html' ?>
     <title>Laundryku</title>
+    <?php include 'headtags.html' ?>
 </head>
 <body>
+
     <?php include 'header.php'; ?>
-    <div class="section no-pad-bot" id="index-banner">
+
         <div class="container">
             <br>
             <h1 class="header center orange-text"><img src="img/banner.png" width=110% alt=""></h1>
@@ -140,9 +140,9 @@ if (isset($_POST["submitSorting"])){
                     <?php endif ?>
                 </div>
             <!-- end menu -->
+            </div>
             <br>
         </div>
-    </div>
 
 
     <!-- searching -->
@@ -248,7 +248,7 @@ if (isset($_POST["submitSorting"])){
     <?php include "footer.php" ?>
     <!-- end footer -->
 
-    </body>
+</body>
     <script src="js/script.js"></script>
     <script src="js/scriptAjax.js"></script>
 </html>
