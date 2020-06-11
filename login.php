@@ -186,6 +186,12 @@ if ( isset($_POST["login"]) ){
                 </script>
             ";
         }
+    }else {
+        echo "
+            <script>
+                Swal.fire('Gagal Login','Pilih Jenis Akun Terlebih Dahulu','warning');
+            </script>
+        ";
     }
 }
 

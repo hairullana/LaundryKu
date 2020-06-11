@@ -97,7 +97,7 @@ if (isset($_POST["submitSorting"])){
                                 $status = "Status Cucian";
                             }
 
-                            $cek = mysqli_query($connect,"SELECT * FROM transaksi WHERE id_pelanggan = $idPelanggan AND rating = 0 AND komentar = ''");
+                            $cek = mysqli_query($connect,"SELECT * FROM transaksi WHERE id_pelanggan = $idPelanggan AND rating = 0 OR komentar = ''");
                             if (mysqli_num_rows($cek) > 0){
                                 $transaksi = "Riwayat Transaksi<i class='material-icons right'>notifications_active</i>";
                             }else {
