@@ -33,7 +33,7 @@ $agen = mysqli_fetch_assoc($query);
     <div class="row">
         <div class="col s2 offset-s4">
             <img src="img/agen/<?= $agen['foto'] ?>" class="circle responsive-img" width="70%" />
-            <a id="download-button" class="btn waves-effect waves-light red darken-3" href="pesan-laundry.php?id=<?= $idAgen ?>">PESAN LAUNDRY</a>
+            <a id="download-button" class="btn red darken-3" href="pesan-laundry.php?id=<?= $idAgen ?>">PESAN LAUNDRY</a>
         </div>
         <div class="col s6">
             <h3><?= $agen["nama_laundry"] ?></h3>
@@ -69,10 +69,10 @@ $agen = mysqli_fetch_assoc($query);
 
         <!-- data harga -->
     <div class="row">
-        <div class="col s3 offset-s1">
+        <div class="col s3 offset-s2">
             <div class="card-panel grey lighten-5 z-depth-1">
                 <div class="row valign-wrapper">
-                    <button class="btn blue darken-3" style="margin:0% 15%">CUCI</button>
+                    <a href="pesan-laundry.php?id=<?= $idAgen ?>&jenis=cuci" style="margin:0% 15%"><button class="btn blue darken-3">CUCI</button></a>
                     <div>
                         <?php
                             $harga = mysqli_query($connect, "SELECT * FROM harga WHERE id_agen = '$idAgen' AND jenis = 'cuci'");
@@ -86,7 +86,7 @@ $agen = mysqli_fetch_assoc($query);
         <div class="col s3">
             <div class="card-panel grey lighten-5 z-depth-1">
                 <div class="row valign-wrapper">
-                    <button class="btn blue darken-3" style="margin:0% 15%">SETRIKA</button>
+                    <a href="pesan-laundry.php?id=<?= $idAgen ?>&jenis=setrika" style="margin:0% 15%"><button class="btn blue darken-3">SETRIKA</button></a>
                     <div>
                         <?php
                             $harga = mysqli_query($connect, "SELECT * FROM harga WHERE id_agen = '$idAgen' AND jenis = 'setrika'");
@@ -100,7 +100,7 @@ $agen = mysqli_fetch_assoc($query);
         <div class="col s3">
             <div class="card-panel grey lighten-5 z-depth-1">
                 <div class="row valign-wrapper">
-                    <button class="btn blue darken-3" style="margin:0% 5%">CUCI + SETRIKA</button>
+                    <a href="pesan-laundry.php?id=<?= $idAgen ?>&jenis=komplit" style="margin:0% 15%"><button class="btn blue darken-3">KOMPLIT</button></a>
                     <div>
                         <?php
                             $harga = mysqli_query($connect, "SELECT * FROM harga WHERE id_agen = '$idAgen' AND jenis = 'komplit'");
@@ -118,6 +118,8 @@ $agen = mysqli_fetch_assoc($query);
     <hr><br>
 
     <!-- komentar -->
+    <h3 class="header light center">Ulasan Pengguna</h3>
+    <br>
 
     <div class="row">
         <?php
@@ -131,7 +133,30 @@ $agen = mysqli_fetch_assoc($query);
 
         ?>
 
-        <div class="col s5 offset-s1">
+
+        <div class="container">
+        <div class="col s3 offset-s1">
+        <table border=0>
+            <tr>
+                <td width=100px rowspan=3><img src="img/pelanggan/<?= $pelanggan['foto'] ?>" class="circle responsive-img" width=100px alt="foto"></td>
+                <td><?= "<h6 class='light'>" . $pelanggan["nama"] . "</h6>";?></td>
+            </tr>
+            <tr>
+                <td><fieldset class="bintang"><span class="starImg star-<?= $transaksi['rating'] ?>"></span></fieldset></td>
+            </tr>
+            <tr>
+                <td><?= $transaksi["komentar"]; ?></td>
+            </tr>
+        </table>
+        </div>
+        </div>
+
+
+
+
+
+
+        <!-- <div class="col s5 offset-s1">
             <div class="col s2">
                 <img src="img/pelanggan/<?= $pelanggan['foto'] ?>" class="circle responsive-img" width=100% alt="foto">
             </div>
@@ -142,7 +167,7 @@ $agen = mysqli_fetch_assoc($query);
                 <fieldset class="bintang"><span class="starImg star-<?= $transaksi['rating'] ?>"></span></fieldset>
                 <?= $transaksi["komentar"]; ?>
             </div>
-        </div>
+        </div> -->
         <?php endwhile; ?>
     </div>
 

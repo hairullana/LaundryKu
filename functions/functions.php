@@ -1,4 +1,3 @@
-<script src="sweetalert2/sweetalert2.all.min.js"></script>
 
 
 <?php
@@ -134,7 +133,7 @@ function cekAdmin(){
     }else {
         echo "
             <script>
-                window.location = 'index.php';
+                window.location = 'login.php';
             </script>
         ";
         exit;
@@ -150,7 +149,7 @@ function cekAgen(){
     }else {
         echo "
             <script>
-                window.location = 'index.php';
+                window.location = 'login.php';
             </script>
         ";
         exit;
@@ -166,7 +165,7 @@ function cekPelanggan(){
     }else {
         echo "
             <script>
-                window.location = 'index.php';
+                window.location = 'login.php';
             </script>
         ";
         exit;

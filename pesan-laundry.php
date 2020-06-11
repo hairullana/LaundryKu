@@ -11,6 +11,13 @@ $idAgen = $_GET["id"];
 $query = mysqli_query($connect, "SELECT * FROM agen WHERE id_agen = '$idAgen'");
 $agen = mysqli_fetch_assoc($query);
 
+if (isset($_GET["jenis"])){
+    $jenis = $_GET["jenis"];
+}else {
+    $jenis = NULL;
+}
+
+
 // ambil data pelanggan
 $idPelanggan = $_SESSION["pelanggan"];
 $query = mysqli_query($connect, "SELECT * FROM pelanggan WHERE id_pelanggan = '$idPelanggan'");
@@ -102,9 +109,28 @@ $pelanggan = mysqli_fetch_assoc($query);
                         <ul>
                             <li><label for="jenis">Jenis Paket</label></li>
                             <li>
-                            <label><input id="jenis" name="jenis" value="cuci" type="radio"/><span>Cuci</span> </label>
-                            <label><input id="jenis" name="jenis" value="setrika" type="radio"/><span>Setrika</span> </label>
-                            <label><input id="jenis" name="jenis" value="komplit" type="radio"/><span>Komplit</span></label><li>
+                            <?php if ($jenis == NULL) : ?>
+                                <label><input id="jenis" name="jenis" value="cuci" type="radio"/><span>Cuci</span> </label>
+                                <label><input id="jenis" name="jenis" value="setrika" type="radio"/><span>Setrika</span> </label>
+                                <label><input id="jenis" name="jenis" value="komplit" type="radio"/><span>Komplit</span></label><li>
+                            <?php elseif ($jenis == "cuci") : ?>
+                                <label><input id="jenis" name="jenis" value="cuci" type="radio" checked/><span>Cuci</span> </label>
+                                <label><input id="jenis" name="jenis" value="setrika" type="radio"/><span>Setrika</span> </label>
+                                <label><input id="jenis" name="jenis" value="komplit" type="radio"/><span>Komplit</span></label><li>
+                            <?php elseif ($jenis == "setrika") : ?>
+                                <label><input id="jenis" name="jenis" value="cuci" type="radio"/><span>Cuci</span> </label>
+                                <label><input id="jenis" name="jenis" value="setrika" type="radio" checked/><span>Setrika</span> </label>
+                                <label><input id="jenis" name="jenis" value="komplit" type="radio"/><span>Komplit</span></label><li>
+                            <?php elseif ($jenis == "komplit") : ?>
+                                <label><input id="jenis" name="jenis" value="cuci" type="radio"/><span>Cuci</span> </label>
+                                <label><input id="jenis" name="jenis" value="setrika" type="radio"/><span>Setrika</span> </label>
+                                <label><input id="jenis" name="jenis" value="komplit" type="radio" checked/><span>Komplit</span></label><li>
+                            <?php else : ?>
+                                <label><input id="jenis" name="jenis" value="cuci" type="radio"/><span>Cuci</span> </label>
+                                <label><input id="jenis" name="jenis" value="setrika" type="radio"/><span>Setrika</span> </label>
+                                <label><input id="jenis" name="jenis" value="komplit" type="radio"/><span>Komplit</span></label><li>
+                            <?php endif; ?>
+
                         </ul>
                     </div>
                     <div class="input-field">
@@ -153,5 +179,7 @@ if (isset($_POST["pesan"])){
         echo mysqli_error($connect);
     }
 }
+
+
 
 ?>
